@@ -13,7 +13,7 @@
               <primary-button class="">Oferta</primary-button>
             </div>
           </div>
-          <div class="flex justify-center items-center w-1/2 p-24">
+          <div class="flex justify-center items-center w-1/2 p-20">
             
 
                 <img src="/assets/images/header.png" alt="" class="h-full object-cover">
@@ -22,10 +22,10 @@
         </div>
        
         <div class="flex justify-center  p-12 ">
-  <p class="text text-8xl uppercase font-heading ">DON'T WORRY A LOT , JUST DO THE MUST ..&nbsp;</p>
-  <p class="text text-8xl uppercase font-heading ">DON'T WORRY A LOT , JUST DO THE MUST ..&nbsp;</p>
-  <p class="text text-8xl uppercase font-heading ">DON'T WORRY A LOT , JUST DO THE MUST ..&nbsp;</p>
-  <p class="text text-8xl uppercase font-heading ">DON'T WORRY A LOT , JUST DO THE MUST ..&nbsp;</p>
+  <p class="text text-8xl uppercase font-heading ">Strony Internetowe • Design • Social Media • Wizytówki Google • Pozycjonowanie • Artykuły Marketingowe  • </p>
+  <p class="text text-8xl uppercase font-heading ml-3">Strony Internetowe • Design • Social Media • Wizytówki Google • Pozycjonowanie • Artykuły Marketingowe  • </p>
+  <p class="text text-8xl uppercase font-heading ml-3">Strony Internetowe • Design • Social Media • Wizytówki Google • Pozycjonowanie • Artykuły Marketingowe • </p>
+ 
 </div>
         </div>
       
@@ -33,14 +33,14 @@
   </template>
 
 <script setup>
-import Navigation from "@/Shared/Navigation.vue";
+import Navigation from "@/Shared/Navigation/Navigation.vue";
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 </script>
 
 
 <style scoped>
 .text {
-  animation: scroll 13s infinite linear;
+  animation: scroll 20s infinite linear;
   @apply text-8xl uppercase font-heading text-nowrap
 }
 

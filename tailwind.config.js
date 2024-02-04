@@ -12,13 +12,14 @@ export default {
 
     theme: {
         extend: {
+            screens:{
+                xs: '400px'
+            },
             fontFamily: {
                 heading:['Mouse Memoirs', 'sans-serif'],
                 headingArch:['Archivo Black', 'sans-serif'],
                 text:['Open Sans', 'sans-serif'],
                 textArch:['Archivo Narrow', 'sans-serif'],
-                
-              
             },
             colors: {
                 ownPurple: {
