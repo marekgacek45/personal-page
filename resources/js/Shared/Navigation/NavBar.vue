@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-ownPink-200 text-fon z-50 fixed top-0 left-0 right-0">
+    <nav class="bg-bgLight-200 text-fon z-50 fixed top-0 left-0 right-0">
         <!--CONTAINER-->
         <div
             class="flex justify-between items-center max-w-screen-2xl mx-auto py-3 px-3 xs:px-6 md:px-12 2xl:px-3"
