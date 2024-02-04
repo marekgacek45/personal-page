@@ -36,7 +36,7 @@ defineProps({
 <style lang="css" scoped>
 .modal {
     position: absolute;
-    top: 0px;
+    top: 71px;
     bottom: 0px;
     right: 0px;
     left: 0px;

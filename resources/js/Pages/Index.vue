@@ -1,7 +1,10 @@
 <template>
+    <div>
 
-<Header></Header>
-
+        <NavBar/>
+        <Header></Header>
+        
+    </div>
 </template>
 
 
@@ -9,5 +12,7 @@
 
 
 import Header from '@/Shared/Header.vue'
+import NavBar from '@/Shared/Navigation/NavBar.vue';
+
 
 </script>
