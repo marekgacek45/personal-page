@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full box">
+    <div class="w-full box-shadow">
         <div class="bg-black p-2">
             <span
                 class="text-fontLight uppercase font-bold font-textArch text-xl"

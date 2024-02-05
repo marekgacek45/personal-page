@@ -1,5 +1,5 @@
 <template>
-   <div class="border-2 border-black box">
+   <div class="border-2 border-black box-shadow">
                             <div class="bg-black p-2">
                                 <span
                                     class="text-fontLight uppercase font-bold font-textArch text-xl"

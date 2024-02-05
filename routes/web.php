@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,5 @@ require __DIR__.'/auth.php';
 
 
 
-Route::get('/',function(){
-    return Inertia('Index');
-});
+//OWN ROUTES
+Route::get('/',[PageController::class,'home'])->name('home');
