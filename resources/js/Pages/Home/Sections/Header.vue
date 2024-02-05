@@ -32,16 +32,13 @@
         <!-- SLIDER---->
         <div class="flex justify-center pb-12">
             <p class="text ">
-                Strony Internetowe • Design • Social Media • Wizytówki Google •
-                Pozycjonowanie • Artykuły Marketingowe •
+                Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
             </p>
             <p class="text ">
-                Strony Internetowe • Design • Social Media • Wizytówki Google •
-                Pozycjonowanie • Artykuły Marketingowe •
+                Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
             </p>
             <p class="text ">
-                Strony Internetowe • Design • Social Media • Wizytówki Google •
-                Pozycjonowanie • Artykuły Marketingowe •
+                Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
             </p>
         </div>
     </header>
