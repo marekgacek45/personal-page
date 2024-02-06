@@ -1,15 +1,53 @@
 <template>
-      <ul class="flex flex-col justify-center items-center gap-4">
-                    <li class="link"> <Link href="/o_mnie" @click="addOverflow">O Mnie</Link></li>
-                    <li class="link"><Link href="/usługi" @click="addOverflow">Usługi</Link></li>
-                    <li class="link"><Link href="/portfolio" @click="addOverflow">Portfolio</Link></li>
-                    <li class="link"><Link href="/kontakt" @click="addOverflow">Kontakt</Link></li>
-                    <li class="link"><Link href="/blog" @click="addOverflow">Blog</Link></li>
-                </ul>
+    <ul class="flex flex-col justify-center items-center gap-4">
+      
+            <NavLink
+                href="/o_mnie"
+                isMobile="true"
+                :isActive="$page.component === 'About/Index'"
+                @click="addOverflow"
+                >O mnie</NavLink
+            >
+        
+            <NavLink
+                href="/uslugi"
+                isMobile="true"
+                :isActive="$page.component === 'About/Servies'"
+                @click="addOverflow"
+                >Usługi</NavLink
+            >
+       
+            <NavLink
+                href="/portfolio"
+                isMobile="true"
+                :isActive="$page.component === 'About/Portfolio'"
+                @click="addOverflow"
+                >Portfolio</NavLink
+            >
+       
+            <NavLink
+                href="/contact"
+                isMobile="true"
+                :isActive="$page.component === 'About/Contact'"
+                @click="addOverflow"
+                >Kontakt</NavLink
+            >
+      
+            <NavLink
+            
+                href="/blog"
+                isMobile="true"
+                :isActive="$page.component === 'About/Blog'"
+                @click="addOverflow"
+                
+                >Blog</NavLink
+            >
+       
+    </ul>
 </template>
 
-
 <script setup>
+import NavLink from "@/Components/NavLink.vue";
 
 const body = document.querySelector("body");
 
@@ -18,12 +56,3 @@ const addOverflow = () => {
 };
 </script>
 
-
-<style scoped>
-
-.link {
-    @apply text-fontLight font-heading text-6xl lg:text-7xl uppercase opacity-70 hover:opacity-100 duration-300;
-}
-
-
-</style>

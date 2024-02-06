@@ -1,6 +1,6 @@
 <template>
     
-    <ul class="flex items-center gap-2">
+    <ul class="flex items-center gap-3 animate-bounce">
 
 <li> <a href="https://www.facebook.com/marekgacekdev" target="_blank"
         ><img src="/assets/icons/facebook.svg" alt="" class="w-6 social"
@@ -15,10 +15,6 @@
         ><img src="/assets/icons/youtube.svg" alt="" class="w-8 social"
       /></a></li>
                 
-               
-      
-    
-     
     </ul>
     
   </template>

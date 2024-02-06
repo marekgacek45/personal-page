@@ -53,7 +53,7 @@ const toggleActive = () => {
 .hamburger.is-active .hamburger-inner,
 .hamburger.is-active .hamburger-inner::before,
 .hamburger.is-active .hamburger-inner::after {
-    background-color: #000;
+   @apply bg-ownOrange-600
 }
 
 .hamburger-box {
@@ -71,14 +71,16 @@ const toggleActive = () => {
 .hamburger-inner,
 .hamburger-inner::before,
 .hamburger-inner::after {
+    
     width: 40px;
     height: 4px;
-    background-color: #000;
+    
     border-radius: 4px;
     position: absolute;
     transition-property: transform;
     transition-duration: 0.15s;
     transition-timing-function: ease;
+    @apply bg-ownPink-400
 }
 .hamburger-inner::before,
 .hamburger-inner::after {

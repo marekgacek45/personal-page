@@ -6,6 +6,8 @@
         >
 
         <div class="modal flex justify-center items-center flex-col gap-5">
+
+
                 <LinksMobile/>
               
                <Social/>
@@ -26,11 +28,7 @@ import LinksMobile from './LinksMobile.vue';
 defineProps({
     showModal: Boolean,
 });
-// const body = document.querySelector("body");
 
-// const addOverflow = () => {
-//     body.classList.remove("overflow-y-hidden");
-// };
 </script>
 
 <style lang="css" scoped>

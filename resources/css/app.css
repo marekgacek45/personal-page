@@ -8,3 +8,19 @@
 .box-shadow{
     box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.4);
 }
+
+::-webkit-scrollbar {
+	width: 15px; /* szerokość paska przewijania */
+  }
+  
+  ::-webkit-scrollbar-track {
+	@apply bg-black; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+	@apply bg-ownPurple-400 transition-colors; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+	@apply bg-white  transition-colors
+  }
