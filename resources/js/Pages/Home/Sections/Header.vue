@@ -1,6 +1,6 @@
 <template>
     <header
-        class="flex flex-col bg-ownYellow-400 lg:h-[calc(100vh-71px)] relative overflow-x-hidden mt-[71px]"
+        class="relative flex flex-col bg-ownYellow-400 lg:h-[calc(100vh-71px)]   mt-[71px]"
     >
         <!-- CONTAINER---->
         <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row h-full px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 ">

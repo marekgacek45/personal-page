@@ -24,4 +24,6 @@ const addOverflow = () => {
 .link {
     @apply text-fontLight font-heading text-6xl lg:text-7xl uppercase opacity-70 hover:opacity-100 duration-300;
 }
+
+
 </style>

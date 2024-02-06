@@ -2,11 +2,11 @@ import './bootstrap';
 import '../css/app.css';
 
 import { createApp, h } from 'vue';
-import { createInertiaApp,Link } from '@inertiajs/vue3';
+import { createInertiaApp,Link,Head } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Marek Gacek';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -16,6 +16,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .component("Link",Link,)
+            .component("Head",Head)
             .mount(el);
     },
     progress: {

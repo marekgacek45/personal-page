@@ -1,22 +1,21 @@
 <template>
-    <div>
-        <NavBar />
+    <Head title="Strona Główna">
+        <meta name="description" content="opis" >
+    </Head>
+    <Layout>
         <Header></Header>
         <main>
             <Services />
             <Blog />
-            <Contact />
+           
         </main>
-        <Footer></Footer>
-    </div>
+    </Layout>
 </template>
 
 <script setup>
-import NavBar from "@/Shared/Navigation/NavBar.vue";
-import Footer from "@/Shared/Footer.vue";
+import Layout from "@/Layouts/Layout.vue";
 
 import Header from "@/Pages/Home/Sections/Header.vue";
 import Services from "@/Pages/Home/Sections/Services.vue";
 import Blog from "@/Pages/Home/Sections/Blog.vue";
-import Contact from "@/Pages/Home/Sections/Contact.vue";
 </script>
