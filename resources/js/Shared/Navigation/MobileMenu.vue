@@ -22,7 +22,7 @@
 <script setup>
 
 
-import Social from './Social.vue';
+import Social from '../Social.vue';
 import LinksMobile from './LinksMobile.vue';
 
 defineProps({

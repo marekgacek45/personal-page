@@ -1,10 +1,8 @@
 <template>
-   <button type="button" class="bg-ownPurple-400 hover:bg-ownPurple-600 px-16 py-4 font-textArch text-xl sm:text-2xl font-bold duration-300"><slot></slot></button>
+   <button type="button" class="px-16 py-4 bg-ownPurple-400 hover:bg-ownPurple-600 text-xl sm:text-xl md:text-3xl font-text font-bold hover:animate-shake duration-300 box-shadow"><slot></slot></button>
 </template>
 
 <style scoped>
 
-button {
-    box-shadow:10px 10px 0 rgba(0,0,0,.4) ;
-}
+
 </style>

@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import Social from "./Social.vue";
+import Social from "../Social.vue";
 import Links from "./LinksDesktop.vue";
 import HamburgerButton from './HamburgerButton.vue'
 import MobileMenu from './MobileMenu.vue'

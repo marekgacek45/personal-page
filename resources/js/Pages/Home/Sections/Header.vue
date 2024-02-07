@@ -1,22 +1,22 @@
 <template>
     <header
-        class="relative flex flex-col bg-ownYellow-400 lg:h-[calc(100vh-71px)]   mt-[71px]"
+        class="relative flex flex-col lg:h-[calc(100vh-71px)] mt-[71px] bg-ownYellow-400 "
     >
         <!-- CONTAINER---->
-        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row h-full px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 ">
+        <div class="flex flex-col lg:flex-row max-w-screen-2xl h-full mx-auto px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 ">
             <!-- TEXT---->
-            <div class="lg:w-1/2 flex flex-col gap-6 justify-center lg:mr-3 py-12">
+            <div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:mr-3 py-12">
                 <h1 class=" text-7xl md:text-8xl xl:text-9xl font-heading">
                     Stwórz stronę swoich marzeń
                 </h1>
-                <h2 class=" text-xl md:text-2xl xl:text-3xl font-textArch leading-relaxed">
+                <h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed">
                     Projektuję, tworzę i rozwijam innowacyjne strony internetowe
                     które zaprezentują Twoją markę, zachwycą Twoich klientów i
                     dodadza wiarygodności Twojej i tak już niesamowitej
                     organizacji
                 </h2>
                 <div>
-                    <primary-button class="">Oferta</primary-button>
+                    <primary-button >Oferta</primary-button>
                 </div>
             </div>
             <!-- IMAGE---->
@@ -31,29 +31,38 @@
         <!--END CONTAINER---->
         <!-- SLIDER---->
         <div class="flex justify-center pb-12">
-            <p class="text ">
+           
+            <!-- <p class="text ">
                 Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
             </p>
             <p class="text ">
                 Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
-            </p>
-            <p class="text ">
-                Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
-            </p>
-        </div>
+            </p> -->
+            <Vue3Marquee pauseOnHover="true">
+
+                <p class="text">
+                    Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •
+                </p>
+            </Vue3Marquee>
+            </div>
     </header>
 </template>
 
 <script setup>
-// import Navigation from "@/Shared/Navigation/Navigation.vue";
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
+import { Vue3Marquee } from 'vue3-marquee'
+
+
+
+
 </script>
 
 <style scoped>
 .text {
-    animation: scroll 20s infinite linear;
-    @apply text-6xl sm:text-7xl xl:text-8xl uppercase font-heading text-nowrap ml-3;
+    /* animation: scroll linear 20s infinite ; */
+    @apply text-6xl sm:text-7xl xl:text-8xl uppercase font-heading text-nowrap ml-3 overflow-hidden
 }
+
 
 @keyframes scroll {
     100% {

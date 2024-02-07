@@ -3,7 +3,7 @@
         <meta name="description" content="opis" >
     </Head>
     <Layout>
-        <Header></Header>
+        <Header :scrollingText="' Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •'"></Header>
         <main>
             <Services />
             <Blog />

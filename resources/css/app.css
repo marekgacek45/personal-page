@@ -4,11 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/*GLOBAL*/
+/*
+h2{
+ @apply text-2xl md:text-3xl xl:text-4xl font-text 
+}
+*/
+/*CUSTOM CLASS*/
 .box-shadow{
     box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.4);
 }
 
+/*SCROLLBAR*/
 ::-webkit-scrollbar {
 	width: 15px; /* szerokość paska przewijania */
   }
