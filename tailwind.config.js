@@ -53,7 +53,10 @@ export default {
                 bgLight:{
                     200:'#faf7f3',
                     400:'#e9e7e4'
-                }
+                },
+                bgDark:{
+                    400:'#0f181f'
+                },
             },
             animation:{
                 'shake':' shake 0.5s infinite'
