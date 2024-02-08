@@ -6,7 +6,7 @@
 
         <div class="grid grid-cols-5">
 
-            <PostCard v-for="post in posts" :key="post.id" :thumbnail="post.thumbnail" title="post.title"/>
+            <PostCard v-for="post in posts" :key="post.id" :thumbnail="post.thumbnail" :title="post.title"/>
         </div>
 
         <div class="pt-24 flex gap-12 max-w-screen-2xl mx-auto">
@@ -53,33 +53,38 @@
 import PostCard from "@/Components/PostCard.vue";
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 
-const posts = [
-    {
-        id: 1,
-        title: "tytuł posta nr 1",
-        thumbnail: "/assets/images/header.png",
-    },
-    {
-        id: 2,
-        title: "tytuł posta nr 2",
-        thumbnail: "/assets/images/header.png",
-    },
-    {
-        id: 3,
-        title: "tytuł posta nr 3",
-        thumbnail: "/assets/images/header.png",
-    },
-    {
-        id: 4,
-        title: "tytuł posta nr 4",
-        thumbnail: "/assets/images/header.png",
-    },
-    {
-        id: 5,
-        title: "tytuł posta nr 5",
-        thumbnail: "/assets/images/header.png",
-    },
-];
+
+defineProps({
+    posts:Array
+})
+
+// const posts = [
+//     {
+//         id: 1,
+//         title: "tytuł posta nr 1",
+//         thumbnail: "/assets/images/header.png",
+//     },
+//     {
+//         id: 2,
+//         title: "tytuł posta nr 2",
+//         thumbnail: "/assets/images/header.png",
+//     },
+//     {
+//         id: 3,
+//         title: "tytuł posta nr 3",
+//         thumbnail: "/assets/images/header.png",
+//     },
+//     {
+//         id: 4,
+//         title: "tytuł posta nr 4",
+//         thumbnail: "/assets/images/header.png",
+//     },
+//     {
+//         id: 5,
+//         title: "tytuł posta nr 5",
+//         thumbnail: "/assets/images/header.png",
+//     },
+// ];
 </script>
 
 <style scoped>

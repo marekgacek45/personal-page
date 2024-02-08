@@ -7,7 +7,7 @@
             <div class="h-72">
                 <img
                     :src="thumbnail"
-                    alt=""
+                    :alt="altText"
                     class="h-full w-full object-cover group-hover:hidden"
                 />
             </div>
@@ -26,12 +26,15 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
-defineProps({
+import { computed, toRefs } from 'vue';
+const props = defineProps({
     thumbnail: String,
     title: String,
 });
 
+const {title} = toRefs(props)
+
+const altText = computed(() => `miniaturka posta o tytule ${title.value}`);
 
 
 

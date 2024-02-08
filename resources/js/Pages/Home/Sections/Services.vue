@@ -1,7 +1,7 @@
 <template>
-    <section class="section bg-ownOrange-600 ">
+    <section class="section  bg-ownOrange-600 ">
         <!--CONTAINER-->
-        <div class="wrapper gap-12 2xl:gap-24 py-16 lg:py-24">
+        <div class="wrapper gap-12 2xl:gap-24 py-16 py-24">
              <!--LEFT-->
             <div
                 class="flex justify-center items-center lg:h-auto lg:w-1/2 md:px-12 lg:px-0"
@@ -23,7 +23,7 @@
                     </h3>
                 </div>
                 <div class="md:px-12 lg:px-0">
-                    <TestimonialsCard />
+                    <TestimonialsCard :comments="comments"/>
                 </div>
             </div>
         </div>
@@ -33,6 +33,14 @@
 <script setup>
 import ServicesCard from "@/Components/Home/ServicesCard.vue";
 import TestimonialsCard from "@/Components/Home/TestimonialsCard.vue";
+
+import { ref, onMounted } from 'vue';
+
+const props = defineProps({
+    comments:Array
+})
+
+
 </script>
 
 

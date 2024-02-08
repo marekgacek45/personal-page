@@ -1,11 +1,5 @@
 <template>
-   <div class="border-2 border-black box-shadow">
-                            <div class="bg-black p-2">
-                                <span
-                                    class="text-fontLight uppercase font-bold font-textArch text-xl"
-                                    >Opinie</span
-                                >
-                            </div>
+   <OldSchoolCard title="Opinie">
                             <div
                                 class="bg-bgLight-200 py-6 px-6 flex flex-col justify-center items-center gap-6"
                             >
@@ -45,11 +39,33 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+
+                            <p v-for="comment in comments">{{ comment.id }}</p>
+   </OldSchoolCard>
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from "vue";
+
+import { ref, computed, onUnmounted,onMounted } from "vue";
+
+import OldSchoolCard from "../OldSchoolCard.vue";
+
+
+// Tworzymy referencję do naszej tablicy komentarzy
+const comments = ref([]);
+
+// Używamy hooka onMounted do wypełnienia tablicy danymi po załadowaniu komponentu
+onMounted(() => {
+  // Zakładamy, że `props.comments` to dane przekazane z Laravela
+  comments.value = props.comments;
+});
+
+console.log(comments);
+
+const props = defineProps({
+    comments:Array
+})
+
 
 const testimonials = [
     {

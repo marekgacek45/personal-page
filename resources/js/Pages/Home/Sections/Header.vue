@@ -1,6 +1,6 @@
 <template>
     <header
-        class="section bg-ownYellow-400"
+        class="section lg:h-[calc(100vh-71px)]  mt-[71px] bg-ownYellow-400"
     >
         <!-- CONTAINER---->
         <div
