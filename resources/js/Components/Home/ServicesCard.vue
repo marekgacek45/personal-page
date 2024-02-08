@@ -1,11 +1,5 @@
 <template>
-    <div class="w-full box-shadow">
-        <div class="bg-black p-2">
-            <span
-                class="text-fontLight uppercase font-bold font-textArch text-xl"
-                >Usługi</span
-            >
-        </div>
+    <OldSchoolCard title="usługi">
         <div class="border-x-2 border-black " :class="currentBackground">
             <img :src="currentImage" alt="" class="w-full h-96" />
             <div class="px-6 py-10 border-t-2 border-fontDark min-h-64 md:min-h-56 lg:min-h-64 xl:min-h-56 2xl:min-h-48">
@@ -24,10 +18,11 @@
                 {{ item.label }}
             </button>
         </div>
-    </div>
+    </OldSchoolCard>
 </template>
 
 <script setup>
+import OldSchoolCard from "../OldSchoolCard.vue";
 import { ref } from "vue";
 
 

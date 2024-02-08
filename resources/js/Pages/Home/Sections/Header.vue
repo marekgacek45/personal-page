@@ -1,10 +1,10 @@
 <template>
     <header
-        class="relative flex flex-col lg:h-[calc(100vh-71px)] mt-[71px] bg-ownYellow-400"
+        class="section bg-ownYellow-400"
     >
         <!-- CONTAINER---->
         <div
-            class="flex flex-col lg:flex-row max-w-screen-2xl h-full mx-auto px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24"
+            class="wrapper"
         >
             <!-- TEXT---->
             <div
@@ -40,8 +40,14 @@
         <!--END CONTAINER---->
         <!-- MARQUEE---->
         <div class="flex justify-center pb-12">
-            <Vue3Marquee pauseOnHover="true">
-                <p class="text">
+            <Vue3Marquee
+                pauseOnHover="true"
+                duration="30"
+                class="bg-bgDark-400 overflow-hidden py-1"
+            >
+                <p
+                    class="text-6xl sm:text-7xl xl:text-8xl font-heading text-fontLight uppercase"
+                >
                     Strony Internetowe • Design • Social Media • Copywriting •
                     Fotografia • Artykuły Marketingowe • Wizytówki Google •
                 </p>
@@ -55,8 +61,4 @@ import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 import { Vue3Marquee } from "vue3-marquee";
 </script>
 
-<style scoped>
-.text {
-    @apply text-6xl sm:text-7xl xl:text-8xl uppercase font-heading text-nowrap ml-3 overflow-hidden;
-}
-</style>
+<style scoped></style>
