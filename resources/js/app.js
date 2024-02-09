@@ -7,6 +7,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import PrimaryButton from '@/Components/Base/PrimaryButton.vue'
 
+
+
 const appName = import.meta.env.VITE_APP_NAME || 'Marek Gacek';
 
 createInertiaApp({
@@ -18,6 +20,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .component("Link",Link,)
             .component("Head",Head)
+            
             .component("PrimaryButton",PrimaryButton)
             .mount(el);
     },

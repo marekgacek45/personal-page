@@ -1,117 +1,86 @@
 <template>
-   <OldSchoolCard title="Opinie">
-                            <div
-                                class="bg-bgLight-200 py-6 px-6 flex flex-col justify-center items-center gap-6"
-                            >
-                                <div
-                                    class="flex flex-col justify-center items-center gap-6 text-center"
-                                >
-                                    <a :href="currentLink" target="_blank"
-                                        ><img
-                                            :src="currentImage"
-                                            alt="logo firmy"
-                                            class="w-30 h-20"
-                                    /></a>
-
-                                    <p class="font-textArch text-xl min-h-[140px] md:min-h-[115px] 2xl:min-h-[90px] md:px-12 lg:px-0">
-                                        {{ currentText }}
-                                    </p>
-                                </div>
-                                <div class="flex gap-4">
-                                    <button
-                                        class="border-2 border-black bg-ownYellow-400 px-1"
-                                        @click="previousTestimonial"
-                                    >
-                                        <img
-                                            src="/assets/icons/left.svg"
-                                            alt=""
-                                            class="w-10 hover:scale-90 duration-300"
-                                        /></button
-                                    ><button
-                                        class="border-2 border-black bg-ownYellow-400 px-1"
-                                        @click="nextTestimonial"
-                                    >
-                                        <img
-                                            src="/assets/icons/right.svg"
-                                            alt=""
-                                            class="w-10 hover:scale-90 duration-300"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-
-                            <p v-for="comment in comments">{{ comment.id }}</p>
-   </OldSchoolCard>
+    <OldSchoolCard title="Opinie">
+        <div class="flex flex-col justify-center items-center gap-6 py-6 px-6 bg-bgLight-200  ">
+            
+            <div class="flex flex-col justify-center items-center gap-6 text-center">
+                    <a :href="currentLink" target="_blank" key="currentLink">
+                        <img :src="currentLogo" alt="logo firmy od której dostałem pozytywny komentarz" class="w-30 h-20" key="currentLogo"/>
+                    </a>
+                    <p class="font-textArch text-xl min-h-[140px] md:min-h-[115px] 2xl:min-h-[90px] md:px-12 lg:px-0" key="currentBody">
+                        {{ currentBody }}
+                    </p>
+                </div>
+           
+            <div class="flex gap-4">
+                <button class="border-2 border-black bg-ownYellow-400 px-1" @click="previousComment">
+                    <img src="/assets/icons/left.svg" alt="" class="w-10 hover:scale-90 duration-300"/>
+                </button>
+                <button class="border-2 border-black bg-ownYellow-400 px-1" @click="nextComment">
+                    <img src="/assets/icons/right.svg" alt="" class="w-10 hover:scale-90 duration-300"/>
+                </button>
+            </div>
+        </div>
+    </OldSchoolCard>
 </template>
 
 <script setup>
-
-import { ref, computed, onUnmounted,onMounted } from "vue";
-
-import OldSchoolCard from "../OldSchoolCard.vue";
-
-
-// Tworzymy referencję do naszej tablicy komentarzy
-const comments = ref([]);
-
-// Używamy hooka onMounted do wypełnienia tablicy danymi po załadowaniu komponentu
-onMounted(() => {
-  // Zakładamy, że `props.comments` to dane przekazane z Laravela
-  comments.value = props.comments;
-});
-
-console.log(comments);
+import { ref, computed, onMounted, onUnmounted, defineProps } from 'vue';
+import OldSchoolCard from '../OldSchoolCard.vue';
 
 const props = defineProps({
-    comments:Array
-})
+    comments: Array,
+});
 
-
-const testimonials = [
-    {
-        image: "/assets/clients/podajLapsie.png",
-        link:'https://podajlapsie.pl',
-        body: "Wygląd strony przeszedł moje początkowe wyobrażenia(...) Oprócz tego Marek zajął się również profilem mojej firmy w google jak i wykonał dla mnie wizytówki, które również są przepiękne",
-    },
-    {
-        image: "/assets/clients/bentto.png",
-        link:'https://bentto.eu',
-        body: "Rzetelne i profesjonalne podejście. Plus mega robota wykonana z moją stroną www i jeszcze ogarnięte zdjęcia biura itp.!",
-    },
-    {
-        image: "/assets/clients/mixo.png",
-        link:"https://mixoexpert.pl",
-        body: " Dzięki zaangażowaniu i kreatywność Marka moja strona www wygląda tak jak chciałem a nawet lepiej 😁",
-    },
-];
-
+const comments = ref([]);
 const currentIndex = ref(0);
 
-const currentImage = computed(() => testimonials[currentIndex.value].image);
-const currentLink = computed(() => testimonials[currentIndex.value].link);
-const currentText = computed(() => testimonials[currentIndex.value].body);
+const currentLogo = computed(() => {
+    if (comments.value.length > 0) {
+        return comments.value[currentIndex.value].logo;
+    }
+    return null;
+});
 
-const nextTestimonial = () => {
-  currentIndex.value = (currentIndex.value + 1) % testimonials.length;
-  resetInterval();
+const currentLink = computed(() => {
+    if (comments.value.length > 0) {
+        return comments.value[currentIndex.value].link;
+    }
+    return null;
+});
+
+const currentBody = computed(() => {
+    if (comments.value.length > 0) {
+        return comments.value[currentIndex.value].body;
+    }
+    return null;
+});
+
+const nextComment = () => {
+    currentIndex.value = (currentIndex.value + 1) % comments.value.length;
+    resetInterval();
 };
 
-const previousTestimonial = () => {
-  currentIndex.value = (currentIndex.value - 1 + testimonials.length) % testimonials.length;
-  resetInterval();
+const previousComment = () => {
+    currentIndex.value =
+        (currentIndex.value - 1 + comments.value.length) % comments.value.length;
+    resetInterval();
 };
 
 let intervalId;
 
 const resetInterval = () => {
-  clearInterval(intervalId);
-  intervalId = setInterval(nextTestimonial, 5000);
+    clearInterval(intervalId);
+    intervalId = setInterval(nextComment, 5000);
 };
 
-// Automatyczna zmiana co 5 sekund
-intervalId = setInterval(nextTestimonial, 5000);
+onMounted(() => {
+    comments.value = props.comments;
+    resetInterval();
+});
 
-// Czyszczenie interwału przed zniszczeniem komponentu
 onUnmounted(() => {
-  clearInterval(intervalId);
-});</script>
+    clearInterval(intervalId);
+});
+
+</script>
+
