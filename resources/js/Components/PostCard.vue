@@ -1,10 +1,10 @@
 <template>
-    <a href="" class="group">
+    <Link href="#" class="group">
         <div
-            class="border border-y-2 border-black px-12 py-8 bg-ownPink-200  group-hover:bg-gray-500 bg-no-repeat bg-cover group-hover:bg-blend-multiply transition-all duration-100 h-full flex flex-col justify-between items-center group-hover:bg-[url('/assets/images/header.png')]"
-            
-        >
-            <div class="h-72">
+    class="flex flex-col justify-between items-center h-full px-10 lg:px-16 xl:px-4 2xl:px-12 py-8 border border-y-2 border-fontDark bg-no-repeat bg-cover transition-all duration-100 group-hover:border-dashed group-hover:bg-gray-600 group-hover:bg-blend-multiply"
+    :class="[bgColor,bgImage]" 
+>
+            <div class="h-72 w-full">
                 <img
                     :src="thumbnail"
                     :alt="altText"
@@ -12,30 +12,59 @@
                 />
             </div>
             <h2
-                class="text-center font-heading mt-6 uppercase text-3xl group-hover:text-fontLight"
+                class=" mt-10 mb-2  text-4xl text-center font-heading uppercase group-hover:text-fontLight"
             >
                 {{ title }}
             </h2>
-            <button
-                class="border-2 border-black w-full py-2 font-textArch mt-3 group-hover:bg-bgLight-200"
-            >
-                Sprawdź
-            </button>
+           <SecondaryButton><Link href="#">Sprawdź</Link></SecondaryButton>
         </div>
-    </a>
+    </Link>
 </template>
 
 <script setup>
-import { computed, toRefs } from 'vue';
+import SecondaryButton from "@/Components/Base/SecondaryButton.vue";
+
+import { computed, toRefs } from "vue";
 const props = defineProps({
     thumbnail: String,
     title: String,
+    index:Number
 });
 
-const {title} = toRefs(props)
+const { title,index } = toRefs(props);
 
 const altText = computed(() => `miniaturka posta o tytule ${title.value}`);
 
 
+const bgColor = computed(() => {
+    switch (index.value) {
+        case 0:
+            return 'bg-ownPink-200';
+        case 1:
+            return 'bg-ownYellow-400';
+        case 2:
+            return 'bg-ownPurple-400';
+        case 3:
+            return 'bg-ownOrange-600';
+        default:
+            return 'bg-bgLight-200';
+    }
+});
+const bgImage = computed(() => {
+    switch (index.value) {
+        case 0:
+            return `group-hover:bg-[url('/assets/images/1.jpg')]`;
+        case 1:
+            return `group-hover:bg-[url('/assets/images/2.jpg')]`;
+        case 2:
+            return `group-hover:bg-[url('/assets/images/3.jpg')]`;
+        case 3:
+            return `group-hover:bg-[url('/assets/images/4.jpg')]`;
+        default:
+            return `group-hover:bg-[url('/assets/images/1.jpg')]`;
+    }
+});
 
 </script>
+
+

@@ -1,7 +1,7 @@
 <template>
     <section class="section  bg-ownOrange-600 ">
         <!--CONTAINER-->
-        <div class="wrapper gap-12 2xl:gap-24 py-16 py-24">
+        <div class="wrapper gap-12 2xl:gap-24 py-16 lg:py-24">
              <!--LEFT-->
             <div
                 class="flex justify-center items-center lg:h-auto lg:w-1/2 md:px-12 lg:px-0"

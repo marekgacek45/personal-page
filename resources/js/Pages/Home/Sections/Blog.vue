@@ -1,13 +1,19 @@
 <template>
-    <section class="bg-ownTurquise-400 py-24">
-        <h2 class="text-6xl font-heading text-center mb-24">
-            Znajdzie się również coś do lektury dla programistycznych zapaleńców
-        </h2>
+    <section class="bg-ownTurquise-400 section py-16 lg:py-24">
+        
+        <div class="max-w-screen-2xl mx-auto text-center px-4 sm:px-12 md:px-24 lg:px-12 2xl:px-24">
 
-        <div class="grid grid-cols-5">
-
-            <PostCard v-for="post in posts" :key="post.id" :thumbnail="post.thumbnail" :title="post.title"/>
+            <h2 class=" text-5xl xs:text-6xl lg:text-7xl xl:text-8xl mb-24 uppercase font-heading">
+                Zanurz się w lekturze i odkryj ciekawostki z programistycznego świata
+            </h2>
         </div>
+
+       <section class="flex flex-col justify-center items-center  gap-12 md:gap-16">
+
+           <BlogSection :posts="posts"/>
+
+           <primary-button class="bg-white hover:bg-bgLight-400">Zobacz wszytkie wpisy</primary-button>
+        </section>
 
         <div class="pt-24 flex gap-12 max-w-screen-2xl mx-auto">
           <div class="w-1/2 py-24 flex flex-col justify-between items-start">
@@ -50,41 +56,14 @@
 </template>
 
 <script setup>
-import PostCard from "@/Components/PostCard.vue";
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
+import BlogSection from "@/Components/Home/BlogSection.vue";
 
 
 defineProps({
     posts:Array
 })
 
-// const posts = [
-//     {
-//         id: 1,
-//         title: "tytuł posta nr 1",
-//         thumbnail: "/assets/images/header.png",
-//     },
-//     {
-//         id: 2,
-//         title: "tytuł posta nr 2",
-//         thumbnail: "/assets/images/header.png",
-//     },
-//     {
-//         id: 3,
-//         title: "tytuł posta nr 3",
-//         thumbnail: "/assets/images/header.png",
-//     },
-//     {
-//         id: 4,
-//         title: "tytuł posta nr 4",
-//         thumbnail: "/assets/images/header.png",
-//     },
-//     {
-//         id: 5,
-//         title: "tytuł posta nr 5",
-//         thumbnail: "/assets/images/header.png",
-//     },
-// ];
 </script>
 
 <style scoped>
