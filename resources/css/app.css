@@ -33,11 +33,11 @@ h2{
   }
   
   ::-webkit-scrollbar-track {
-	@apply bg-black; 
+	@apply bg-white; 
   }
   
   ::-webkit-scrollbar-thumb {
-	@apply bg-ownPurple-400 transition-colors; 
+	@apply bg-bgDark-400 transition-colors; 
   }
   
   ::-webkit-scrollbar-thumb:hover {

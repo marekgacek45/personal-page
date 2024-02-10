@@ -3,7 +3,7 @@
         <div class="border-x-2 border-black " :class="currentBackground">
             <img :src="currentImage" alt="" class="w-full h-96" />
             <div class="px-6 py-10  min-h-64 md:min-h-56 lg:min-h-64 xl:min-h-56 2xl:min-h-50 border-t-2 border-fontDark">
-                <p class="text-lg font-text font-medium">{{ currentText }}</p>
+                <p class="text-lg font-text font-medium ">{{ currentText }}</p>
             </div>
         </div>
         <div class="grid grid-cols-4">
@@ -38,7 +38,7 @@ const items = [
         label: "DESIGN",
         text: "Zaprezentuję Ci wyjątkowe projekty, stworzone z myślą o Tobie! Styl moich witryn to efekt indywidualnego podejścia, dostosowanego do specyfiki Twojej branży oraz osobistych preferencji. Wyrwij się spod wpływu szablonów z poprzedniej dekady – każdy mój projekt to nowoczesny design i świeży styl.",
         image: "/assets/images/2.jpg",
-        background: "bg-ownBlue-400",
+        background: "bg-ownYellow-400",
     },
     {
         label: "SOCIAL MEDIA",
@@ -50,7 +50,7 @@ const items = [
         label: "TREŚCI",
         text: "Zapewniam kompleksową obsługę treści dla Twojej strony internetowej! Specjalizuję się nie tylko w pisaniu tekstów, ale również w fotografii. Moje usługi obejmują tworzenie treści, które przyciągają uwagę i angażują czytelnika, a także dodawanie unikalnych wizualnych doświadczeń poprzez fotografie.",
         image: "/assets/images/4.jpg",
-        background: "bg-ownPurple-400",
+        background: "bg-ownOrange-600",
     },
 ];
 

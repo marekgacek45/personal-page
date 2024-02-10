@@ -43,7 +43,7 @@ const bgColor = computed(() => {
         case 1:
             return 'bg-ownYellow-400';
         case 2:
-            return 'bg-ownPurple-400';
+            return 'bg-ownTurquise-400';
         case 3:
             return 'bg-ownOrange-600';
         default:
