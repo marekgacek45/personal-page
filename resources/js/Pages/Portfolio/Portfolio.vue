@@ -15,7 +15,6 @@
 
 
        
-        <!-- <transition-group name="fade" tag="div" class="gallery grid grid-cols-3 w-full gap-6 justify-center"> -->
         <transition-group name="fade" tag="div" class=" flex w-full flex-wrap gap-6 justify-center">
       
         
