@@ -1,5 +1,5 @@
 <template>
-     <Vue3Marquee :clone="true" :duration="10" class="bg-bgLight-200 p-4">
+     <Vue3Marquee :clone="true" :duration="10" class="bg-bgLight-200 p-4  overflow-hidden">
             
             <img
                 v-for="tech in techs"
