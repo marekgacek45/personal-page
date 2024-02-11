@@ -12,7 +12,7 @@
 
            <BlogSection :posts="posts"/>
 
-           <primary-button >Zobacz wszytkie wpisy</primary-button>
+           <primary-button aria-label="Zobacz wszytkie wpisy">Zobacz wszytkie wpisy</primary-button>
         </div>
 
 

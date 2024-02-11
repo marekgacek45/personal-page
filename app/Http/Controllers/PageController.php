@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Tech;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -15,5 +16,13 @@ class PageController extends Controller
 
 
     return Inertia('Home/Index',['comments' => $comments,'posts'=>$posts]);
+   }
+
+   public function about(){
+
+$techs = Tech::all();
+
+
+      return Inertia('About/Index',['techs'=>$techs]);
    }
 }

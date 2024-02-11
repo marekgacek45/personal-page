@@ -8,7 +8,7 @@
         </div>
         <div class="grid grid-cols-4">
             <button
-                type="button"
+                type="button" aria-label="usługa"
                 v-for="(item, index) in items"
                 :key="index"
                 class="p-2 border-2 border-r-0 last:border-r-2 border-fontDark font-text font-bold  text-center  button-hover"

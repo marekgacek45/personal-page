@@ -22,7 +22,7 @@
                     organizacji
                 </h2>
                 <div>
-                    <primary-button>Oferta</primary-button>
+                    <primary-button aria-label="Oferta">Oferta</primary-button>
                 </div>
             </div>
             <!-- IMAGE---->

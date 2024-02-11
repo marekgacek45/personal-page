@@ -12,10 +12,10 @@
                 </div>
            
             <div class="flex gap-4">
-                <button class="border-2 border-black bg-ownYellow-400 px-1" @click="previousComment">
+                <button aria-label="poprzedni" class="border-2 border-black bg-ownYellow-400 px-1" @click="previousComment">
                     <img src="/assets/icons/left.svg" alt="" class="w-10 hover:scale-90 duration-300"/>
                 </button>
-                <button class="border-2 border-black bg-ownYellow-400 px-1" @click="nextComment">
+                <button aria-label="następny" class="border-2 border-black bg-ownYellow-400 px-1" @click="nextComment">
                     <img src="/assets/icons/right.svg" alt="" class="w-10 hover:scale-90 duration-300"/>
                 </button>
             </div>

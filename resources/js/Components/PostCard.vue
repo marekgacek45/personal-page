@@ -16,7 +16,7 @@
             >
                 {{ title }}
             </h2>
-           <SecondaryButton><Link href="#">Sprawdź</Link></SecondaryButton>
+           <SecondaryButton aria-label="Sprawdź"><Link href="#">Sprawdź</Link></SecondaryButton>
         </div>
     </Link>
 </template>
