@@ -1,91 +1,86 @@
 <template>
-    <section class="section lg:min-h-[calc(100vh-371px)]  mt-[71px] bg-ownPurple-400">
-        <!-- CONTAINER---->
-        
-        <div class=" flex flex-col flex-start items-center  h-full  px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 py-24 gap-12">
+    <section
+        class="section lg:min-h-[calc(100vh-371px)] mt-[71px] bg-ownPurple-400"
+    >
+        <div
+            class="flex flex-col flex-start items-center h-full px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 py-24 gap-12"
+        >
+            <div class="flex justify-center items-center gap-12">
+                <button class="btn box-shadow"   @click="setCategory(null)">ALL</button>
+                <button
+                    v-for="category in categories"
+                    :key="category.id"
+                    class="btn box-shadow"
+                    @click="setCategory(category.name)"
+                >
+                    {{ category.name }}
+                </button>
+            </div>
 
-        
-
-        <div class="flex justify-center items-center gap-12 ">
-            <button @click="setCategory(null)" class="btn box-shadow">ALL</button>
-          <button v-for="category in categories" :key="category" @click="setCategory(category)" class="btn box-shadow" >{{ category }}</button>
-           
+            <div class="flex w-full flex-wrap gap-6 justify-center">
+                <OldSchoolCard
+                    v-for="project in filteredProjects"
+                    :key="project.id"
+                    :title="project.title"
+                    customClass="w-1/4"
+                    class="project"
+                >
+                    <img
+                        :src="project.thumbnail"
+                        alt=""
+                        class="max-h-[300px] w-full h-full object-cover"
+                    />
+                    <div
+                        v-for="category in project.categories"
+                        :key="category.id"
+                    >
+                        
+                    </div>
+                </OldSchoolCard>
+            </div>
         </div>
-
-
-
-       
-        <transition-group name="fade" tag="div" class=" flex w-full flex-wrap gap-6 justify-center">
-      
-        
-            <OldSchoolCard v-for="image in filteredImages"  :key="image.id" :title="image.category" customClass="w-1/4">
-            <img :src="image.url" alt="" class="max-h-[300px] w-full h-full object-cover"></OldSchoolCard>
-        <!-- </div> -->
-        </transition-group>
-
-    </div>
     </section>
 </template>
 
 <script setup>
+import OldSchoolCard from "@/Components/OldSchoolCard.vue";
 
-import OldSchoolCard from '@/Components/OldSchoolCard.vue';
 
-import { ref,computed } from 'vue';
 
-let selectedCategory = ref(null)
+import { ref, computed } from "vue";
 
-const categories = ref(['Laravel','Vue','Blade','Strapi','PHP'])
+const props = defineProps({
+    projects: Array,
+    categories:Array
+});
 
-const images = ref([
-    {
-        id:1,url:'/assets/images/header.png',category:'Laravel'
-    },
-    {
-        id:2,url:'/assets/images/1.jpg',category:'Vue'
-    },
-    {
-        id:3,url:'/assets/images/2.jpg',category:'Laravel'
-    },
-    {
-        id:4,url:'/assets/images/3.jpg',category:'Blade'
-    },
-    {
-        id:5,url:'/assets/images/4.jpg',category:'Strapi'
-    },
-    {
-        id:5,url:'/assets/images/4.jpg',category:'Strapi'
-    },
-])
 
-const filteredImages = computed(() => {
-  if (selectedCategory.value === null) {
-    return images.value;
-  }
-  return images.value.filter(image => image.category === selectedCategory.value);
+let projects= ref([...props.projects])
+let selectedCategory = ref(null);
+
+
+const filteredProjects = computed(() => {
+    if (selectedCategory.value === null) {
+        return projects.value;
+    }
+    return projects.value.filter(
+        (project) => project.categories.some(category => category.name === selectedCategory.value)
+    );
 });
 
 const setCategory = (category) => {
-  selectedCategory.value = category;
-  etTimeout(() => { // Dodajemy opóźnienie
-    selectedCategory.value = category; // Następnie ustawiamy nową kategorię
-  }, 500);
+    selectedCategory.value = category;
+
+   
 };
+
+
+
 
 </script>
 
 <style scoped>
-.btn{
-   @apply px-10 py-4  bg-ownYellow-400 hover:bg-ownYellow-600 text-xl font-text font-bold hover:animate-shake duration-300 
+.btn {
+    @apply px-10 py-4  bg-ownYellow-400 hover:bg-ownYellow-600 text-xl font-text font-bold hover:animate-shake duration-300;
 }
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s, transform 1s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-  transform: scale(0.5) rotate(360deg);
-}
-
-
 </style>

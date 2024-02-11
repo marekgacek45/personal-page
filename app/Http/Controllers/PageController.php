@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tech;
+use App\Models\Comment;
+use App\Models\Project;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -27,6 +29,11 @@ $techs = Tech::all();
    }
 
    public function portfolio(){
-      return Inertia ('Portfolio/Index');
+
+$categories= Category::all();
+$projects= Project::with('categories')->get();
+
+
+      return Inertia ('Portfolio/Index',['categories'=>$categories,'projects'=>$projects]);
    }
 }

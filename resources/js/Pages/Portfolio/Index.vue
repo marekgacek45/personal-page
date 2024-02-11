@@ -7,7 +7,7 @@
         
        
         <main>
-         <Portfolio/>
+         <Portfolio :projects="projects" :categories="categories"/>
         </main>
     </Layout>
 </template>
@@ -15,5 +15,11 @@
 <script setup>
 import Layout from "@/Layouts/Layout.vue";
 import Portfolio from "./Portfolio.vue";
+
+
+defineProps({
+  projects:Array,
+  categories:Array
+})
 
 </script>
