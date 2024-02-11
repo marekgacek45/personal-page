@@ -19,7 +19,8 @@
     },
     "dependencies": {
         "swiper": "^11.0.6",
-     
+        "vue-calendar-heatmap": "^0.8.4",
+        "vue-github": "^0.12.0",
         "vue3-marquee": "^4.2.0-beta.1"
     }
 }

@@ -5,7 +5,7 @@
       <img :src="image" alt="" class="w-[400px]">
       <H1 class="text-2xl md:text-3xl xl:text-5xl font-heading">{{ title }}</H1>
     <span class="text-center text-lg md:text-xl  xl:text-2xl font-text">{{ description }}</span>
-<PrimaryButton @click="back" class="bg-ownYellow-400 hover:bg-ownYellow-600">Powrót</PrimaryButton>
+<PrimaryButton @click="back" class="bg-ownYellow-400 hover:bg-ownYellow-600" aria-label="powrót">Powrót</PrimaryButton>
   </div>
 </Layout>
 </template>

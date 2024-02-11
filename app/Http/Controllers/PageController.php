@@ -25,4 +25,8 @@ $techs = Tech::all();
 
       return Inertia('About/Index',['techs'=>$techs]);
    }
+
+   public function portfolio(){
+      return Inertia ('Portfolio/Index');
+   }
 }

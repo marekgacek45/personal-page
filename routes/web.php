@@ -43,3 +43,4 @@ require __DIR__.'/auth.php';
 //OWN ROUTES
 Route::get('/',[PageController::class,'home'])->name('home');
 Route::get('/o_mnie',[PageController::class,'about'])->name('about');
+Route::get('/portfolio',[PageController::class,'portfolio'])->name('portfolio');
