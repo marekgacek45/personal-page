@@ -1,6 +1,6 @@
 <template>
     <section
-        class="section lg:min-h-[calc(100vh-371px)] mt-[71px] bg-ownPurple-400"
+        class="section lg:min-h-[calc(100vh-371px)] mt-[71px] bg-ownPurple-400 "
     >
         <div
             class="flex flex-col flex-start items-center h-full px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 py-24 gap-12"
@@ -11,7 +11,7 @@
                 <button
                     v-for="category in categories"
                     :key="category.id"
-                    class="btn box-shadow"
+                    class="btn box-shadow "
                     @click="setCategory(category.name)"
                 >
                     {{ category.name }}
@@ -25,7 +25,8 @@
                     :key="project.id"
                     :title="project.title"
                     customClass="w-1/4"
-                    class="project"
+                    class="project hover:animate-shake cursor-pointer"
+                    @click="openModal(project)"
                 >
                     <img
                         :src="project.thumbnail"
@@ -43,11 +44,16 @@
             </div>
         </div>
     </section>
+
+<v-if isModalOpen>
+
+    <Modal :activeProject="activeProject" :isModalOpen="isModalOpen"   @update:isModalOpen="isModalOpen = $event"/>
+</v-if>
 </template>
 
 <script setup>
 import OldSchoolCard from "@/Components/OldSchoolCard.vue";
-
+import Modal from "@/Components/Base/Modal.vue";
 
 
 import { ref, computed } from "vue";
@@ -61,6 +67,7 @@ const props = defineProps({
 
 let projects= ref([...props.projects])
 let selectedCategory = ref(null);
+let activeProject = ref(null)
 
 
 const filteredProjects = computed(() => {
@@ -79,6 +86,15 @@ const setCategory = (category) => {
 };
 
 
+let isModalOpen = ref(false);
+
+const openModal = (project) => {
+    activeProject.value = project;
+    isModalOpen.value = true;
+
+    console.log('open modal');
+    console.log(activeProject.value);
+};
 
 
 </script>
@@ -101,4 +117,88 @@ const setCategory = (category) => {
   transform: rotate(360deg) scale(1);
   
 }
+
+
+/* .modal-backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    background: #FFFFFF;
+    box-shadow: 2px 2px 20px 1px;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-header,
+  .modal-footer {
+    padding: 15px;
+    display: flex;
+  }
+
+  .modal-header {
+    position: relative;
+    border-bottom: 1px solid #eeeeee;
+    color: #4AAE9B;
+    justify-content: space-between;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #eeeeee;
+    flex-direction: column;
+  }
+
+  .modal-body {
+    position: relative;
+    padding: 20px 10px;
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4AAE9B;
+    background: transparent;
+  }
+
+  .btn-green {
+    color: white;
+    background: #4AAE9B;
+    border: 1px solid #4AAE9B;
+    border-radius: 2px;
+  }
+
+  .modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.7) rotate(-180deg);
+}
+
+.modal-fade-enter-to,
+.modal-fade-leave-from {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 1s ease, transform 1s cubic-bezier(.68,-.55,.27,1.55);
+} */
+
+
+
 </style>
