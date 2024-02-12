@@ -5,6 +5,7 @@
         <div
             class="flex flex-col flex-start items-center h-full px-6 sm:px-12 md:px-24 lg:px-12 2xl:px-24 py-24 gap-12"
         >
+          
             <div class="flex justify-center items-center gap-12">
                 <button class="btn box-shadow"   @click="setCategory(null)">ALL</button>
                 <button
@@ -18,6 +19,7 @@
             </div>
 
             <div class="flex w-full flex-wrap gap-6 justify-center">
+                <transition-group name="list" tag="div" class="flex w-full flex-wrap gap-6 justify-center">
                 <OldSchoolCard
                     v-for="project in filteredProjects"
                     :key="project.id"
@@ -27,7 +29,7 @@
                 >
                     <img
                         :src="project.thumbnail"
-                        alt=""
+                        alt="miniaturka projektu"
                         class="max-h-[300px] w-full h-full object-cover"
                     />
                     <div
@@ -37,6 +39,7 @@
                         
                     </div>
                 </OldSchoolCard>
+            </transition-group>
             </div>
         </div>
     </section>
@@ -53,6 +56,7 @@ const props = defineProps({
     projects: Array,
     categories:Array
 });
+
 
 
 let projects= ref([...props.projects])
@@ -82,5 +86,19 @@ const setCategory = (category) => {
 <style scoped>
 .btn {
     @apply px-10 py-4  bg-ownYellow-400 hover:bg-ownYellow-600 text-xl font-text font-bold hover:animate-shake duration-300;
+}
+
+.list-enter-active, .list-leave-active {
+  transition: all 1s ease-in-out;
+}
+.list-enter-from, .list-leave-to {
+  opacity: 0;
+  transform: rotate(0deg) scale(0);
+  
+}
+.list-enter-to, .list-leave-from {
+  opacity: 1;
+  transform: rotate(360deg) scale(1);
+  
 }
 </style>
