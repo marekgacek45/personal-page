@@ -6,7 +6,7 @@
     <Layout>
         
        
-        <main class="relative">
+        <main>
          <Portfolio :projects="projects" :categories="categories"/>
         </main>
     </Layout>
