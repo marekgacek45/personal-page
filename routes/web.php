@@ -17,14 +17,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -43,4 +43,6 @@ require __DIR__.'/auth.php';
 //OWN ROUTES
 Route::get('/',[PageController::class,'home'])->name('home');
 Route::get('/o_mnie',[PageController::class,'about'])->name('about');
+Route::get('/uslugi',[PageController::class,'services'])->name('services');
 Route::get('/portfolio',[PageController::class,'portfolio'])->name('portfolio');
+Route::get('/kontakt',[PageController::class,'contact'])->name('contact');

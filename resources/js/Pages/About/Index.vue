@@ -9,17 +9,6 @@
             
             >
 
-
-
-
-
-
-
-
-
-
-
-
              <FirstSection :techs="techs"/>
             <SecondSection/> 
             
