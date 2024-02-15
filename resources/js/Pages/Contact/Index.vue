@@ -17,25 +17,67 @@
                         >
                             <OldSchoolCard title="Kontakt" class="w-full">
                                 <div class="bg-bgLight-200 py-6">
-                                    <form>
+                                    <form @submit.prevent="submit"
+                                        method="post"
+                                    >
                                         <Field>
-                                            <Input type="text" id="name" name="name" required/>
-                                            <Label for="name" id="name">Imię i Nazwisko</Label>
+                                            <Input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                v-model="form.name"
+                                                required
+                                            />
+                                            <Label for="name" id="name"
+                                                >Imię i Nazwisko</Label
+                                            >
                                         </Field>
                                         <Field>
-                                            <Input type="email" id="email" name="email" required/>
-                                            <Label for="email" id="email">E-mail</Label>
+                                            <Input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                v-model="form.email"
+
+                                                required
+                                            />
+                                            <Label for="email" id="email"
+                                                >E-mail</Label
+                                            >
                                         </Field>
                                         <Field>
-                                            <Input type="tel" id="tel" name="tel" />
-                                            <Label for="tel" id="tel">Telefon</Label>
+                                            <Input
+                                                type="tel"
+                                                id="tel"
+                                                name="tel"
+                                                v-model="form.phone"
+
+                                            />
+                                            <Label for="tel" id="tel"
+                                                >Telefon</Label
+                                            >
                                         </Field>
                                         <Field>
-                                            <TextArea  id="tel" name="tel" required></TextArea>
-                                            <Label for="tel" id="tel" class="peer-placeholder-shown:top-7">Wiadomość</Label>
+                                            <TextArea
+                                                id="message"
+                                                name="message"
+                                                v-model="form.message"
+
+                                                required
+                                            ></TextArea>
+                                            <Label
+                                                for="message"
+                                                id="message"
+                                                class="peer-placeholder-shown:top-7"
+                                                >Wiadomość</Label
+                                            >
                                         </Field>
 
-                                        <Field><PrimaryButton type="submit">Wyślij</PrimaryButton></Field>
+                                        <Field
+                                            ><PrimaryButton type="submit"
+                                                >Wyślij</PrimaryButton
+                                            ></Field
+                                        >
                                     </form>
                                 </div>
                             </OldSchoolCard>
@@ -72,6 +114,26 @@
 
 <script setup>
 import Layout from "@/Layouts/Layout.vue";
+
+import { useForm } from "@inertiajs/vue3";
+import { useReCaptcha } from "vue-recaptcha-v3";
+
+
+let form = useForm({
+    name: null,
+    email: null,
+    phone: null,
+    message: null,
+    // captcha_token :null,
+
+});
+
+let submit = () =>{
+    form.post('/kontakt',form),{
+        preserveScroll: true,
+        onSuccess: () => console.log('success'),
+      }
+}
 
 import Field from "@/Components/Form/Field.vue";
 import Label from "@/Components/Form/Label.vue";
