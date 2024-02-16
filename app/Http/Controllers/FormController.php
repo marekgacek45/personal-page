@@ -11,6 +11,7 @@ class FormController extends Controller
 
     public function contact(ContactFormRequest $request){
 
-        dd($request->all());
+        $request->validated();
+      
     }
 }

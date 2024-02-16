@@ -17,7 +17,8 @@
                         >
                             <OldSchoolCard title="Kontakt" class="w-full">
                                 <div class="bg-bgLight-200 py-6">
-                                    <form
+                                    <transition name="list" mode="out-in" appear>
+                                    <form v-if="!sendForm"
                                         @submit.prevent="recaptcha"
                                         method="post"
                                     >
@@ -32,6 +33,7 @@
                                             <Label for="name" id="name"
                                                 >Imię i Nazwisko</Label
                                             >
+                                            <Error v-if="form.errors.name">{{ form.errors.name}}</Error>
                                         </Field>
                                         <Field>
                                             <Input
@@ -41,6 +43,7 @@
                                                 v-model="form.email"
                                                 required
                                             />
+                                            <Error v-if="form.errors.email">{{ form.errors.email}}</Error>
                                             <Label for="email" id="email"
                                                 >E-mail</Label
                                             >
@@ -48,13 +51,15 @@
                                         <Field>
                                             <Input
                                                 type="tel"
-                                                id="tel"
-                                                name="tel"
+                                                id="phone"
+                                                name="phone"
                                                 v-model="form.phone"
+                                                
                                             />
                                             <Label for="tel" id="tel"
                                                 >Telefon</Label
                                             >
+                                            <Error v-if="form.errors.phone">{{ form.errors.phone}}</Error>
                                         </Field>
                                         <Field>
                                             <TextArea
@@ -69,17 +74,25 @@
                                                 class="peer-placeholder-shown:top-7"
                                                 >Wiadomość</Label
                                             >
+                                            <Error v-if="form.errors.message">{{ form.errors.message}}</Error>
                                         </Field>
-                                        <div class="text-red-600" v-if="errors.captcha_token">
+                                        <!-- <div class="text-red-600" v-if="errors.captcha_token">
                 {{ errors.captcha_token }}
-            </div>
-
+            </div> -->
+            <Error v-if="errors.captcha_token">{{ errors.captcha_token}}</Error>
                                         <Field
-                                            ><PrimaryButton type="submit"
+                                            ><PrimaryButton type="submit" :disabled="form.processing"
                                                 >Wyślij</PrimaryButton
                                             ></Field
                                         >
                                     </form>
+
+                                    <div v-else class="min-h-[545px] flex flex-col justify-center items-center gap-6 text-center px-4">
+
+                                        <h2 class="text-7xl font-heading">Dzięki za wiadomość</h2>
+                                        <span class="text-3xl">Odpowiem na nią najszybciej jak to możliwe!</span>
+                                    </div>
+                                </transition>
                                 </div>
                             </OldSchoolCard>
                         </div>
@@ -91,18 +104,18 @@
                             <h2
                                 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"
                             >
-                                Jestem
-                                <span class="font-heading">WebDeveloperem</span
-                                >, który z pasją tworzy strony internetowe.
+                               Potrzebujesz wyceny? Masz jakieś pytanie?Chcesz po prostu pogadać?
+                            </h2>
+                            
+                            <h2
+                                class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"
+                            >
+                                Śmiało, napisz do mnie za pomocą formularza lub wyślij maila.
                             </h2>
                             <h2
                                 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"
                             >
-                                Walczę na całej powierzchni programistycznego
-                                pola, wykorzystując
-                                <span class="font-heading">PHP</span> i
-                                <span class="font-heading">JavaScript</span>
-                                jako swoje oręża.
+                                Jeżeli wolisz to znajdź mnie na mediach społecznościowych
                             </h2>
                         </div>
                     </div>
@@ -113,93 +126,80 @@
     </div>
 </template>
 
-<script>
+
+<script setup>
 import { useReCaptcha } from "vue-recaptcha-v3";
 import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
 
 import Layout from "@/Layouts/Layout.vue";
-
 import Field from "@/Components/Form/Field.vue";
 import Label from "@/Components/Form/Label.vue";
 import Input from "@/Components/Form/Input.vue";
 import TextArea from "@/Components/Form/TextArea.vue";
-
+import Error from "@/Components/Form/Error.vue"
 import OldSchoolCard from "@/Components/OldSchoolCard.vue";
 
-export default {
-    props: {
-        form: Object,
-        errors: Object,
-        recaptcha_site_key: String,
-    },
-    setup() {
-        const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
-        let form = useForm({
-            name: null,
-            email: null,
-            phone: null,
-            message: null,
-            captcha_token: null,
-        });
-        const recaptcha = async () => {
-            // (optional) Wait until recaptcha has been loaded.
-            await recaptchaLoaded();
 
-            // Execute reCAPTCHA with action "login".
-            form.captcha_token = await executeRecaptcha("login");
-            submit();
-            // Do stuff with the received token.
-        };
-        let submit = () => {
-            console.log(form);
-            form.post("/kontakt", form),
-                {
-                    preserveScroll: true,
-                    onSuccess: () => console.log("success"),
-                };
-        };
-        return { form, recaptcha };
-    },
-    components: { useReCaptcha, Layout, Field, Label, Input, TextArea },
-};
-</script>
 
-<!-- <script setup>
-    import { useForm } from "@inertiajs/vue3";
-import { useReCaptcha } from "vue-recaptcha-v3";
-import Layout from "@/Layouts/Layout.vue";
 
-import Field from "@/Components/Form/Field.vue";
-import Label from "@/Components/Form/Label.vue";
-import Input from "@/Components/Form/Input.vue";
-import TextArea from "@/Components/Form/TextArea.vue";
+const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
 
-import OldSchoolCard from "@/Components/OldSchoolCard.vue";
 
+let sendForm = ref(false)
 
 let form = useForm({
     name: null,
     email: null,
     phone: null,
     message: null,
-    captcha_token :null,
+    captcha_token: null,
 });
 
+const recaptcha = async () => {
+    // (optional) Wait until recaptcha has been loaded.
+    await recaptchaLoaded();
 
-const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
-    const recaptcha = async () => {
-      await recaptchaLoaded()
-      form.captcha_token = await executeRecaptcha('login')
-      submit();
-    }
+    // Execute reCAPTCHA with action "login".
+    form.captcha_token = await executeRecaptcha("login");
+    submit();
+    // Do stuff with the received token.
+};
 
-let submit = () =>{
-    console.log(form);
-    form.post('/kontakt',form),{
+const submit = () => {
+    form.post("/kontakt", {
         preserveScroll: true,
-        onSuccess: () => console.log('success'),
-      }
+        onSuccess: () => {
+            sendForm.value = !sendForm.value;
+            
+        },
+    });
+};
+defineProps({
+    form: Object,
+    errors: Object,
+    recaptcha_site_key: String,
+});
+
+defineEmits(['update:modelValue']);
+
+</script>
+
+<style scoped>
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 1s ease-in-out;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: rotate(0deg) scale(0);
+}
+.list-enter-to,
+.list-leave-from {
+    opacity: 1;
+    transform: rotate(360deg) scale(1);
 }
 
-
-</script> -->
+</style>
