@@ -17,7 +17,8 @@
                         >
                             <OldSchoolCard title="Kontakt" class="w-full">
                                 <div class="bg-bgLight-200 py-6">
-                                    <form @submit.prevent="submit"
+                                    <form
+                                        @submit.prevent="recaptcha"
                                         method="post"
                                     >
                                         <Field>
@@ -38,7 +39,6 @@
                                                 id="email"
                                                 name="email"
                                                 v-model="form.email"
-
                                                 required
                                             />
                                             <Label for="email" id="email"
@@ -51,7 +51,6 @@
                                                 id="tel"
                                                 name="tel"
                                                 v-model="form.phone"
-
                                             />
                                             <Label for="tel" id="tel"
                                                 >Telefon</Label
@@ -62,7 +61,6 @@
                                                 id="message"
                                                 name="message"
                                                 v-model="form.message"
-
                                                 required
                                             ></TextArea>
                                             <Label
@@ -72,6 +70,9 @@
                                                 >Wiadomość</Label
                                             >
                                         </Field>
+                                        <div class="text-red-600" v-if="errors.captcha_token">
+                {{ errors.captcha_token }}
+            </div>
 
                                         <Field
                                             ><PrimaryButton type="submit"
@@ -112,28 +113,11 @@
     </div>
 </template>
 
-<script setup>
-import Layout from "@/Layouts/Layout.vue";
-
-import { useForm } from "@inertiajs/vue3";
+<script>
 import { useReCaptcha } from "vue-recaptcha-v3";
+import { useForm } from "@inertiajs/vue3";
 
-
-let form = useForm({
-    name: null,
-    email: null,
-    phone: null,
-    message: null,
-    // captcha_token :null,
-
-});
-
-let submit = () =>{
-    form.post('/kontakt',form),{
-        preserveScroll: true,
-        onSuccess: () => console.log('success'),
-      }
-}
+import Layout from "@/Layouts/Layout.vue";
 
 import Field from "@/Components/Form/Field.vue";
 import Label from "@/Components/Form/Label.vue";
@@ -141,4 +125,81 @@ import Input from "@/Components/Form/Input.vue";
 import TextArea from "@/Components/Form/TextArea.vue";
 
 import OldSchoolCard from "@/Components/OldSchoolCard.vue";
+
+export default {
+    props: {
+        form: Object,
+        errors: Object,
+        recaptcha_site_key: String,
+    },
+    setup() {
+        const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
+        let form = useForm({
+            name: null,
+            email: null,
+            phone: null,
+            message: null,
+            captcha_token: null,
+        });
+        const recaptcha = async () => {
+            // (optional) Wait until recaptcha has been loaded.
+            await recaptchaLoaded();
+
+            // Execute reCAPTCHA with action "login".
+            form.captcha_token = await executeRecaptcha("login");
+            submit();
+            // Do stuff with the received token.
+        };
+        let submit = () => {
+            console.log(form);
+            form.post("/kontakt", form),
+                {
+                    preserveScroll: true,
+                    onSuccess: () => console.log("success"),
+                };
+        };
+        return { form, recaptcha };
+    },
+    components: { useReCaptcha, Layout, Field, Label, Input, TextArea },
+};
 </script>
+
+<!-- <script setup>
+    import { useForm } from "@inertiajs/vue3";
+import { useReCaptcha } from "vue-recaptcha-v3";
+import Layout from "@/Layouts/Layout.vue";
+
+import Field from "@/Components/Form/Field.vue";
+import Label from "@/Components/Form/Label.vue";
+import Input from "@/Components/Form/Input.vue";
+import TextArea from "@/Components/Form/TextArea.vue";
+
+import OldSchoolCard from "@/Components/OldSchoolCard.vue";
+
+
+let form = useForm({
+    name: null,
+    email: null,
+    phone: null,
+    message: null,
+    captcha_token :null,
+});
+
+
+const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
+    const recaptcha = async () => {
+      await recaptchaLoaded()
+      form.captcha_token = await executeRecaptcha('login')
+      submit();
+    }
+
+let submit = () =>{
+    console.log(form);
+    form.post('/kontakt',form),{
+        preserveScroll: true,
+        onSuccess: () => console.log('success'),
+      }
+}
+
+
+</script> -->
