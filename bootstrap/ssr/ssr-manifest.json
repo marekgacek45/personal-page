@@ -17,6 +17,16 @@
   ],
   "resources/js/Components/FooterSocialItem.vue": [
   ],
+  "resources/js/Components/Form/Error.vue": [
+  ],
+  "resources/js/Components/Form/Field.vue": [
+  ],
+  "resources/js/Components/Form/Input.vue": [
+  ],
+  "resources/js/Components/Form/Label.vue": [
+  ],
+  "resources/js/Components/Form/TextArea.vue": [
+  ],
   "resources/js/Components/Home/BlogSection.vue": [
   ],
   "resources/js/Components/Home/ServicesCard.vue": [
@@ -79,6 +89,8 @@
   ],
   "resources/js/Pages/Contact/Index.vue": [
   ],
+  "resources/js/Pages/Contact/Index.vue?vue&type=style&index=0&scoped=9ffd4d2e&lang.css": [
+  ],
   "resources/js/Pages/Dashboard.vue": [
   ],
   "resources/js/Pages/Error.vue": [
@@ -97,7 +109,7 @@
   ],
   "resources/js/Pages/Portfolio/Portfolio.vue": [
   ],
-  "resources/js/Pages/Portfolio/Portfolio.vue?vue&type=style&index=0&scoped=147bd7b5&lang.css": [
+  "resources/js/Pages/Portfolio/Portfolio.vue?vue&type=style&index=0&scoped=220f0d07&lang.css": [
   ],
   "resources/js/Pages/Profile/Edit.vue": [
   ],

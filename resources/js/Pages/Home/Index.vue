@@ -6,8 +6,10 @@
     <Layout>
         
         <Header
+           ></Header>
+        <!-- <Header
             :scrollingText="' Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •'"
-        ></Header>
+        ></Header> -->
         <main>
             <Services :comments="comments" />
             <Blog :posts="posts" />
@@ -24,6 +26,8 @@ import Header from "@/Pages/Home/Sections/Header.vue";
 import Services from "@/Pages/Home/Sections/Services.vue";
 import Blog from "@/Pages/Home/Sections/Blog.vue";
 import YouTube from "./Sections/YouTube.vue";
+
+
 
 const props = defineProps({
     posts: Array,

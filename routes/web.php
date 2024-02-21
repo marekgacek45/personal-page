@@ -46,5 +46,7 @@ Route::get('/',[PageController::class,'home'])->name('home');
 Route::get('/o_mnie',[PageController::class,'about'])->name('about');
 Route::get('/uslugi',[PageController::class,'services'])->name('services');
 Route::get('/portfolio',[PageController::class,'portfolio'])->name('portfolio');
+
 Route::get('/kontakt',[PageController::class,'contact'])->name('contact');
+// Route::post('/dzieki_za_wiadomosc',[FormController::class,'contact'])->name('contact.form');
 Route::post('/kontakt',[FormController::class,'contact'])->name('contact.form');

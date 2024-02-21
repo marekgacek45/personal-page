@@ -20,7 +20,7 @@
                                     <transition name="list" mode="out-in" appear>
                                     <form v-if="!sendForm"
                                         @submit.prevent="recaptcha"
-                                        method="post"
+                                      
                                     >
                                         <Field>
                                             <Input
@@ -100,12 +100,16 @@
                         <div
                             class="flex flex-col justify-center gap-6 lg:w-2/5 lg:mr-3 py-12"
                         >
-                            <h1 class="text-7xl font-heading">Kontakt</h1>
-                            <h2
-                                class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"
-                            >
-                               Potrzebujesz wyceny? Masz jakieś pytanie?Chcesz po prostu pogadać?
-                            </h2>
+                          
+                            <Vue3Marquee
+                pauseOnHover="true"
+                duration="10"
+                class=" overflow-hidden py-1"
+            >
+            <h1 class="text-7xl font-heading ml-3">
+                 Potrzebujesz wyceny?? Masz jakieś pytanie?? Chcesz po prostu pogadać??
+                        </h1>
+            </Vue3Marquee>
                             
                             <h2
                                 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"
@@ -140,7 +144,7 @@ import TextArea from "@/Components/Form/TextArea.vue";
 import Error from "@/Components/Form/Error.vue"
 import OldSchoolCard from "@/Components/OldSchoolCard.vue";
 
-
+import { Vue3Marquee } from "vue3-marquee";
 
 
 const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
@@ -171,10 +175,11 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             sendForm.value = !sendForm.value;
-            
+            console.log('udało się');
         },
     });
 };
+
 defineProps({
     form: Object,
     errors: Object,
