@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@vue/server-renderer": "^3.4.19",
+        "moment": "^2.30.1",
         "swiper": "^11.0.6",
         "vue-calendar-heatmap": "^0.8.4",
         "vue-github": "^0.12.0",

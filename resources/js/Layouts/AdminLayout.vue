@@ -1,27 +1,22 @@
 <template>
     <transition name="fade" mode="out-in" appear>
-       <div>
+        <div>
+            <SideBar />
+            <NavBar />
 
-           <SideBar/>
-           <NavBar/>
-           <slot></slot>
-           
-           
+            <main class="ml-[98px] xl:ml-[220px] mt-[72px] p-4 sm:p-6 ">
+                <slot> </slot>
+            </main>
         </div>
-        </transition>
-    </template>
+    </transition>
+</template>
 
 <script setup>
-
 import SideBar from "@/Shared/Admin/SideBar.vue";
 import NavBar from "@/Shared/Admin/NavBar.vue";
-
 </script>
 
-
 <style>
-
-
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 3s;
@@ -31,5 +26,4 @@ import NavBar from "@/Shared/Admin/NavBar.vue";
 .fade-leave-to {
     @apply opacity-0;
 }
-
 </style>

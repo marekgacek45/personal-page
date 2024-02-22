@@ -30,6 +30,7 @@ h2{
 /*SCROLLBAR*/
 ::-webkit-scrollbar {
 	width: 15px; /* szerokość paska przewijania */
+  
   }
   
   ::-webkit-scrollbar-track {
@@ -41,7 +42,7 @@ h2{
   }
   
   ::-webkit-scrollbar-thumb:hover {
-	@apply bg-white  transition-colors
+	@apply bg-bgDark-200  transition-colors
   }
 
 

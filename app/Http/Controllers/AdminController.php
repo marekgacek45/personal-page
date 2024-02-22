@@ -10,4 +10,5 @@ class AdminController extends Controller
     public function dashboard (){
         return Inertia('Admin/Dashboard');
     }
+    
 }

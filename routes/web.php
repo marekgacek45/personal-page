@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +53,8 @@ Route::post('/kontakt',[FormController::class,'contact'])->name('contact.form');
 
 //ADMIN
 Route::get('/admin',[AdminController::class,'dashboard'])->name('admin');
+
+
+
+//PROJECTS
+Route::get('/admin/projekty',[ProjectController::class,'index'])->name('admin.projects.index');
