@@ -3,7 +3,7 @@
        <div>
 
            <SideBar/>
-           
+           <NavBar/>
            <slot></slot>
            
            
@@ -13,7 +13,8 @@
 
 <script setup>
 
-import SideBar from "@/Shared/Admin/Sidebar.vue";
+import SideBar from "@/Shared/Admin/SideBar.vue";
+import NavBar from "@/Shared/Admin/NavBar.vue";
 
 </script>
 
