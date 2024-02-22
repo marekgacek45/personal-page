@@ -47,3 +47,4 @@ $projects= Project::with('categories')->get();
       return Inertia ('Contact/Index');
    }
 }
+
