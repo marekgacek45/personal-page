@@ -71,11 +71,17 @@ class ProjectController extends Controller
         $project->site_link = $request->site_link;
         $project->youtube_link = $request->youtube_link;
         
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $path = $file->storeAs('public/images', $filename);
+        //     $project->image = $path;
+        // }
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('public/images', $filename);
-            $project->image = $path;
+            $path = $file->storeAs('images', $filename, 'public');
+            $project->image = '/storage/' . $path;
         }
         
 
@@ -109,15 +115,54 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $project = Project::with(['categories', 'technologies'])->findOrFail($id);
+
+        
+
+        $categories = Category::all();
+        $technologies = Technology::all();
+
+        return Inertia('Admin/Projects/Edit', ['project'=>$project,'categories' => $categories, 'technologies' => $technologies]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'title' => 'required|min:3',
+            'post_text' => 'required|min:3',
+            'youtube_link' => 'required|min:3',
+            'site_link' => 'required|min:3',
+            'image' => 'image',
+            'category_id' => 'required|array',
+            'technology_id' => 'required|array',
+        ]);
+
+        // $project = Project::with(['categories', 'technologies'])->findOrFail($id);
+    
+        // $project->title = $request->title;
+        // $project->description = $request->post_text;
+        // $project->site_link = $request->site_link;
+        // $project->youtube_link = $request->youtube_link;
+        
+    
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $path = $file->storeAs('images', $filename, 'public');
+        //     $project->image = '/storage/' . $path;
+        // }
+    
+        // $project->save();
+
+    
+        // // Przypisz kategorie do projektu
+        // $project->categories()->sync($request->category_id);
+        // $project->technologies()->sync($request->technology_id);
+    
+        // return Inertia('Admin/Projects/Index');
     }
 
     /**

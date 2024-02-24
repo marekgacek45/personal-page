@@ -82,7 +82,7 @@ defineProps({
     categories: Object,
     form: Object,
     errors: Object,
-    
+    project:Object
 });
 import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 
@@ -108,10 +108,13 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post("/admin/projekty/dodaj", {
+    
+    console.log('submit method called')
+    console.log(form);
+    form.put("/admin/projekty/edytuj/" + project.id, {
+        
         preserveScroll: true,
         onSuccess: () => {
-          
             console.log('udało się');
         },
     });

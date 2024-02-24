@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -60,4 +61,15 @@ Route::get('/admin',[AdminController::class,'dashboard'])->name('admin');
 Route::get('/admin/projekty',[ProjectController::class,'index'])->name('admin.projects.index');
 Route::get('/admin/projekty/dodaj',[ProjectController::class,'create'])->name('admin.projects.create');
 Route::post('/admin/projekty/dodaj',[ProjectController::class,'store'])->name('admin.projects.store');
+Route::get('/admin/projekty/edytuj/{id}',[ProjectController::class,'edit'])->name('admin.projects.edit');
+Route::put('/admin/projekty/edytuj/{id}',[ProjectController::class,'update'])->name('admin.projects.update');
+
+//CATEGORY
+Route::get('/admin/kategorie',[CategoryController::class,'index'])->name('admin.category.index');
+Route::get('/admin/kategorie/dodaj',[CategoryController::class,'create'])->name('admin.category.create');
+Route::post('/admin/kategorie/dodaj',[CategoryController::class,'store'])->name('admin.category.store');
+Route::get('/admin/kategorie/edytuj/{id}',[CategoryController::class,'edit'])->name('admin.category.edit');
+Route::put('/admin/kategorie/edytuj/{id}',[CategoryController::class,'update'])->name('admin.category.update');
+// Route::delete('/admin/kategorie/usun/{id}',[CategoryController::class,'delete'])->name('admin.category.delete');
+
 
