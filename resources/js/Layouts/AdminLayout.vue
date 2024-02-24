@@ -4,7 +4,7 @@
             <SideBar />
             <NavBar />
 
-            <main class="ml-[98px] xl:ml-[220px] mt-[72px] p-4 sm:p-6 ">
+            <main class="ml-[98px] xl:ml-[220px] mt-[90px] p-4 sm:p-6  ">
                 <slot> </slot>
             </main>
         </div>

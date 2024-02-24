@@ -2,7 +2,7 @@
     <div>
         <Head title="Dodaj Projekt"> </Head>
         <AdminLayout>
-            <OldSchoolCard title="Dodaj Projekt" class="w-full">
+            <OldSchoolCard title="Dodaj Kategorię" class="w-1/2 mx-auto">
                 <div class="bg-bgLight-200 py-6">
                     <form
                         @submit.prevent="submit"
