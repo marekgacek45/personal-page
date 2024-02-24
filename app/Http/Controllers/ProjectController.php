@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Log;
+
+use Inertia\Inertia;
 use App\Models\Project;
 use App\Models\Category;
+
+use App\Models\Technology;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -13,15 +18,17 @@ class ProjectController extends Controller
      */
     public function index()
 
-    
+
     {
 
-        $categories= Category::all();
-$projects= Project::with('categories')->get();
+
+        $projects = Project::with('categories')->get();
+        // $projects = Project::all();
 
 
 
-         return Inertia('Admin/Projects',['categories'=>$categories,'projects'=>$projects]);
+        return Inertia('Admin/Projects/Index', ['projects' => $projects]);
+        // return Inertia('Admin/Projects/Index', ['projects' => $projects]);
     }
 
     /**
@@ -29,7 +36,15 @@ $projects= Project::with('categories')->get();
      */
     public function create()
     {
-        //
+
+        $categories = Category::all();
+        $technologies = Technology::all();
+
+
+       
+
+        return Inertia('Admin/Projects/Create', ['categories' => $categories, 'technologies' => $technologies]);
+        // return Inertia('Admin/Projects/Create',['categories' => $categories]);
     }
 
     /**
@@ -37,7 +52,48 @@ $projects= Project::with('categories')->get();
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|min:3',
+            'post_text' => 'required|min:3',
+            'youtube_link' => 'required|min:3',
+            'site_link' => 'required|min:3',
+            'image' => 'image',
+            'category_id' => 'required|array',
+            'technology_id' => 'required|array',
+          
+        ]);
+
+       
+    
+        $project = new Project;
+        $project->title = $request->title;
+        $project->description = $request->post_text;
+        $project->site_link = $request->site_link;
+        $project->youtube_link = $request->youtube_link;
+        
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('public/images', $filename);
+            $project->image = $path;
+        }
+        
+
+       
+
+        $project->save();
+
+       
+        
+    
+        // Przypisz kategorie do projektu
+        $project->categories()->sync($request->category_id);
+        $project->technologies()->sync($request->technology_id);
+      
+
+       
+    
+        return Inertia('Admin/Projects/Index');
     }
 
     /**

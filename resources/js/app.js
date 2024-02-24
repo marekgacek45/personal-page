@@ -6,6 +6,7 @@ import { createInertiaApp,Link,Head } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { VueReCaptcha, useReCaptcha } from 'vue-recaptcha-v3'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 import PrimaryButton from '@/Components/Base/PrimaryButton.vue'
 
@@ -22,6 +23,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(CKEditor)
             .component("Link",Link,)
             .component("Head",Head)
             .use(VueReCaptcha, { siteKey: captcheKey } )

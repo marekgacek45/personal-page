@@ -58,3 +58,6 @@ Route::get('/admin',[AdminController::class,'dashboard'])->name('admin');
 
 //PROJECTS
 Route::get('/admin/projekty',[ProjectController::class,'index'])->name('admin.projects.index');
+Route::get('/admin/projekty/dodaj',[ProjectController::class,'create'])->name('admin.projects.create');
+Route::post('/admin/projekty/dodaj',[ProjectController::class,'store'])->name('admin.projects.store');
+
