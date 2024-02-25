@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Head title="Kategorie"> </Head>
+        <Head title="Posty"> </Head>
         <AdminLayout>
             <div class="relative overflow-x-auto ">
                 <table
@@ -9,7 +9,7 @@
                     <caption
                         class="p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase"
                     >
-                        Kategorie
+                        Posty
                     </caption>
                     <thead class="text-sm text-fontDark uppercase">
                         <tr>
@@ -19,7 +19,7 @@
                             >
                                 #
                             </th>
-                            <th scope="col" class="px-6 py-3">Nazwa</th>
+                            <th scope="col" class="px-6 py-3">Tytuł</th>
 
                             <th
                                 scope="col"
@@ -33,8 +33,8 @@
                     </thead>
                     <tbody>
                         <tr
-                            v-for="(category, index) in categories"
-                            :key="category.id"
+                            v-for="(post, index) in posts"
+                            :key="post.id"
                             class="bg-white dark:bg-gray-800"
                         >
                             <th
@@ -46,15 +46,15 @@
                             <td
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                                {{ category.name }}
+                                {{ post.title }}
                             </td>
 
                             <td class="px-6 py-4 hidden lg:table-cell">
-                                {{ formatDate(category.created_at) }}
+                                {{ formatDate(post.created_at) }}
                             </td>
                             <td class="px-6 py-4 flex gap-4  items-center">
                                 <Link
-                                :href="route('admin.category.edit', category.id)"
+                                :href="route('admin.post.edit', post.id)"
                                    
                                 >
                                 <img src="/assets/icons/admin/edit.svg" alt="" class="w-6 hover:animate-shake">
@@ -83,8 +83,8 @@
                     method="DELETE"
                     :href="
                         route(
-                            'admin.category.delete',
-                            category.id
+                            'admin.post.delete',
+                            post.id
                         )
                     "
                    
@@ -107,7 +107,7 @@
             <div>
 
                 
-                <Link  :href="route('admin.category.create')" class="absolute bottom-6"
+                <Link  :href="route('admin.post.create')" class="absolute bottom-6"
                 ><img src="/assets/icons/admin/plus.svg" alt="" class="w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"></Link
                 >
             </div>
@@ -125,8 +125,7 @@ import Modal from "@/Components/Base/Modal.vue";
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 
 defineProps({
-    projects: Object,
-    categories: Object,
+    posts: Object,
 });
 
 import { ref } from 'vue';
@@ -136,9 +135,9 @@ import { ref } from 'vue';
 let isModalOpen = ref(false);
 
 
-const openModal = (category) => {
+const openModal = (post) => {
     isModalOpen.value = true;
-    category.value = category;
+    post.value = post;
 }
 
 const closeModal = () => {

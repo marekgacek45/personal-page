@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 
@@ -72,4 +73,15 @@ Route::prefix('admin/kategorie')->name('admin.category.')->group(function () {
     Route::get('/edytuj/{category}', [CategoryController::class,'edit'])->name('edit');
     Route::put('/edytuj/{category}', [CategoryController::class,'update'])->name('update');
     Route::delete('/usun/{category}', [CategoryController::class,'destroy'])->name('delete');
+});
+
+
+//POST
+Route::prefix('admin/posty')->name('admin.post.')->group(function () {
+    Route::get('/', [PostController::class,'index'])->name('index');
+    Route::get('/dodaj', [PostController::class,'create'])->name('create');
+    Route::post('/dodaj', [PostController::class,'store'])->name('store');
+    Route::get('/edytuj/{post}', [PostController::class,'edit'])->name('edit');
+    Route::put('/edytuj/{post}', [PostController::class,'update'])->name('update');
+    Route::delete('/usun/{post}', [PostController::class,'destroy'])->name('delete');
 });
