@@ -64,12 +64,16 @@ const props = defineProps({
     post:Object
 });
 
-import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
+import {BalloonEditor} from "@ckeditor/ckeditor5-build-balloon-block";
 
 const editor = ref(BalloonEditor);
+// const editor = ref(SimpleUploadAdapter);
 
 const editorData = ref("<p>Your Post Content</p>");
-const editorConfig = ref({});
+const editorConfig = ref(
+   
+    
+);
 
 const form = useForm({
     title: props.post.title,

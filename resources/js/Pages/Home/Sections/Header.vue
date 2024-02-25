@@ -27,12 +27,18 @@
             </div>
             <!-- IMAGE---->
             <div
-                class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 xl:p-10 2xl:p-20"
+                class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4  2xl:p-10"
             >
                 <img
-                    src="/assets/images/header.png "
+                    src="/assets/images/home/header--big.webp"
                     alt=""
-                    class="h-full object-cover box-shadow"
+                    class="hidden md:block h-full object-cover box-shadow"
+                    loading="lazy"
+                />
+                <img
+                    src="/assets/images/home/header--small.webp"
+                    alt=""
+                    class="md:hidden h-full object-cover box-shadow"
                     loading="lazy"
                 />
             </div>

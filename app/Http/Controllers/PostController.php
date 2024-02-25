@@ -16,9 +16,11 @@ class PostController extends Controller
         return Inertia('Admin/Posts/Index', ['posts' => $posts]);
     }
 
+
+
     public function create()
     {
-        return Inertia('Admin/Posts/Create');
+        return view('admin.post.create');
     }
 
     public function store(PostRequest $request)

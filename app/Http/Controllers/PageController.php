@@ -15,10 +15,10 @@ class PageController extends Controller
    public function home(){
 
       $comments = Comment::all();
-      $posts = Post::select('id','thumbnail','title')->orderBy('id','desc')->limit(4)->get();
+      // $posts = Post::select('id','thumbnail','title')->orderBy('id','desc')->limit(4)->get();
 
 
-    return Inertia('Home/Index',['comments' => $comments,'posts'=>$posts]);
+    return Inertia('Home/Index',['comments' => $comments]);
    }
 
    public function about(){

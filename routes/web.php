@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CkeditorController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +46,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-
 //OWN ROUTES
 Route::get('/',[PageController::class,'home'])->name('home');
 Route::get('/o_mnie',[PageController::class,'about'])->name('about');
@@ -53,17 +54,13 @@ Route::get('/portfolio',[PageController::class,'portfolio'])->name('portfolio');
 Route::get('/kontakt',[PageController::class,'contact'])->name('contact');
 Route::post('/kontakt',[FormController::class,'contact'])->name('contact.form');
 
+
 //ADMIN
 Route::get('/admin',[AdminController::class,'dashboard'])->name('admin');
 
 
 
-//PROJECTS
-Route::get('/admin/projekty',[ProjectController::class,'index'])->name('admin.projects.index');
-Route::get('/admin/projekty/dodaj',[ProjectController::class,'create'])->name('admin.projects.create');
-Route::post('/admin/projekty/dodaj',[ProjectController::class,'store'])->name('admin.projects.store');
-Route::get('/admin/projekty/edytuj/{id}',[ProjectController::class,'edit'])->name('admin.projects.edit');
-Route::put('/admin/projekty/edytuj/{id}',[ProjectController::class,'update'])->name('admin.projects.update');
+
 
 //CATEGORY
 Route::prefix('admin/kategorie')->name('admin.category.')->group(function () {
@@ -74,7 +71,15 @@ Route::prefix('admin/kategorie')->name('admin.category.')->group(function () {
     Route::put('/edytuj/{category}', [CategoryController::class,'update'])->name('update');
     Route::delete('/usun/{category}', [CategoryController::class,'destroy'])->name('delete');
 });
-
+//Comments
+Route::prefix('admin/komentarze')->name('admin.comment.')->group(function () {
+    Route::get('/', [CommentController::class,'index'])->name('index');
+    Route::get('/dodaj', [CommentController::class,'create'])->name('create');
+    Route::post('/dodaj', [CommentController::class,'store'])->name('store');
+    Route::get('/edytuj/{comment}', [CommentController::class,'edit'])->name('edit');
+    Route::put('/edytuj/{comment}', [CommentController::class,'update'])->name('update');
+    Route::delete('/usun/{comment}', [CommentController::class,'destroy'])->name('delete');
+});
 
 //POST
 Route::prefix('admin/posty')->name('admin.post.')->group(function () {
@@ -85,3 +90,25 @@ Route::prefix('admin/posty')->name('admin.post.')->group(function () {
     Route::put('/edytuj/{post}', [PostController::class,'update'])->name('update');
     Route::delete('/usun/{post}', [PostController::class,'destroy'])->name('delete');
 });
+
+
+//PROJECTS
+Route::get('/admin/projekty',[ProjectController::class,'index'])->name('admin.projects.index');
+Route::get('/admin/projekty/dodaj',[ProjectController::class,'create'])->name('admin.projects.create');
+Route::post('/admin/projekty/dodaj',[ProjectController::class,'store'])->name('admin.projects.store');
+Route::get('/admin/projekty/edytuj/{id}',[ProjectController::class,'edit'])->name('admin.projects.edit');
+Route::put('/admin/projekty/edytuj/{id}',[ProjectController::class,'update'])->name('admin.projects.update');
+
+//POST
+Route::prefix('admin/posty')->name('admin.post.')->group(function () {
+    Route::get('/', [PostController::class,'index'])->name('index');
+    Route::get('/dodaj', [PostController::class,'create'])->name('create');
+    Route::post('/dodaj', [PostController::class,'store'])->name('store');
+    Route::get('/edytuj/{post}', [PostController::class,'edit'])->name('edit');
+    Route::put('/edytuj/{post}', [PostController::class,'update'])->name('update');
+    Route::delete('/usun/{post}', [PostController::class,'destroy'])->name('delete');
+});
+
+
+
+
