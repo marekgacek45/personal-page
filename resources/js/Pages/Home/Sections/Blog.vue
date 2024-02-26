@@ -8,11 +8,18 @@
             </h2>
         </div>
 <!--BLOG-->
-       <div class="flex flex-col justify-center items-center  gap-12 md:gap-16">
+       <!-- <div class="flex flex-col justify-center items-center  gap-12 md:gap-16"> -->
+       <div class="flex flex-col justify-center items-center  gap-12 md:gap-16 px-4 sm:px-0">
 
-           <BlogSection :posts="posts"/>
 
-           <primary-button aria-label="Zobacz wszytkie wpisy">Zobacz wszytkie wpisy</primary-button>
+<img src="/assets/images/home/blog-coming-soon.webp" alt="blog nadejdzie już niedługo" class="w-[500px]">
+<h2 class=" text-2xl xs:text-3xl lg:text-4xl xl:text-4xl  uppercase font-heading text-ownTurquise-400">
+                Jeszcze momencik i będzie gotowe
+            </h2>
+
+           <!-- <BlogSection :posts="posts"/>
+
+           <primary-button aria-label="Zobacz wszytkie wpisy">Zobacz wszytkie wpisy</primary-button> -->
         </div>
 
 

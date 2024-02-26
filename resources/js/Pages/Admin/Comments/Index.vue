@@ -52,7 +52,7 @@
                             <td class="px-6 py-4 hidden lg:table-cell">
                                 {{ formatDate(comment.created_at) }}
                             </td>
-                            <!-- <td class="px-6 py-4 flex gap-4  items-center">
+                            <td class="px-6 py-4 flex gap-4  items-center">
                                 <Link
                                 :href="route('admin.comment.edit', comment.id)"
                                    
@@ -98,7 +98,7 @@
     </v-if>
 
                            
-                            </td> -->
+                            </td>
                         </tr>
                     </tbody>
                 </table>

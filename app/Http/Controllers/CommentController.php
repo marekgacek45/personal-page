@@ -6,6 +6,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class CommentController extends Controller
 {
@@ -24,56 +25,72 @@ class CommentController extends Controller
     }
 
   
-    public function store(CommentRequest $request)
+    public function store(Request $request)
     {
 
 
-        $data = $request->validated();
+       
 
-        $comment = Comment::create($data);
 
-       if ($request->hasFile('logo')) {
-        $file = $request->file('logo');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->storeAs('images', $filename, 'public');
-        $comment->logo = '/storage/comments/logo/' . $path;
+        $comment = new Comment;
+        $comment->link = $request->link;
+        $comment->body = $request->body;
+        
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('images', $filename, 'public');
+            $comment->logo = '/storage/' . $path;
+        }
+
         $comment->save();
-    }
+        
 
         return Redirect::route('admin.comment.index');
+  
+   
 
-        
+   
+
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Comment $comment)
     {
-        //
+        return Inertia('Admin/Comments/Edit', ['comment' => $comment]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,Comment $comment)
     {
-        //
+
+        $comment->link = $request->link;
+        $comment->body = $request->body;
+    
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('images', $filename, 'public');
+            $comment->logo = '/storage/' . $path;
+        }
+    
+        $comment->save();
+
+       
+       
+
+        return Redirect::route('admin.comment.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+ 
+    public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
     }
 }

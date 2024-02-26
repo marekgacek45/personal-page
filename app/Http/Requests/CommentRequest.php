@@ -24,7 +24,7 @@ class CommentRequest extends FormRequest
         return [
             'link' => 'required|string|min:3|max:150|url',
         'body' => 'required|string|min:3|max:150|',
-        'logo' => 'required|image|mimes:jpeg,png,jpg,webp,avif|max:2048',
+        'logo' => '|image|mimes:jpeg,png,jpg,webp,avif|max:2048',
             
 
         ];

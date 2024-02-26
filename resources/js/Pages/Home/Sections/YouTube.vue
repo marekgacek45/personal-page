@@ -13,7 +13,7 @@
             >
             Zapraszam Cię na mój kanał na YouTube, gdzie możesz zobaczyć jak pracuję nad różnymi projektami, testuję nowe technologie i narzędzia, oraz jak dzielę się swoimi spostrzeżeniami i doświadczeniami. 
             </h3>
-            <PrimaryButton class="bg-ownYellow-400 hover:bg-ownYellow-600" aria-label="Sprawdź">Sprawdź</PrimaryButton>
+            <PrimaryButton class="bg-ownYellow-400 hover:bg-ownYellow-600" aria-label="youTube"><a href="https://www.youtube.com/@marekgacekdev" target="_blank">Sprawdź</a></PrimaryButton>
         </div>
 
         <!--RIGHT-->
@@ -23,10 +23,23 @@
                     autoplay
                     loop
                     muted
-                    poster="/assets/images/header.png"
-                    class="w-full object-cover lg:min-h-[690px]"
+                    poster="/assets/images/poster.webp"
+                    class="w-full object-cover lg:min-h-[690px] hidden md:block"
                 >
-                    <source src="/assets/movies/youTube.mp4" type="video/mp4" />
+              
+                    <source src="/assets/movies/yt.mp4" type="video/mp4"/>
+
+                    Twoja przeglądarka nie obsługuje odtwarzacza wideo.
+                </video>
+                <video
+                    autoplay
+                    loop
+                    muted
+                    poster="/assets/images/poster.webp"
+                    class="w-full object-cover lg:min-h-[690px] md:hidden"
+                >
+              
+                    <source src="/assets/movies/yt-small.mp4" type="video/mp4"/>
 
                     Twoja przeglądarka nie obsługuje odtwarzacza wideo.
                 </video>

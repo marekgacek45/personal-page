@@ -1,0 +1,100 @@
+<template>
+    <div>
+        <Head title="Dodaj Projekt"> </Head>
+        <AdminLayout>
+            <OldSchoolCard title="Dodaj Kategorię" class="w-1/2 mx-auto">
+                <div class="bg-bgLight-200 py-6">
+                    <form
+                        @submit.prevent="submit"
+                        enctype="multipart/form-data"
+                    >
+                      
+                            <Field>
+                                <Input
+                                    type="text"
+                                    id="link"
+                                    name="link"
+                                    v-model="form.link"
+                                    required
+                                />
+                                <Label for="link" id="link">Link</Label>
+
+                                <Error v-if="form.errors.link">{{
+        form.errors.link
+    }}</Error>
+                            </Field>
+                            <Field>
+                                <input type="file" @change="fileChange" />
+                                <Error v-if="form.errors.logo">{{
+        form.errors.logo
+    }}</Error>
+                            </Field>
+                            <Field>
+                                <TextArea
+                                    id="body"
+                                    name="body"
+                                    v-model="form.body"
+                                    required
+                                ></TextArea>
+                                <Label for="body" id="body">Treść</Label>
+
+                                <Error v-if="form.errors.body">{{
+        form.errors.body
+    }}</Error>
+                            </Field>
+                        
+
+                        <Field
+                            ><PrimaryButton type="submit"
+                                >Dodaj</PrimaryButton
+                            ></Field
+                        >
+                    </form>
+                </div>
+            </OldSchoolCard>
+        </AdminLayout>
+    </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
+import Field from "@/Components/Form/Field.vue";
+import Label from "@/Components/Form/Label.vue";
+import Input from "@/Components/Form/Input.vue";
+import Error from "@/Components/Form/Error.vue";
+import TextArea from '@/Components/Form/TextArea.vue'
+import OldSchoolCard from "@/Components/OldSchoolCard.vue";
+
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
+import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
+
+const props = defineProps({
+    form: Object,
+    errors: Object,
+    comment:Object
+});
+
+
+
+const form = useForm({
+    link:props.comment.link ,
+    logo:props.comment.logo,
+    body:props.comment.body
+});
+
+const fileChange = (e) => {
+    form.logo = e.target.files[0];
+};
+
+const submit = () => {
+   
+    form.put(route("admin.comment.update",props.comment.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+          
+        },
+    });
+};
+</script>
