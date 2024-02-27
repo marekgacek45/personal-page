@@ -13,7 +13,7 @@
             >
             Zapraszam Cię na mój kanał na YouTube, gdzie możesz zobaczyć jak pracuję nad różnymi projektami, testuję nowe technologie i narzędzia, oraz jak dzielę się swoimi spostrzeżeniami i doświadczeniami. 
             </h3>
-            <PrimaryButton class="bg-ownYellow-400 hover:bg-ownYellow-600" aria-label="youTube"><a href="https://www.youtube.com/@marekgacekdev" target="_blank">Sprawdź</a></PrimaryButton>
+            <a href="https://www.youtube.com/@marekgacekdev" target="_blank"><PrimaryButton class="bg-ownYellow-400 hover:bg-ownYellow-600" aria-label="youTube">Sprawdź</PrimaryButton></a>
         </div>
 
         <!--RIGHT-->

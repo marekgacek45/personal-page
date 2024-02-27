@@ -19,7 +19,7 @@
            <SidebarItem :href="'/admin/projekty'"><img src="/assets/icons/admin/project.svg" alt="" width="32"> <span class="hidden xl:inline-block">Projekty</span></SidebarItem>
            <SidebarItem :href="route('admin.comment.index')"><img src="/assets/icons/admin/comment.svg" alt="" width="32"> <span class="hidden xl:inline-block">Komentarze</span></SidebarItem>
            <SidebarItem :href="route('admin.category.index')"><img src="/assets/icons/admin/category.svg" alt="" width="32"> <span class="hidden xl:inline-block">Kategorie</span></SidebarItem>
-           <SidebarItem><img src="/assets/icons/admin/technology.svg" alt="" width="32"> <span class="hidden xl:inline-block">Technologie</span></SidebarItem>
+           <SidebarItem :href="route('admin.technology.index')"><img src="/assets/icons/admin/technology.svg" alt="" width="32"> <span class="hidden xl:inline-block">Technologie</span></SidebarItem>
            <SidebarItem><img src="/assets/icons/admin/logout.svg" alt="" width="32" ><span class="hidden xl:inline-block">Wyloguj</span></SidebarItem>
                
               

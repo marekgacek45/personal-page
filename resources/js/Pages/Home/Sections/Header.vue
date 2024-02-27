@@ -22,7 +22,7 @@
                     organizacji
                 </h2>
                 <div>
-                    <primary-button aria-label="Portfolio"><Link :href="route('portfolio')">Portfolio</Link></primary-button>
+                    <Link :href="route('portfolio')"><primary-button aria-label="Portfolio">Portfolio</primary-button></Link>
                 </div>
             </div>
             <!-- IMAGE---->

@@ -7,11 +7,12 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CkeditorController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TechnologyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,16 +48,17 @@ require __DIR__.'/auth.php';
 
 
 //OWN ROUTES
+Route::get('/admin',[PageController::class,'admin'])->name('admin');
 Route::get('/',[PageController::class,'home'])->name('home');
 Route::get('/o_mnie',[PageController::class,'about'])->name('about');
 Route::get('/uslugi',[PageController::class,'services'])->name('services');
 Route::get('/portfolio',[PageController::class,'portfolio'])->name('portfolio');
 Route::get('/kontakt',[PageController::class,'contact'])->name('contact');
+Route::get('/blog',[PageController::class,'blog'])->name('blog');
 Route::post('/kontakt',[FormController::class,'contact'])->name('contact.form');
 
 
-//ADMIN
-Route::get('/admin',[AdminController::class,'dashboard'])->name('admin');
+
 
 
 
@@ -71,7 +73,7 @@ Route::prefix('admin/kategorie')->name('admin.category.')->group(function () {
     Route::put('/edytuj/{category}', [CategoryController::class,'update'])->name('update');
     Route::delete('/usun/{category}', [CategoryController::class,'destroy'])->name('delete');
 });
-//Comments
+//COMMENTS
 Route::prefix('admin/komentarze')->name('admin.comment.')->group(function () {
     Route::get('/', [CommentController::class,'index'])->name('index');
     Route::get('/dodaj', [CommentController::class,'create'])->name('create');
@@ -79,6 +81,15 @@ Route::prefix('admin/komentarze')->name('admin.comment.')->group(function () {
     Route::get('/edytuj/{comment}', [CommentController::class,'edit'])->name('edit');
     Route::put('/edytuj/{comment}', [CommentController::class,'update'])->name('update');
     Route::delete('/usun/{comment}', [CommentController::class,'destroy'])->name('delete');
+});
+//TECHNOLOGY
+Route::prefix('admin/technologie')->name('admin.technology.')->group(function () {
+    Route::get('/', [TechnologyController::class,'index'])->name('index');
+    Route::get('/dodaj', [TechnologyController::class,'create'])->name('create');
+    Route::post('/dodaj', [TechnologyController::class,'store'])->name('store');
+    Route::get('/edytuj/{technology}', [TechnologyController::class,'edit'])->name('edit');
+    Route::put('/edytuj/{technology}', [TechnologyController::class,'update'])->name('update');
+    Route::delete('/usun/{technology}', [TechnologyController::class,'destroy'])->name('delete');
 });
 
 //POST
@@ -99,15 +110,6 @@ Route::post('/admin/projekty/dodaj',[ProjectController::class,'store'])->name('a
 Route::get('/admin/projekty/edytuj/{id}',[ProjectController::class,'edit'])->name('admin.projects.edit');
 Route::put('/admin/projekty/edytuj/{id}',[ProjectController::class,'update'])->name('admin.projects.update');
 
-//POST
-Route::prefix('admin/posty')->name('admin.post.')->group(function () {
-    Route::get('/', [PostController::class,'index'])->name('index');
-    Route::get('/dodaj', [PostController::class,'create'])->name('create');
-    Route::post('/dodaj', [PostController::class,'store'])->name('store');
-    Route::get('/edytuj/{post}', [PostController::class,'edit'])->name('edit');
-    Route::put('/edytuj/{post}', [PostController::class,'update'])->name('update');
-    Route::delete('/usun/{post}', [PostController::class,'destroy'])->name('delete');
-});
 
 
 

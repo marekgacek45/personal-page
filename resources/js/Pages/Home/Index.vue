@@ -1,15 +1,13 @@
 <template>
-    <Head title="Strona Główna">
-        <meta name="description" content="opis" />
+    <Head title="Coś więcej niż strony internetowe">
+        <meta name="description" content="Nie trać czasu na nudne i sztampowe strony internetowe. Zaufaj mi i zobacz, jak zrobię  z Twojej strony prawdziwą petardę. Oferuję nie tylko webdesign, ale też marketing internetowy na kosmicznym poziomie. Sprawdź i daj się zaskoczyć!" />
         
     </Head>
     <Layout>
         
         <Header
            ></Header>
-        <!-- <Header
-            :scrollingText="' Strony Internetowe • Design • Social Media • Copywriting • Fotografia • Artykuły Marketingowe • Wizytówki Google •'"
-        ></Header> -->
+        
         <main>
             <Services :comments="comments" />
             <Blog :posts="posts" />

@@ -46,5 +46,12 @@ $projects= Project::with('categories')->get();
    public function contact(){
       return Inertia ('Contact/Index');
    }
+   public function blog(){
+      return Inertia ('Blog/Index');
+   }
+
+   public function admin (){
+      return Inertia('Admin/Dashboard');
+  }
 }
 

@@ -39,7 +39,7 @@ class CommentController extends Controller
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('images', $filename, 'public');
+            $path = $file->storeAs('images/comments', $filename, 'public');
             $comment->logo = '/storage/' . $path;
         }
 
@@ -76,7 +76,7 @@ class CommentController extends Controller
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('images', $filename, 'public');
+            $path = $file->storeAs('images/comments', $filename, 'public');
             $comment->logo = '/storage/' . $path;
         }
     

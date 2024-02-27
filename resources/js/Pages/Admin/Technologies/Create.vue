@@ -1,40 +1,36 @@
 <template>
     <div>
-        <Head title="Dodaj Post"> </Head>
+        <Head title="Dodaj Technologię"> </Head>
         <AdminLayout>
-            <OldSchoolCard title="Dodaj Post" class="w-full mx-auto">
+            <OldSchoolCard title="Dodaj Technologię" class="w-1/2 mx-auto">
                 <div class="bg-bgLight-200 py-6">
                     <form
                         @submit.prevent="submit"
                         enctype="multipart/form-data"
                     >
-                        <div class="flex gap-12 mx-12">
+                      
                             <Field>
                                 <Input
                                     type="text"
-                                    id="title"
-                                    name="title"
-                                    v-model="form.title"
+                                    id="name"
+                                    name="name"
+                                    v-model="form.name"
                                     required
                                 />
-                                <Label for="title" id="title">Tytuł</Label>
+                                <Label for="name" id="name">Nazwa</Label>
 
-                                <Error v-if="form.errors.title">{{
-                                    form.errors.title
-                                }}</Error>
+                                <Error v-if="form.errors.name">{{
+        form.errors.link
+    }}</Error>
                             </Field>
-
                             <Field>
-                                <!-- <ckeditor
-                            :editor="editor"
-                            v-model="form.body"
-                            :config="editorConfig"
-                        ></ckeditor> -->
+                                <input type="file" @change="fileChange" />
+                                <Error v-if="form.errors.logo">{{
+        form.errors.logo
+    }}</Error>
                             </Field>
-                        </div>
-                        <QuillEditor theme="snow" toolbar="full" v-model:content="form.body" contentType="html" />
-
-                        <!-- <tiptap v-model="form.body" /> -->
+                         
+                        
 
                         <Field
                             ><PrimaryButton type="submit"
@@ -55,42 +51,33 @@ import Field from "@/Components/Form/Field.vue";
 import Label from "@/Components/Form/Label.vue";
 import Input from "@/Components/Form/Input.vue";
 import Error from "@/Components/Form/Error.vue";
+import TextArea from '@/Components/Form/TextArea.vue'
 import OldSchoolCard from "@/Components/OldSchoolCard.vue";
 
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 
-// import Tiptap from "@/Components/Tiptap.vue";
-
 defineProps({
     form: Object,
     errors: Object,
 });
 
-// import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
-
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-
-// const editor = ref(BalloonEditor);
-
-// const editorData = ref("<p>Your Post Content</p>");
-// const editorConfig = ref({
-
-// });
+const fileChange = (e) => {
+    form.logo = e.target.files[0];
+};
 
 const form = useForm({
-    title: "",
-    body: "",
+    name: "",
+    logo:null,
 });
 
 const submit = () => {
-    form.post(route("admin.post.store"), {
+   
+    form.post(route("admin.technology.store"), {
         preserveScroll: true,
         onSuccess: () => {
-            console.log("udało się");
+          
         },
     });
 };
