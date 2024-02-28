@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Head title="Kontakt">
-            <meta name="description" content="opis" />
+        <Head title="Skontaktuje się ze mną | Marek Gacek">
+            <meta name="description" content="Skontaktuj się ze mną i zacznij tworzyć online bez granic. Odkryj, jak moje umiejętności w kodowaniu i marketingu mogą pomóc Twojemu biznesowi." />
         </Head>
 
         <Layout>

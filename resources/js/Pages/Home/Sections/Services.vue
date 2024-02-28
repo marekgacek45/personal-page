@@ -14,7 +14,7 @@
             >
                 <div class="space-y-6 lg:space-y-4">
                     <h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl  uppercase font-heading text-ownYellow-400">Unikalność to klucz!</h2>
-                    <h3 class="font-textArch text-3xl ">
+                    <h3 class="font-text text-3xl ">
                         Odrzuć standardy - wybierz projekt stworzony specjalnie
                         dla Ciebie.
                     </h3>

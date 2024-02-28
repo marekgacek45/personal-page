@@ -1,6 +1,6 @@
 <template>
-    <Head title="O mnie">
-        <meta name="description" content="opis" />
+    <Head title="Dowiedz się co nieco o mnie | Marek Gacek">
+        <meta name="description" content="Zajrzyj i poznaj programistę, który łączy kodowanie i marketing w niebanalny sposób. Wejdź i zobacz, jak moja praca wyróżnia się w świecie online" />
     </Head>
     <Layout>
         
@@ -9,7 +9,7 @@
             
             >
 
-             <FirstSection :techs="techs"/>
+             <FirstSection :technologies="technologies"/>
             <SecondSection/> 
             
         </main>
@@ -23,8 +23,8 @@ import Layout from "@/Layouts/Layout.vue";
 import FirstSection from "./FirstSection.vue";
 import SecondSection from './SecondSection.vue'
 
-defineProps({
-    techs:Array
+const props = defineProps({
+    technologies:Array
 })
 
 

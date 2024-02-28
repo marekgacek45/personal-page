@@ -1,6 +1,6 @@
 <template>
-    <Head title="Portfolio">
-        <meta name="description" content="opis" />
+    <Head title="Zobacz moje projekty | Portfolio | Marek Gacek">
+        <meta name="description" content="Zajrzyj do mojego portfolio i zobacz, jak zabawa kodem i designem tworzy niepowtarzalne projekty. Odkryj, jak moja kreatywność ożywia cyfrowy świat." />
         
     </Head>
     <Layout>

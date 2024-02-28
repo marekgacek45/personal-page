@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tech;
+use Inertia\Inertia;
 use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Category;
+use App\Models\Technology;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class PageController extends Controller
 {
@@ -23,10 +24,12 @@ class PageController extends Controller
 
    public function about(){
 
-$techs = Tech::all();
+$technologies = Technology::all();
 
 
-      return Inertia('About/Index',['techs'=>$techs]);
+
+
+      return Inertia('About/Index',['technologies'=>$technologies]);
    }
 
    public function services(){
