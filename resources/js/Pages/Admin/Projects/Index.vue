@@ -79,7 +79,7 @@
                             </td>
                             <td class="px-6 py-4 flex gap-4">
                              
-                                <Link :href="route('admin.projects.edit', { id: project.id })" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                <Link :href="route('admin.project.edit', { id: project.id })" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
       Edytuj
     </Link>
                                 <a

@@ -47,7 +47,7 @@
                     @click="openModal(project)"
                 >
                     <img
-                        :src="project.thumbnail"
+                        :src="project.image"
                         alt="miniaturka projektu"
                         class="max-h-[300px] w-full h-full object-cover"
                     />

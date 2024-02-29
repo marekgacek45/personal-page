@@ -46,11 +46,10 @@
                                
 
 <input type="file" @change="fileChange" />
-                        <ckeditor
-                            :editor="editor"
-                            v-model="form.post_text"
-                            :config="editorConfig"
-                        ></ckeditor>
+                     
+
+<QuillEditor theme="snow" toolbar="full" v-model:content="form.description" contentType="html" />
+
 
                         <Field
                                             ><PrimaryButton type="submit" 
@@ -64,59 +63,52 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
+
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import '@vueup/vue-quill/dist/vue-quill.bubble.css';
+
 import Field from "@/Components/Form/Field.vue";
 import Label from "@/Components/Form/Label.vue";
 import Input from "@/Components/Form/Input.vue";
 import Error from "@/Components/Form/Error.vue";
 import OldSchoolCard from "@/Components/OldSchoolCard.vue";
-
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-
-
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 
-defineProps({
+const props = defineProps({
     technologies: Object,
     categories: Object,
     form: Object,
     errors: Object,
     project:Object
+    
 });
-import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 
-const editor = ref(BalloonEditor);
 
-const editorData = ref("<p>Your Post Content</p>");
-const editorConfig = ref({});
+
+const form = useForm({
+    description: props.project.description,
+    title: props.project.title,
+    site_link:props.project.site_link,
+    youtube_link:props.project.youtube_link,
+    image:props.project.image,
+    category_id:props.project.categories,
+    technology_id:props.project.categories
+});
 
 const fileChange = (e) => {
     form.image = e.target.files[0];
 };
 
-const form = useForm({
-    post_text: "",
-    post_title: "",
-    post_image: "",
-    title: "",
-    site_link:"",
-    youtube_link:"",
-    image:null,
-    category_id:[],
-    technology_id:[]
-});
-
 const submit = () => {
-    
-    console.log('submit method called')
-    console.log(form);
-    form.put("/admin/projekty/edytuj/" + project.id, {
-        
-        preserveScroll: true,
-        onSuccess: () => {
-            console.log('udało się');
-        },
-    });
+   console.log(form);
+   form.put(route("admin.project.update",props.project.id), {
+       preserveScroll: true,
+       onSuccess: () => {
+         
+       },
+   });
 };
 </script>

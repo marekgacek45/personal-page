@@ -25,16 +25,12 @@
                             </Field>
 
                             <Field>
-                                <!-- <ckeditor
-                            :editor="editor"
-                            v-model="form.body"
-                            :config="editorConfig"
-                        ></ckeditor> -->
+                               
                             </Field>
                         </div>
                         <QuillEditor theme="snow" toolbar="full" v-model:content="form.body" contentType="html" />
 
-                        <!-- <tiptap v-model="form.body" /> -->
+                        
 
                         <Field
                             ><PrimaryButton type="submit"
@@ -49,7 +45,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import Field from "@/Components/Form/Field.vue";
 import Label from "@/Components/Form/Label.vue";
@@ -61,25 +56,20 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import PrimaryButton from "@/Components/Base/PrimaryButton.vue";
 
-// import Tiptap from "@/Components/Tiptap.vue";
+
 
 defineProps({
     form: Object,
     errors: Object,
 });
 
-// import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
+
 
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
 
-// const editor = ref(BalloonEditor);
 
-// const editorData = ref("<p>Your Post Content</p>");
-// const editorConfig = ref({
-
-// });
 
 const form = useForm({
     title: "",

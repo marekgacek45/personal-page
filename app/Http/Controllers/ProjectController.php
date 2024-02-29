@@ -23,12 +23,8 @@ class ProjectController extends Controller
 
 
         $projects = Project::with('categories')->get();
-        // $projects = Project::all();
-
-
 
         return Inertia('Admin/Projects/Index', ['projects' => $projects]);
-        // return Inertia('Admin/Projects/Index', ['projects' => $projects]);
     }
 
     /**
@@ -41,7 +37,7 @@ class ProjectController extends Controller
         $technologies = Technology::all();
 
 
-       
+
 
         return Inertia('Admin/Projects/Create', ['categories' => $categories, 'technologies' => $technologies]);
         // return Inertia('Admin/Projects/Create',['categories' => $categories]);
@@ -54,75 +50,61 @@ class ProjectController extends Controller
     {
         $request->validate([
             'title' => 'required|min:3',
-            'post_text' => 'required|min:3',
+            'description' => 'required|min:3',
             'youtube_link' => 'required|min:3',
             'site_link' => 'required|min:3',
             'image' => 'image',
-            'category_id' => 'required|array',
+            'category_id' => 'array',
             'technology_id' => 'required|array',
-          
+
         ]);
 
-       
-    
+
+
         $project = new Project;
         $project->title = $request->title;
-        $project->description = $request->post_text;
+        $project->description = $request->description;
         $project->site_link = $request->site_link;
         $project->youtube_link = $request->youtube_link;
-        
-        // if ($request->hasFile('image')) {
-        //     $file = $request->file('image');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $path = $file->storeAs('public/images', $filename);
-        //     $project->image = $path;
-        // }
+
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('images', $filename, 'public');
+            $path = $file->storeAs('images/projects', $filename, 'public');
             $project->image = '/storage/' . $path;
         }
-        
 
-       
+
+
 
         $project->save();
 
-       
-        
-    
+
+
+
         // Przypisz kategorie do projektu
         $project->categories()->sync($request->category_id);
         $project->technologies()->sync($request->technology_id);
-      
 
-       
-    
+
+
+
         return Inertia('Admin/Projects/Index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function edit(Project $project)
     {
-        //
-    }
+        // $project = Project::with(['categories', 'technologies'])->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $project = Project::with(['categories', 'technologies'])->findOrFail($id);
 
-        
 
-        $categories = Category::all();
-        $technologies = Technology::all();
+        // $categories = Category::all();
+        // $technologies = Technology::all();
 
-        return Inertia('Admin/Projects/Edit', ['project'=>$project,'categories' => $categories, 'technologies' => $technologies]);
+        return Inertia('Admin/Projects/Edit', ['project' => $project]);
+        // return Inertia('Admin/Projects/Edit', ['project'=>$project,'categories' => $categories, 'technologies' => $technologies]);
     }
 
     /**
@@ -130,46 +112,53 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $request->validate([
-            'title' => 'required|min:3',
-            'post_text' => 'required|min:3',
-            'youtube_link' => 'required|min:3',
-            'site_link' => 'required|min:3',
-            'image' => 'image',
-            'category_id' => 'required|array',
-            'technology_id' => 'required|array',
-        ]);
+        // dd($request->file('image'));
+        // dd($request->all());
 
-        // $project = Project::with(['categories', 'technologies'])->findOrFail($id);
-    
-        // $project->title = $request->title;
-        // $project->description = $request->post_text;
-        // $project->site_link = $request->site_link;
-        // $project->youtube_link = $request->youtube_link;
-        
-    
+        // $request->validate([
+        //     'title' => 'required|min:3',
+        //     'description' => 'required|min:3',
+        //     'youtube_link' => 'required|min:3',
+        //     'site_link' => 'required|min:3',
+        //     'image' => 'image',
+        //     'category_id' => '',
+        //     'technology_id' => '',
+        // ]);
+
+
+        // dd($request->all());
+
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->site_link = $request->site_link;
+        $project->youtube_link = $request->youtube_link;
+
+
+
+
+
+
         // if ($request->hasFile('image')) {
         //     $file = $request->file('image');
         //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $path = $file->storeAs('images', $filename, 'public');
+        //     $path = $file->storeAs('images/projects', $filename, 'public');
         //     $project->image = '/storage/' . $path;
         // }
-    
-        // $project->save();
 
-    
-        // // Przypisz kategorie do projektu
-        // $project->categories()->sync($request->category_id);
-        // $project->technologies()->sync($request->technology_id);
-    
-        // return Inertia('Admin/Projects/Index');
+
+        $project->save();
+
+        $project->categories()->sync($request->category_id);
+        $project->technologies()->sync($request->technology_id);
+
+        return Inertia('Admin/Projects/Index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
     }
 }

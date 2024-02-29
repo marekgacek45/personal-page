@@ -40,7 +40,7 @@ $technologies = Technology::all();
    public function portfolio(){
 
 $categories= Category::all();
-$projects= Project::with('categories')->get();
+$projects= Project::with(['categories','technologies'])->get();
 
 
       return Inertia ('Portfolio/Index',['categories'=>$categories,'projects'=>$projects]);

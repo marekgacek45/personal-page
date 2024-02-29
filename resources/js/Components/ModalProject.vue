@@ -2,14 +2,14 @@
     <transition name="modal-fade">
         <div
             v-if="isModalOpen"
-            class="fixed inset-0 flex justify-center items-center px-6 sm:px-12 2xl:px-0 pb-12 pt-32 lg:pt-0 bg-bgDark-400 bg-opacity-50"
+            class="fixed inset-0 flex justify-center items-center px-6 sm:px-12 2xl:px-0 pb-12 pt-32 lg:pt-0 bg-bgDark-400 bg-opacity-50 "
             :class="classes"
             @click="closeModal"
         >
             <div class="bg-bgLight-200">
                 <OldSchoolCard
                     :title="activeProject.title"
-                    class="max-w-screen-xl"
+                    class="max-w-screen-xl min-w-[60vw]"
                 >
                     <div
                         class="flex flex-col lg:flex-row p-8 gap-12 max-h-[80vh]"
@@ -28,13 +28,13 @@
                             ></iframe>
                             <img
                                 v-else
-                                :src="activeProject.thumbnail"
+                                :src="activeProject.image"
                                 alt=""
                                 class="w-full h-full object-cover"
                             />
                         </div>
                         <div
-                            class="lg:w-1/2 flex flex-col gap-6 overflow-y-scroll max-h-[400px]"
+                            class="lg:w-1/2 flex flex-col gap-6 overflow-y-auto max-h-[400px]"
                         >
                             <a
                                 :href="activeProject.site_link"
@@ -44,28 +44,12 @@
                                 {{ activeProject.title }}
                             </a>
 
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Eveniet assumenda, facere
-                                omnis id similique doloribus animi accusantium
-                                magni repellat voluptate vero quaerat,
-                                reprehenderit possimus! Lorem ipsum dolor, sit
-                                amet consectetur adipisicing elit. Provident
-                                neque veritatis fuga! Debitis quisquam placeat
-                                nulla aut rem voluptate vel molestiae libero
-                                beatae et repellendus porro voluptas nobis
-                                nihil, neque explicabo iure ab cumque,
-                                dignissimos rerum praesentium illum commodi
-                                officiis aspernatur? Veniam magnam, tenetur eum
-                                doloribus eos iste neque? Praesentium. Lorem
-                                ipsum dolor sit amet consectetur adipisicing
-                                elit. Beatae soluta obcaecati dolor, cum quos
-                                facere corrupti praesentium incidunt
-                                reprehenderit a!
+                            <p v-html="activeProject.description">
+                               
                             </p>
                             <!-- <p>{{ activeProject.description }} </p> -->
 
-                            <p>{{ activeProject.technologies }}</p>
+                          
                             <div>
                                 <span class="font-heading text-2xl"
                                     >Wykorzystane technologie</span
@@ -73,14 +57,9 @@
                                 <div
                                     class="flex justify-start items-center gap-3 mt-2"
                                 >
-                                    <img
-                                        src="/assets/tech/tailwind.png"
-                                        alt=""
-                                        class="w-10"
-                                    />
-                                    <img
-                                        src="/assets/tech/vue.png"
-                                        alt=""
+                                    <img v-for="technology in activeProject.technologies" :key="technology.id"
+                                        :src="technology.logo"
+                                        :alt="technology.name"
                                         class="w-10"
                                     />
                                 </div>
