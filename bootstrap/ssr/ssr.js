@@ -1,17 +1,22 @@
-import { unref, mergeProps, withCtx, openBlock, createBlock, Fragment, renderList, useSSRContext, resolveComponent, renderSlot, createTextVNode, ref, onMounted, watch, createVNode, useModel, withModifiers, toDisplayString, createCommentVNode, computed, Transition, onUnmounted, toRefs, isRef, withKeys, nextTick, createSSRApp, h as h$1 } from "vue";
-import { ssrRenderComponent, ssrRenderList, ssrRenderAttr, ssrRenderAttrs, ssrRenderSlot, ssrRenderTeleport, ssrInterpolate, ssrGetDynamicModelProps, ssrLooseContain, ssrRenderStyle, ssrRenderClass } from "vue/server-renderer";
+import { unref, mergeProps, withCtx, openBlock, createBlock, Fragment, renderList, useSSRContext, resolveComponent, renderSlot, createTextVNode, ref, onMounted, watch, createVNode, toDisplayString, createCommentVNode, withModifiers, isRef, withDirectives, vModelCheckbox, useModel, computed, Transition, onUnmounted, withKeys, nextTick, createSSRApp, h as h$1 } from "vue";
+import { ssrRenderComponent, ssrRenderList, ssrRenderAttr, ssrRenderAttrs, ssrRenderSlot, ssrRenderTeleport, ssrInterpolate, ssrIncludeBooleanAttr, ssrLooseContain, ssrGetDynamicModelProps, ssrRenderStyle, ssrRenderClass } from "vue/server-renderer";
 import { Vue3Marquee } from "vue3-marquee";
-import { Link, useForm, Head, usePage, createInertiaApp } from "@inertiajs/vue3";
-import { useReCaptcha } from "vue-recaptcha-v3";
+import { useForm, Link, Head, usePage, createInertiaApp } from "@inertiajs/vue3";
+import moment from "moment";
+import { QuillEditor } from "@vueup/vue-quill";
+import { BalloonEditor } from "@ckeditor/ckeditor5-build-balloon-block";
+import { useReCaptcha, VueReCaptcha } from "vue-recaptcha-v3";
 import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
-const _sfc_main$_ = {
+const _sfc_main$1j = {
   __name: "TechsMarquee",
   __ssrInlineRender: true,
   props: {
-    techs: Array
+    technologies: Array
   },
   setup(__props) {
+    const props = __props;
+    console.log(props.technologies);
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(Vue3Marquee), mergeProps({
         clone: true,
@@ -21,16 +26,16 @@ const _sfc_main$_ = {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<!--[-->`);
-            ssrRenderList(__props.techs, (tech) => {
-              _push2(`<img${ssrRenderAttr("src", tech.src)} class="w-20 mx-12"${_scopeId}>`);
+            ssrRenderList(__props.technologies, (technology) => {
+              _push2(`<img${ssrRenderAttr("src", technology.logo)} class="w-20 mx-12"${_scopeId}>`);
             });
             _push2(`<!--]-->`);
           } else {
             return [
-              (openBlock(true), createBlock(Fragment, null, renderList(__props.techs, (tech) => {
+              (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
                 return openBlock(), createBlock("img", {
-                  key: tech.id,
-                  src: tech.src,
+                  key: technology.id,
+                  src: technology.logo,
                   class: "w-20 mx-12"
                 }, null, 8, ["src"]);
               }), 128))
@@ -42,39 +47,39 @@ const _sfc_main$_ = {
     };
   }
 };
-const _sfc_setup$_ = _sfc_main$_.setup;
-_sfc_main$_.setup = (props, ctx) => {
+const _sfc_setup$1j = _sfc_main$1j.setup;
+_sfc_main$1j.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/About/TechsMarquee.vue");
-  return _sfc_setup$_ ? _sfc_setup$_(props, ctx) : void 0;
+  return _sfc_setup$1j ? _sfc_setup$1j(props, ctx) : void 0;
 };
 const __vite_glob_0_3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$_
+  default: _sfc_main$1j
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$Z = {
+const _sfc_main$1i = {
   __name: "FirstSection",
   __ssrInlineRender: true,
   props: {
-    techs: Array
+    technologies: Array
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<section${ssrRenderAttrs(mergeProps({ class: "section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownOrange-600" }, _attrs))}><div class="wrapper"><div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:mr-3 py-12"><h1 class="text-7xl font-heading"> Cześć, mam na imię Marek </h1><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Jestem <span class="font-heading">WebDeveloperem</span>, który z pasją tworzy strony internetowe. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Walczę na całej powierzchni programistycznego pola, wykorzystując <span class="font-heading">PHP</span> i <span class="font-heading">JavaScript</span> jako swoje oręża. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> To dzięki nim mogę realizować swoją wizję i tworzyć strony, które <span class="font-heading">zachwycają</span> odbiorców. </h2></div><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 xl:p-10 2xl:p-20"><img src="/assets/images/header.png " alt="" class="h-full object-cover box-shadow" loading="lazy"></div></div><div class="flex justify-center pb-12">`);
-      _push(ssrRenderComponent(_sfc_main$_, { techs: __props.techs }, null, _parent));
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownOrange-600" }, _attrs))}><div class="wrapper"><div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:mr-3 py-12"><h1 class="text-7xl font-heading text-ownPurple-400"> Cześć, mam na imię Marek </h1><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Jestem <span class="font-heading text-fontLight">WebDeveloperem</span>, który z pasją tworzy strony internetowe. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Walczę na całej powierzchni programistycznego pola, wykorzystując <span class="font-heading text-fontLight">PHP</span> i <span class="font-heading text-fontLight">JavaScript</span> jako swoje oręża. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> To dzięki nim mogę realizować swoją wizję i tworzyć strony, które <span class="font-heading text-fontLight">zachwycają</span> odbiorców. </h2></div><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 xl:p-10 2xl:p-20"><img src="/assets/images/about/about.webp" alt="zdjęcie przedstawiające mój wizerunek" class="h-full object-cover box-shadow" loading="lazy"></div></div><div class="flex justify-center pb-12">`);
+      _push(ssrRenderComponent(_sfc_main$1j, { technologies: __props.technologies }, null, _parent));
       _push(`</div></section>`);
     };
   }
 };
-const _sfc_setup$Z = _sfc_main$Z.setup;
-_sfc_main$Z.setup = (props, ctx) => {
+const _sfc_setup$1i = _sfc_main$1i.setup;
+_sfc_main$1i.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/About/FirstSection.vue");
-  return _sfc_setup$Z ? _sfc_setup$Z(props, ctx) : void 0;
+  return _sfc_setup$1i ? _sfc_setup$1i(props, ctx) : void 0;
 };
 const __vite_glob_0_0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$Z
+  default: _sfc_main$1i
 }, Symbol.toStringTag, { value: "Module" }));
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
@@ -83,18 +88,18 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$Y = {};
-function _sfc_ssrRender$b(_ctx, _push, _parent, _attrs) {
+const _sfc_main$1h = {};
+function _sfc_ssrRender$a(_ctx, _push, _parent, _attrs) {
   _push(`<ul${ssrRenderAttrs(mergeProps({ class: "flex items-center gap-3 animate-bounce" }, _attrs))} data-v-c45eaaf4><li data-v-c45eaaf4><a href="https://www.facebook.com/marekgacekdev" target="_blank" data-v-c45eaaf4><img src="/assets/icons/facebook.svg" alt="" class="w-6 social" data-v-c45eaaf4></a></li><li data-v-c45eaaf4><a href="https://pl.linkedin.com/in/marek-gacek" target="_blank" data-v-c45eaaf4><img src="/assets/icons/linkedin.svg" alt="" class="w-6 social" data-v-c45eaaf4></a></li><li data-v-c45eaaf4><a href="https://github.com/marekgacek45" target="_blank" data-v-c45eaaf4><img src="/assets/icons/github.svg" alt="" class="w-6 social" data-v-c45eaaf4></a></li><li data-v-c45eaaf4><a href="https://www.youtube.com/@marekgacekdev" target="_blank" data-v-c45eaaf4><img src="/assets/icons/youtube.svg" alt="" class="w-8 social" data-v-c45eaaf4></a></li></ul>`);
 }
-const _sfc_setup$Y = _sfc_main$Y.setup;
-_sfc_main$Y.setup = (props, ctx) => {
+const _sfc_setup$1h = _sfc_main$1h.setup;
+_sfc_main$1h.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Social.vue");
-  return _sfc_setup$Y ? _sfc_setup$Y(props, ctx) : void 0;
+  return _sfc_setup$1h ? _sfc_setup$1h(props, ctx) : void 0;
 };
-const Social = /* @__PURE__ */ _export_sfc(_sfc_main$Y, [["ssrRender", _sfc_ssrRender$b], ["__scopeId", "data-v-c45eaaf4"]]);
-const _sfc_main$X = {
+const Social = /* @__PURE__ */ _export_sfc(_sfc_main$1h, [["ssrRender", _sfc_ssrRender$a], ["__scopeId", "data-v-c45eaaf4"]]);
+const _sfc_main$1g = {
   __name: "NavLink",
   __ssrInlineRender: true,
   props: {
@@ -122,19 +127,19 @@ const _sfc_main$X = {
     };
   }
 };
-const _sfc_setup$X = _sfc_main$X.setup;
-_sfc_main$X.setup = (props, ctx) => {
+const _sfc_setup$1g = _sfc_main$1g.setup;
+_sfc_main$1g.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/NavLink.vue");
-  return _sfc_setup$X ? _sfc_setup$X(props, ctx) : void 0;
+  return _sfc_setup$1g ? _sfc_setup$1g(props, ctx) : void 0;
 };
-const _sfc_main$W = {
+const _sfc_main$1f = {
   __name: "LinksDesktop",
   __ssrInlineRender: true,
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<ul${ssrRenderAttrs(mergeProps({ class: "flex gap-6 font-textArch text-lg" }, _attrs))}>`);
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/o_mnie",
         isActive: _ctx.$page.component === "About/Index"
       }, {
@@ -149,7 +154,7 @@ const _sfc_main$W = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/uslugi",
         isActive: _ctx.$page.component === "Services/Index"
       }, {
@@ -164,7 +169,7 @@ const _sfc_main$W = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/portfolio",
         isActive: _ctx.$page.component === "Portfolio/Index"
       }, {
@@ -179,7 +184,7 @@ const _sfc_main$W = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/kontakt",
         isActive: _ctx.$page.component === "Contact/Index"
       }, {
@@ -194,7 +199,7 @@ const _sfc_main$W = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/blog",
         isActive: _ctx.$page.component === "Blog/Index"
       }, {
@@ -213,13 +218,13 @@ const _sfc_main$W = {
     };
   }
 };
-const _sfc_setup$W = _sfc_main$W.setup;
-_sfc_main$W.setup = (props, ctx) => {
+const _sfc_setup$1f = _sfc_main$1f.setup;
+_sfc_main$1f.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Navigation/LinksDesktop.vue");
-  return _sfc_setup$W ? _sfc_setup$W(props, ctx) : void 0;
+  return _sfc_setup$1f ? _sfc_setup$1f(props, ctx) : void 0;
 };
-const _sfc_main$V = {
+const _sfc_main$1e = {
   __name: "HamburgerButton",
   __ssrInlineRender: true,
   setup(__props) {
@@ -232,14 +237,14 @@ const _sfc_main$V = {
     };
   }
 };
-const _sfc_setup$V = _sfc_main$V.setup;
-_sfc_main$V.setup = (props, ctx) => {
+const _sfc_setup$1e = _sfc_main$1e.setup;
+_sfc_main$1e.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Navigation/HamburgerButton.vue");
-  return _sfc_setup$V ? _sfc_setup$V(props, ctx) : void 0;
+  return _sfc_setup$1e ? _sfc_setup$1e(props, ctx) : void 0;
 };
-const HamburgerButton = /* @__PURE__ */ _export_sfc(_sfc_main$V, [["__scopeId", "data-v-7006e8da"]]);
-const _sfc_main$U = {
+const HamburgerButton = /* @__PURE__ */ _export_sfc(_sfc_main$1e, [["__scopeId", "data-v-7006e8da"]]);
+const _sfc_main$1d = {
   __name: "LinksMobile",
   __ssrInlineRender: true,
   setup(__props) {
@@ -249,7 +254,7 @@ const _sfc_main$U = {
     };
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<ul${ssrRenderAttrs(mergeProps({ class: "flex flex-col justify-center items-center gap-4" }, _attrs))}>`);
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/o_mnie",
         isMobile: "true",
         isActive: _ctx.$page.component === "About/Index",
@@ -266,7 +271,7 @@ const _sfc_main$U = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/uslugi",
         isMobile: "true",
         isActive: _ctx.$page.component === "About/Servies",
@@ -283,7 +288,7 @@ const _sfc_main$U = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/portfolio",
         isMobile: "true",
         isActive: _ctx.$page.component === "About/Portfolio",
@@ -300,7 +305,7 @@ const _sfc_main$U = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/contact",
         isMobile: "true",
         isActive: _ctx.$page.component === "About/Contact",
@@ -317,7 +322,7 @@ const _sfc_main$U = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: "/blog",
         isMobile: "true",
         isActive: _ctx.$page.component === "About/Blog",
@@ -338,13 +343,13 @@ const _sfc_main$U = {
     };
   }
 };
-const _sfc_setup$U = _sfc_main$U.setup;
-_sfc_main$U.setup = (props, ctx) => {
+const _sfc_setup$1d = _sfc_main$1d.setup;
+_sfc_main$1d.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Navigation/LinksMobile.vue");
-  return _sfc_setup$U ? _sfc_setup$U(props, ctx) : void 0;
+  return _sfc_setup$1d ? _sfc_setup$1d(props, ctx) : void 0;
 };
-const _sfc_main$T = {
+const _sfc_main$1c = {
   __name: "MobileMenu",
   __ssrInlineRender: true,
   props: {
@@ -354,7 +359,7 @@ const _sfc_main$T = {
     return (_ctx, _push, _parent, _attrs) => {
       if (__props.showModal) {
         _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-bg fixed lg:absolute top-0 bottom-0 right-0 left-0 overflow-hidden z-40" }, _attrs))} data-v-6697a573><div class="modal flex justify-center items-center flex-col gap-5" data-v-6697a573>`);
-        _push(ssrRenderComponent(_sfc_main$U, null, null, _parent));
+        _push(ssrRenderComponent(_sfc_main$1d, null, null, _parent));
         _push(ssrRenderComponent(Social, null, null, _parent));
         _push(`</div></div>`);
       } else {
@@ -363,14 +368,14 @@ const _sfc_main$T = {
     };
   }
 };
-const _sfc_setup$T = _sfc_main$T.setup;
-_sfc_main$T.setup = (props, ctx) => {
+const _sfc_setup$1c = _sfc_main$1c.setup;
+_sfc_main$1c.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Navigation/MobileMenu.vue");
-  return _sfc_setup$T ? _sfc_setup$T(props, ctx) : void 0;
+  return _sfc_setup$1c ? _sfc_setup$1c(props, ctx) : void 0;
 };
-const MobileMenu = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["__scopeId", "data-v-6697a573"]]);
-const _sfc_main$S = {
+const MobileMenu = /* @__PURE__ */ _export_sfc(_sfc_main$1c, [["__scopeId", "data-v-6697a573"]]);
+const _sfc_main$1b = {
   __name: "NavBar",
   __ssrInlineRender: true,
   setup(__props) {
@@ -386,10 +391,33 @@ const _sfc_main$S = {
       });
     });
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_Link = resolveComponent("Link");
       _push(`<nav${ssrRenderAttrs(mergeProps({ class: "bg-bgLight-200 text-fon z-50 fixed top-0 left-0 right-0" }, _attrs))}><div class="flex justify-between items-center max-w-screen-2xl mx-auto py-3 px-3 xs:px-6 md:px-12 2xl:px-3"><div class="hidden 2xl:flex justify-start w-1/3">`);
       _push(ssrRenderComponent(Social, null, null, _parent));
-      _push(`</div><a href="/" class="flex flex-start 2xl:justify-center items-center gap-1 w-1/3 group"><span class="font-heading text-4xl group-hover:text-ownTurquise-400 duration-300">Marek</span><img src="/assets/logo/logo.png" alt="moje logo" class="w-16"><span class="font-heading text-4xl group-hover:text-ownPurple-400 duration-300">Gacek</span></a><div class="hidden lg:flex justify-end w-1/3">`);
-      _push(ssrRenderComponent(_sfc_main$W, null, null, _parent));
+      _push(`</div>`);
+      _push(ssrRenderComponent(_component_Link, {
+        href: "/",
+        class: "flex flex-start 2xl:justify-center items-center gap-1 w-1/3 group"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<span class="font-heading text-4xl group-hover:text-ownTurquise-400 duration-300"${_scopeId}>Marek</span><img src="/assets/logo/logo.png" alt="moje logo" class="w-16 mx-2"${_scopeId}><span class="font-heading text-4xl group-hover:text-ownPurple-400 duration-300"${_scopeId}>Gacek</span>`);
+          } else {
+            return [
+              createVNode("span", { class: "font-heading text-4xl group-hover:text-ownTurquise-400 duration-300" }, "Marek"),
+              createVNode("img", {
+                src: "/assets/logo/logo.png",
+                alt: "moje logo",
+                class: "w-16 mx-2"
+              }),
+              createVNode("span", { class: "font-heading text-4xl group-hover:text-ownPurple-400 duration-300" }, "Gacek")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<div class="hidden lg:flex justify-end w-1/3">`);
+      _push(ssrRenderComponent(_sfc_main$1f, null, null, _parent));
       _push(`</div>`);
       _push(ssrRenderComponent(HamburgerButton, {
         onClick: ($event) => showModal.value = !showModal.value
@@ -402,26 +430,26 @@ const _sfc_main$S = {
     };
   }
 };
-const _sfc_setup$S = _sfc_main$S.setup;
-_sfc_main$S.setup = (props, ctx) => {
+const _sfc_setup$1b = _sfc_main$1b.setup;
+_sfc_main$1b.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Navigation/NavBar.vue");
-  return _sfc_setup$S ? _sfc_setup$S(props, ctx) : void 0;
+  return _sfc_setup$1b ? _sfc_setup$1b(props, ctx) : void 0;
 };
-const _sfc_main$R = {};
-function _sfc_ssrRender$a(_ctx, _push, _parent, _attrs) {
+const _sfc_main$1a = {};
+function _sfc_ssrRender$9(_ctx, _push, _parent, _attrs) {
   _push(`<div${ssrRenderAttrs(mergeProps({ class: "px-6 py-4 border-2 border-r-0 last:border-r-2 border-white font-text text-2xl text-fontLight hover:border-dashed hover:animate-shake text-center sm:text-left" }, _attrs))}>`);
   ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
   _push(`</div>`);
 }
-const _sfc_setup$R = _sfc_main$R.setup;
-_sfc_main$R.setup = (props, ctx) => {
+const _sfc_setup$1a = _sfc_main$1a.setup;
+_sfc_main$1a.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/FooterSocialItem.vue");
-  return _sfc_setup$R ? _sfc_setup$R(props, ctx) : void 0;
+  return _sfc_setup$1a ? _sfc_setup$1a(props, ctx) : void 0;
 };
-const FooterSocialItem = /* @__PURE__ */ _export_sfc(_sfc_main$R, [["ssrRender", _sfc_ssrRender$a]]);
-const _sfc_main$Q = {
+const FooterSocialItem = /* @__PURE__ */ _export_sfc(_sfc_main$1a, [["ssrRender", _sfc_ssrRender$9]]);
+const _sfc_main$19 = {
   __name: "Footer",
   __ssrInlineRender: true,
   setup(__props) {
@@ -535,38 +563,38 @@ const _sfc_main$Q = {
     };
   }
 };
-const _sfc_setup$Q = _sfc_main$Q.setup;
-_sfc_main$Q.setup = (props, ctx) => {
+const _sfc_setup$19 = _sfc_main$19.setup;
+_sfc_main$19.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Footer.vue");
-  return _sfc_setup$Q ? _sfc_setup$Q(props, ctx) : void 0;
+  return _sfc_setup$19 ? _sfc_setup$19(props, ctx) : void 0;
 };
-const _sfc_main$P = {
+const _sfc_main$18 = {
   __name: "Layout",
   __ssrInlineRender: true,
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<template><div${ssrRenderAttrs(_attrs)}>`);
-      _push(ssrRenderComponent(_sfc_main$S, null, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$1b, null, null, _parent));
       ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-      _push(ssrRenderComponent(_sfc_main$Q, null, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$19, null, null, _parent));
       _push(`</div></template>`);
     };
   }
 };
-const _sfc_setup$P = _sfc_main$P.setup;
-_sfc_main$P.setup = (props, ctx) => {
+const _sfc_setup$18 = _sfc_main$18.setup;
+_sfc_main$18.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Layouts/Layout.vue");
-  return _sfc_setup$P ? _sfc_setup$P(props, ctx) : void 0;
+  return _sfc_setup$18 ? _sfc_setup$18(props, ctx) : void 0;
 };
-const _sfc_main$O = {};
-function _sfc_ssrRender$9(_ctx, _push, _parent, _attrs) {
+const _sfc_main$17 = {};
+function _sfc_ssrRender$8(_ctx, _push, _parent, _attrs) {
   const _component_Link = resolveComponent("Link");
-  _push(`<section${ssrRenderAttrs(mergeProps({ class: "section lg:h-[calc(100vh-71px)] bg-bgLight-400" }, _attrs))}><div class="wrapper"><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 xl:p-10 2xl:p-20 order-1 lg:order-none"><img src="/assets/images/header.png " alt="" class="h-full object-cover box-shadow" loading="lazy"></div><div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:mr-3 py-12"><h1 class="text-7xl font-heading">Coś więcej niż praca</h1><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Nie tylko tworzę strony, ale też się nimi <span class="font-heading">dzielę</span>. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Na moim `);
+  _push(`<section${ssrRenderAttrs(mergeProps({ class: "section lg:h-[calc(100vh-71px)] bg-bgLight-400" }, _attrs))}><div class="wrapper"><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 xl:p-10 2xl:p-20 order-1 lg:order-none"><img src="/assets/images/about/about-2.webp" alt="człowiek sterujący robotem" class="h-full object-cover box-shadow" loading="lazy"></div><div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:mr-3 py-12"><h1 class="text-7xl font-heading text-ownPurple-400">Coś więcej niż praca</h1><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Nie tylko tworzę strony, ale też się nimi <span class="font-heading text-ownPink-400">dzielę</span>. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Na moim `);
   _push(ssrRenderComponent(_component_Link, {
     href: "/blog",
-    class: "font-heading"
+    class: "font-heading text-ownPink-400"
   }, {
     default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
@@ -579,55 +607,55 @@ function _sfc_ssrRender$9(_ctx, _push, _parent, _attrs) {
     }),
     _: 1
   }, _parent));
-  _push(` znajdziesz wiele ciekawych artykułów na temat webdevelopmentu, technologii i trendów. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Zapraszam cię na mój <a href="https://www.youtube.com/@marekgacekdev" target="_blank" class="font-heading">kanał YouTube</a>, gdzie pokazuję, jak tworzę projekty od zera, jak rozwiązuję problemy i jak testuję swoje umiejętności. </h2></div></div></section>`);
+  _push(` znajdziesz wiele ciekawych artykułów na temat webdevelopmentu, technologii i trendów. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Zapraszam cię na mój <a href="https://www.youtube.com/@marekgacekdev" target="_blank" class="font-heading text-ownPink-400">kanał YouTube</a>, gdzie pokazuję, jak tworzę projekty od zera, jak rozwiązuję problemy i jak testuję swoje umiejętności. </h2></div></div></section>`);
 }
-const _sfc_setup$O = _sfc_main$O.setup;
-_sfc_main$O.setup = (props, ctx) => {
+const _sfc_setup$17 = _sfc_main$17.setup;
+_sfc_main$17.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/About/SecondSection.vue");
-  return _sfc_setup$O ? _sfc_setup$O(props, ctx) : void 0;
+  return _sfc_setup$17 ? _sfc_setup$17(props, ctx) : void 0;
 };
-const SecondSection = /* @__PURE__ */ _export_sfc(_sfc_main$O, [["ssrRender", _sfc_ssrRender$9]]);
+const SecondSection = /* @__PURE__ */ _export_sfc(_sfc_main$17, [["ssrRender", _sfc_ssrRender$8]]);
 const __vite_glob_0_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: SecondSection
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$N = {
+const _sfc_main$16 = {
   __name: "Index",
   __ssrInlineRender: true,
   props: {
-    techs: Array
+    technologies: Array
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Head = resolveComponent("Head");
       _push(`<!--[-->`);
-      _push(ssrRenderComponent(_component_Head, { title: "O mnie" }, {
+      _push(ssrRenderComponent(_component_Head, { title: "Dowiedz się co nieco o mnie | Marek Gacek" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<meta name="description" content="opis"${_scopeId}>`);
+            _push2(`<meta name="description" content="Zajrzyj i poznaj programistę, który łączy kodowanie i marketing w niebanalny sposób. Wejdź i zobacz, jak moja praca wyróżnia się w świecie online"${_scopeId}>`);
           } else {
             return [
               createVNode("meta", {
                 name: "description",
-                content: "opis"
+                content: "Zajrzyj i poznaj programistę, który łączy kodowanie i marketing w niebanalny sposób. Wejdź i zobacz, jak moja praca wyróżnia się w świecie online"
               })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$P, null, {
+      _push(ssrRenderComponent(_sfc_main$18, null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<main${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$Z, { techs: __props.techs }, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$1i, { technologies: __props.technologies }, null, _parent2, _scopeId));
             _push2(ssrRenderComponent(SecondSection, null, null, _parent2, _scopeId));
             _push2(`</main>`);
           } else {
             return [
               createVNode("main", null, [
-                createVNode(_sfc_main$Z, { techs: __props.techs }, null, 8, ["techs"]),
+                createVNode(_sfc_main$1i, { technologies: __props.technologies }, null, 8, ["technologies"]),
                 createVNode(SecondSection)
               ])
             ];
@@ -639,31 +667,6077 @@ const _sfc_main$N = {
     };
   }
 };
-const _sfc_setup$N = _sfc_main$N.setup;
-_sfc_main$N.setup = (props, ctx) => {
+const _sfc_setup$16 = _sfc_main$16.setup;
+_sfc_main$16.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/About/Index.vue");
-  return _sfc_setup$N ? _sfc_setup$N(props, ctx) : void 0;
+  return _sfc_setup$16 ? _sfc_setup$16(props, ctx) : void 0;
 };
 const __vite_glob_0_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
+  default: _sfc_main$16
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$15 = {};
+function _sfc_ssrRender$7(_ctx, _push, _parent, _attrs) {
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "relative w-3/4 mx-auto mb-7" }, _attrs))}>`);
+  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+  _push(`</div>`);
+}
+const _sfc_setup$15 = _sfc_main$15.setup;
+_sfc_main$15.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Field.vue");
+  return _sfc_setup$15 ? _sfc_setup$15(props, ctx) : void 0;
+};
+const Field = /* @__PURE__ */ _export_sfc(_sfc_main$15, [["ssrRender", _sfc_ssrRender$7]]);
+const _sfc_main$14 = {};
+function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs) {
+  _push(`<label${ssrRenderAttrs(mergeProps({ class: "absolute text-2xl font-heading uppercase text-fontDark duration-300 transform -translate-y-4 scale-75 top-1 z-10 origin-[0] bg-bgLight-200 px-2 peer-focus:px-4 peer-focus:text-ownYellow-400 peer-focus:bg-ownPurple-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" }, _attrs))}>`);
+  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+  _push(`</label>`);
+}
+const _sfc_setup$14 = _sfc_main$14.setup;
+_sfc_main$14.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Label.vue");
+  return _sfc_setup$14 ? _sfc_setup$14(props, ctx) : void 0;
+};
+const Label = /* @__PURE__ */ _export_sfc(_sfc_main$14, [["ssrRender", _sfc_ssrRender$6]]);
+const _sfc_main$13 = {
+  __name: "Input",
+  __ssrInlineRender: true,
+  props: {
+    modelValue: String
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit: __emit }) {
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<input${ssrRenderAttrs(mergeProps({
+        class: "block px-2.5 pb-2.5 pt-4 w-full text-lg text-fontDark bg-transparent border-1 border-fontDark appearance-none focus:outline-none focus:ring-0 focus:border-ownPurple-400 peer box-shadow font-text duration-300",
+        placeholder: " ",
+        value: __props.modelValue
+      }, _attrs))}>`);
+    };
+  }
+};
+const _sfc_setup$13 = _sfc_main$13.setup;
+_sfc_main$13.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Input.vue");
+  return _sfc_setup$13 ? _sfc_setup$13(props, ctx) : void 0;
+};
+const _sfc_main$12 = {};
+function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs) {
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "mt-3 text-left text-base font-bold ml-1 text-red-600" }, _attrs))}>`);
+  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+  _push(`</div>`);
+}
+const _sfc_setup$12 = _sfc_main$12.setup;
+_sfc_main$12.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Error.vue");
+  return _sfc_setup$12 ? _sfc_setup$12(props, ctx) : void 0;
+};
+const Error$1 = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["ssrRender", _sfc_ssrRender$5]]);
+const _sfc_main$11 = {
+  __name: "OldSchoolCard",
+  __ssrInlineRender: true,
+  props: {
+    title: String,
+    customClass: String
+  },
+  setup(__props) {
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<div${ssrRenderAttrs(mergeProps({
+        class: ["box-shadow", __props.customClass]
+      }, _attrs))}><div class="bg-bgDark-400 p-2"><span class="text-xl font-text font-bold text-fontLight uppercase">${ssrInterpolate(__props.title)}</span></div>`);
+      ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$11 = _sfc_main$11.setup;
+_sfc_main$11.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/OldSchoolCard.vue");
+  return _sfc_setup$11 ? _sfc_setup$11(props, ctx) : void 0;
+};
+const _sfc_main$10 = {
+  __name: "SidebarItem",
+  __ssrInlineRender: true,
+  props: {
+    href: String
+  },
+  setup(__props) {
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Link = resolveComponent("Link");
+      _push(`<li${ssrRenderAttrs(mergeProps({ class: "text-2xl font-text font-bold border border-transparent hover:border-ownYellow-400 hover:bg-ownYellow-400 py-3 duration-300 px-4" }, _attrs))}>`);
+      _push(ssrRenderComponent(_component_Link, {
+        href: __props.href,
+        class: "flex justify-start items-center gap-2"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            ssrRenderSlot(_ctx.$slots, "default", {}, null, _push2, _parent2, _scopeId);
+          } else {
+            return [
+              renderSlot(_ctx.$slots, "default")
+            ];
+          }
+        }),
+        _: 3
+      }, _parent));
+      _push(`</li>`);
+    };
+  }
+};
+const _sfc_setup$10 = _sfc_main$10.setup;
+_sfc_main$10.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Admin/SidebarItem.vue");
+  return _sfc_setup$10 ? _sfc_setup$10(props, ctx) : void 0;
+};
+const _sfc_main$$ = {
+  __name: "SideBar",
+  __ssrInlineRender: true,
+  setup(__props) {
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<aside${ssrRenderAttrs(mergeProps({ class: "fixed bottom-0 left-0 top-0 bg-ownPurple-400 z-50" }, _attrs))}><div class="flex flex-col justify-center h-full px-4 py-4"><div><ul class="space-y-4">`);
+      _push(ssrRenderComponent(_sfc_main$10, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/dashboard.svg" alt="" width="32"${_scopeId}> <span class="hidden xl:inline-block"${_scopeId}>Dashboard</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/dashboard.svg",
+                alt: "",
+                width: "32"
+              }),
+              createTextVNode(),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Dashboard")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$10, {
+        href: _ctx.route("admin.post.index")
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/post.svg" alt="" width="32"${_scopeId}> <span class="hidden xl:inline-block"${_scopeId}>Posty</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/post.svg",
+                alt: "",
+                width: "32"
+              }),
+              createTextVNode(),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Posty")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$10, { href: "/admin/projekty" }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/project.svg" alt="" width="32"${_scopeId}> <span class="hidden xl:inline-block"${_scopeId}>Projekty</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/project.svg",
+                alt: "",
+                width: "32"
+              }),
+              createTextVNode(),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Projekty")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$10, {
+        href: _ctx.route("admin.comment.index")
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/comment.svg" alt="" width="32"${_scopeId}> <span class="hidden xl:inline-block"${_scopeId}>Komentarze</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/comment.svg",
+                alt: "",
+                width: "32"
+              }),
+              createTextVNode(),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Komentarze")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$10, {
+        href: _ctx.route("admin.category.index")
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/category.svg" alt="" width="32"${_scopeId}> <span class="hidden xl:inline-block"${_scopeId}>Kategorie</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/category.svg",
+                alt: "",
+                width: "32"
+              }),
+              createTextVNode(),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Kategorie")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$10, {
+        href: _ctx.route("admin.technology.index")
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/technology.svg" alt="" width="32"${_scopeId}> <span class="hidden xl:inline-block"${_scopeId}>Technologie</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/technology.svg",
+                alt: "",
+                width: "32"
+              }),
+              createTextVNode(),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Technologie")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$10, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img src="/assets/icons/admin/logout.svg" alt="" width="32"${_scopeId}><span class="hidden xl:inline-block"${_scopeId}>Wyloguj</span>`);
+          } else {
+            return [
+              createVNode("img", {
+                src: "/assets/icons/admin/logout.svg",
+                alt: "",
+                width: "32"
+              }),
+              createVNode("span", { class: "hidden xl:inline-block" }, "Wyloguj")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</ul></div><ul></ul></div></aside>`);
+    };
+  }
+};
+const _sfc_setup$$ = _sfc_main$$.setup;
+_sfc_main$$.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Admin/SideBar.vue");
+  return _sfc_setup$$ ? _sfc_setup$$(props, ctx) : void 0;
+};
+const _sfc_main$_ = {};
+function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs) {
+  const _component_Link = resolveComponent("Link");
+  _push(`<nav${ssrRenderAttrs(mergeProps({ class: "bg-ownPurple-400 fixed top-0 right-0 left-0 py-3 px-4 flex justify-between items-center z-50" }, _attrs))}><div class="flex justify-center items-center gap-6"><div>`);
+  _push(ssrRenderComponent(_component_Link, {
+    href: "/",
+    class: "flex items-center gap-1 group"
+  }, {
+    default: withCtx((_, _push2, _parent2, _scopeId) => {
+      if (_push2) {
+        _push2(`<span class="font-heading text-4xl group-hover:text-ownTurquise-400 duration-300 hidden xl:block"${_scopeId}>Marek</span><img src="/assets/logo/logo.png" alt="moje logo" class="w-16"${_scopeId}><span class="font-heading text-4xl group-hover:text-ownPurple-400 duration-300 hidden xl:block"${_scopeId}>Gacek</span>`);
+      } else {
+        return [
+          createVNode("span", { class: "font-heading text-4xl group-hover:text-ownTurquise-400 duration-300 hidden xl:block" }, "Marek"),
+          createVNode("img", {
+            src: "/assets/logo/logo.png",
+            alt: "moje logo",
+            class: "w-16"
+          }),
+          createVNode("span", { class: "font-heading text-4xl group-hover:text-ownPurple-400 duration-300 hidden xl:block" }, "Gacek")
+        ];
+      }
+    }),
+    _: 1
+  }, _parent));
+  _push(`</div><div class="flex justify-center items-center gap-4"><button><img src="/assets/icons/admin/menu.svg" alt="" width="32"></button><button><img src="/assets/icons/admin/moon.svg" alt="" width="32"></button></div></div><div class="flex justify-center items-center gap-4"><span class="font-heading text-2xl hidden sm:inline-block">gacmen45</span><div class="border rounded-full overflow-hidden w-12 h-12"><img src="/assets/logo/logo.png" alt="moje logo" class="w-full h-full object-cover"></div></div></nav>`);
+}
+const _sfc_setup$_ = _sfc_main$_.setup;
+_sfc_main$_.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Shared/Admin/NavBar.vue");
+  return _sfc_setup$_ ? _sfc_setup$_(props, ctx) : void 0;
+};
+const NavBar = /* @__PURE__ */ _export_sfc(_sfc_main$_, [["ssrRender", _sfc_ssrRender$4]]);
+const _sfc_main$Z = {
+  __name: "AdminLayout",
+  __ssrInlineRender: true,
+  setup(__props) {
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<template><div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_sfc_main$$, null, null, _parent));
+      _push(ssrRenderComponent(NavBar, null, null, _parent));
+      _push(`<main class="ml-[98px] xl:ml-[220px] mt-[90px] p-4 sm:p-6">`);
+      ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(`</main></div></template>`);
+    };
+  }
+};
+const _sfc_setup$Z = _sfc_main$Z.setup;
+_sfc_main$Z.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Layouts/AdminLayout.vue");
+  return _sfc_setup$Z ? _sfc_setup$Z(props, ctx) : void 0;
+};
+const _sfc_main$Y = {};
+function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs) {
+  _push(`<button${ssrRenderAttrs(mergeProps({
+    type: "button",
+    class: "px-16 py-4 bg-ownPurple-400 hover:bg-ownPurple-600 text-xl sm:text-xl md:text-3xl font-text font-bold hover:animate-shake duration-300 box-shadow"
+  }, _attrs))}>`);
+  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+  _push(`</button>`);
+}
+const _sfc_setup$Y = _sfc_main$Y.setup;
+_sfc_main$Y.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Base/PrimaryButton.vue");
+  return _sfc_setup$Y ? _sfc_setup$Y(props, ctx) : void 0;
+};
+const PrimaryButton$1 = /* @__PURE__ */ _export_sfc(_sfc_main$Y, [["ssrRender", _sfc_ssrRender$3]]);
+const _sfc_main$X = {
+  __name: "Create",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object
+  },
+  setup(__props) {
+    const form = useForm({
+      name: ""
+    });
+    const submit = () => {
+      form.post(route("admin.category.store"), {
+        preserveScroll: true,
+        onSuccess: () => {
+          console.log("udało się");
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Kategorię",
+              class: "w-1/2 mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}><div class="flex gap-12 mx-12"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "name",
+                          name: "name",
+                          modelValue: unref(form).name,
+                          "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "name",
+                          id: "name"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Nazwa`);
+                            } else {
+                              return [
+                                createTextVNode("Nazwa")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.name) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.name)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            modelValue: unref(form).name,
+                            "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</div>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode("div", { class: "flex gap-12 mx-12" }, [
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "name",
+                                name: "name",
+                                modelValue: unref(form).name,
+                                "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "name",
+                                id: "name"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Nazwa")
+                                ]),
+                                _: 1
+                              }),
+                              unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                                ]),
+                                _: 1
+                              })) : createCommentVNode("", true)
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Kategorię",
+                class: "w-1/2 mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode("div", { class: "flex gap-12 mx-12" }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "name",
+                              name: "name",
+                              modelValue: unref(form).name,
+                              "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "name",
+                              id: "name"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Nazwa")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$X = _sfc_main$X.setup;
+_sfc_main$X.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Categories/Create.vue");
+  return _sfc_setup$X ? _sfc_setup$X(props, ctx) : void 0;
+};
+const __vite_glob_0_4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$X
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$W = {
+  __name: "Edit",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object,
+    category: Object
+  },
+  setup(__props) {
+    const props = __props;
+    const form = useForm({
+      id: props.category.id,
+      name: props.category.name
+    });
+    const submit = () => {
+      form.put(route("admin.category.update", props.category.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+          console.log("udało się");
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Projekt",
+              class: "w-full"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}><div class="flex gap-12 mx-12"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "name",
+                          name: "name",
+                          modelValue: unref(form).name,
+                          "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "name",
+                          id: "name"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Nazwa`);
+                            } else {
+                              return [
+                                createTextVNode("Nazwa")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.name) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.name)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            modelValue: unref(form).name,
+                            "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</div>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Edytuj`);
+                            } else {
+                              return [
+                                createTextVNode("Edytuj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Edytuj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode("div", { class: "flex gap-12 mx-12" }, [
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "name",
+                                name: "name",
+                                modelValue: unref(form).name,
+                                "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "name",
+                                id: "name"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Nazwa")
+                                ]),
+                                _: 1
+                              }),
+                              unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                                ]),
+                                _: 1
+                              })) : createCommentVNode("", true)
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Edytuj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Projekt",
+                class: "w-full"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode("div", { class: "flex gap-12 mx-12" }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "name",
+                              name: "name",
+                              modelValue: unref(form).name,
+                              "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "name",
+                              id: "name"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Nazwa")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Edytuj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$W = _sfc_main$W.setup;
+_sfc_main$W.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Categories/Edit.vue");
+  return _sfc_setup$W ? _sfc_setup$W(props, ctx) : void 0;
+};
+const __vite_glob_0_5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$W
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$V = {
+  __name: "Modal",
+  __ssrInlineRender: true,
+  props: {
+    isModalOpen: Boolean,
+    closeModal: Function,
+    title: String
+  },
+  emits: ["update:isModalOpen"],
+  setup(__props, { emit: __emit }) {
+    return (_ctx, _push, _parent, _attrs) => {
+      if (__props.isModalOpen) {
+        _push(`<div${ssrRenderAttrs(mergeProps({
+          class: ["fixed inset-0 flex justify-center items-center px-6 sm:px-12 2xl:px-0 pb-12 pt-32 lg:pt-0 bg-bgDark-400 bg-opacity-50", _ctx.classes]
+        }, _attrs))} data-v-bb07739f><div class="bg-bgLight-200" data-v-bb07739f>`);
+        _push(ssrRenderComponent(_sfc_main$11, {
+          title: __props.title,
+          class: "max-w-screen-xl"
+        }, {
+          default: withCtx((_, _push2, _parent2, _scopeId) => {
+            if (_push2) {
+              ssrRenderSlot(_ctx.$slots, "default", {}, null, _push2, _parent2, _scopeId);
+            } else {
+              return [
+                renderSlot(_ctx.$slots, "default", {}, void 0, true)
+              ];
+            }
+          }),
+          _: 3
+        }, _parent));
+        _push(`</div></div>`);
+      } else {
+        _push(`<!---->`);
+      }
+    };
+  }
+};
+const _sfc_setup$V = _sfc_main$V.setup;
+_sfc_main$V.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Base/Modal.vue");
+  return _sfc_setup$V ? _sfc_setup$V(props, ctx) : void 0;
+};
+const Modal = /* @__PURE__ */ _export_sfc(_sfc_main$V, [["__scopeId", "data-v-bb07739f"]]);
+const _sfc_main$U = {
+  __name: "Index",
+  __ssrInlineRender: true,
+  props: {
+    projects: Object,
+    categories: Object
+  },
+  setup(__props) {
+    let isModalOpen = ref(false);
+    const openModal = (category) => {
+      isModalOpen.value = true;
+      category.value = category;
+    };
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+    const formatDate = (date) => {
+      return moment(date).format("DD-MM-YYYY");
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      const _component_Link = resolveComponent("Link");
+      const _component_v_if = resolveComponent("v-if");
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-2be249d0>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Kategorie" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<div class="relative overflow-x-auto" data-v-2be249d0${_scopeId}><table class="mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" data-v-2be249d0${_scopeId}><caption class="p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" data-v-2be249d0${_scopeId}> Kategorie </caption><thead class="text-sm text-fontDark uppercase" data-v-2be249d0${_scopeId}><tr data-v-2be249d0${_scopeId}><th scope="col" class="px-6 py-3 hidden sm:table-cell" data-v-2be249d0${_scopeId}> # </th><th scope="col" class="px-6 py-3" data-v-2be249d0${_scopeId}>Nazwa</th><th scope="col" class="px-6 py-3 hidden lg:table-cell" data-v-2be249d0${_scopeId}> Data dodania </th><th scope="col" class="px-6 py-3" data-v-2be249d0${_scopeId}>Akcja</th></tr></thead><tbody data-v-2be249d0${_scopeId}><!--[-->`);
+            ssrRenderList(__props.categories, (category, index) => {
+              _push2(`<tr class="bg-white dark:bg-gray-800" data-v-2be249d0${_scopeId}><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell" data-v-2be249d0${_scopeId}>${ssrInterpolate(index + 1)}</th><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" data-v-2be249d0${_scopeId}>${ssrInterpolate(category.name)}</td><td class="px-6 py-4 hidden lg:table-cell" data-v-2be249d0${_scopeId}>${ssrInterpolate(formatDate(category.created_at))}</td><td class="px-6 py-4 flex gap-4 items-center" data-v-2be249d0${_scopeId}>`);
+              _push2(ssrRenderComponent(_component_Link, {
+                href: _ctx.route("admin.category.edit", category.id)
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(`<img src="/assets/icons/admin/edit.svg" alt="" class="w-6 hover:animate-shake" data-v-2be249d0${_scopeId2}>`);
+                  } else {
+                    return [
+                      createVNode("img", {
+                        src: "/assets/icons/admin/edit.svg",
+                        alt: "",
+                        class: "w-6 hover:animate-shake"
+                      })
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`<button data-v-2be249d0${_scopeId}><img src="/assets/icons/admin/trash.svg" alt="" class="w-6 hover:animate-shake" data-v-2be249d0${_scopeId}></button>`);
+              _push2(ssrRenderComponent(_component_v_if, { isModalOpen: "" }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(ssrRenderComponent(Modal, {
+                      title: "usuń",
+                      isModalOpen: unref(isModalOpen),
+                      "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                    }, {
+                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                        if (_push4) {
+                          _push4(`<div class="text-black p-12 flex flex-col" data-v-2be249d0${_scopeId3}><span class="text-lg" data-v-2be249d0${_scopeId3}>Czy na pewno chcesz usunąć tę kategorię?</span><div class="flex justify-center items-center gap-12 mt-12" data-v-2be249d0${_scopeId3}>`);
+                          _push4(ssrRenderComponent(PrimaryButton$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(ssrRenderComponent(_component_Link, {
+                                  onClick: closeModal,
+                                  method: "DELETE",
+                                  href: _ctx.route(
+                                    "admin.category.delete",
+                                    category.id
+                                  )
+                                }, {
+                                  default: withCtx((_5, _push6, _parent6, _scopeId5) => {
+                                    if (_push6) {
+                                      _push6(` Tak `);
+                                    } else {
+                                      return [
+                                        createTextVNode(" Tak ")
+                                      ];
+                                    }
+                                  }),
+                                  _: 2
+                                }, _parent5, _scopeId4));
+                              } else {
+                                return [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.category.delete",
+                                      category.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ];
+                              }
+                            }),
+                            _: 2
+                          }, _parent4, _scopeId3));
+                          _push4(`</div></div>`);
+                        } else {
+                          return [
+                            createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                              createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                              createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                createVNode(PrimaryButton$1, null, {
+                                  default: withCtx(() => [
+                                    createVNode(_component_Link, {
+                                      onClick: closeModal,
+                                      method: "DELETE",
+                                      href: _ctx.route(
+                                        "admin.category.delete",
+                                        category.id
+                                      )
+                                    }, {
+                                      default: withCtx(() => [
+                                        createTextVNode(" Tak ")
+                                      ]),
+                                      _: 2
+                                    }, 1032, ["href"])
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ])
+                            ])
+                          ];
+                        }
+                      }),
+                      _: 2
+                    }, _parent3, _scopeId2));
+                  } else {
+                    return [
+                      createVNode(Modal, {
+                        title: "usuń",
+                        isModalOpen: unref(isModalOpen),
+                        "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                      }, {
+                        default: withCtx(() => [
+                          createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                            createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                            createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                              createVNode(PrimaryButton$1, null, {
+                                default: withCtx(() => [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.category.delete",
+                                      category.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ]),
+                                _: 2
+                              }, 1024)
+                            ])
+                          ])
+                        ]),
+                        _: 2
+                      }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`</td></tr>`);
+            });
+            _push2(`<!--]--></tbody></table></div><div data-v-2be249d0${_scopeId}>`);
+            _push2(ssrRenderComponent(_component_Link, {
+              href: _ctx.route("admin.category.create"),
+              class: "absolute bottom-6"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<img src="/assets/icons/admin/plus.svg" alt="" class="w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake" data-v-2be249d0${_scopeId2}>`);
+                } else {
+                  return [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(`</div>`);
+          } else {
+            return [
+              createVNode("div", { class: "relative overflow-x-auto" }, [
+                createVNode("table", { class: "mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" }, [
+                  createVNode("caption", { class: "p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" }, " Kategorie "),
+                  createVNode("thead", { class: "text-sm text-fontDark uppercase" }, [
+                    createVNode("tr", null, [
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden sm:table-cell"
+                      }, " # "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Nazwa"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden lg:table-cell"
+                      }, " Data dodania "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Akcja")
+                    ])
+                  ]),
+                  createVNode("tbody", null, [
+                    (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category, index) => {
+                      return openBlock(), createBlock("tr", {
+                        key: category.id,
+                        class: "bg-white dark:bg-gray-800"
+                      }, [
+                        createVNode("th", {
+                          scope: "row",
+                          class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell"
+                        }, toDisplayString(index + 1), 1),
+                        createVNode("td", { class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" }, toDisplayString(category.name), 1),
+                        createVNode("td", { class: "px-6 py-4 hidden lg:table-cell" }, toDisplayString(formatDate(category.created_at)), 1),
+                        createVNode("td", { class: "px-6 py-4 flex gap-4 items-center" }, [
+                          createVNode(_component_Link, {
+                            href: _ctx.route("admin.category.edit", category.id)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode("img", {
+                                src: "/assets/icons/admin/edit.svg",
+                                alt: "",
+                                class: "w-6 hover:animate-shake"
+                              })
+                            ]),
+                            _: 2
+                          }, 1032, ["href"]),
+                          createVNode("button", { onClick: openModal }, [
+                            createVNode("img", {
+                              src: "/assets/icons/admin/trash.svg",
+                              alt: "",
+                              class: "w-6 hover:animate-shake"
+                            })
+                          ]),
+                          createVNode(_component_v_if, { isModalOpen: "" }, {
+                            default: withCtx(() => [
+                              createVNode(Modal, {
+                                title: "usuń",
+                                isModalOpen: unref(isModalOpen),
+                                "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                                    createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                                    createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                      createVNode(PrimaryButton$1, null, {
+                                        default: withCtx(() => [
+                                          createVNode(_component_Link, {
+                                            onClick: closeModal,
+                                            method: "DELETE",
+                                            href: _ctx.route(
+                                              "admin.category.delete",
+                                              category.id
+                                            )
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(" Tak ")
+                                            ]),
+                                            _: 2
+                                          }, 1032, ["href"])
+                                        ]),
+                                        _: 2
+                                      }, 1024)
+                                    ])
+                                  ])
+                                ]),
+                                _: 2
+                              }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                            ]),
+                            _: 2
+                          }, 1024)
+                        ])
+                      ]);
+                    }), 128))
+                  ])
+                ])
+              ]),
+              createVNode("div", null, [
+                createVNode(_component_Link, {
+                  href: _ctx.route("admin.category.create"),
+                  class: "absolute bottom-6"
+                }, {
+                  default: withCtx(() => [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["href"])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$U = _sfc_main$U.setup;
+_sfc_main$U.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Categories/Index.vue");
+  return _sfc_setup$U ? _sfc_setup$U(props, ctx) : void 0;
+};
+const Index$4 = /* @__PURE__ */ _export_sfc(_sfc_main$U, [["__scopeId", "data-v-2be249d0"]]);
+const __vite_glob_0_6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Index$4
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$T = {
+  __name: "TextArea",
+  __ssrInlineRender: true,
+  props: {
+    modelValue: String
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit: __emit }) {
+    return (_ctx, _push, _parent, _attrs) => {
+      let _temp0;
+      _push(`<textarea${ssrRenderAttrs(_temp0 = mergeProps({
+        rows: "5",
+        class: "block px-2.5 pb-2.5 pt-4 w-full text-lg text-fontDark bg-transparent border-1 border-fontDark appearance-none focus:outline-none focus:ring-0 focus:border-ownPurple-400 peer box-shadow font-text duration-300 max-h-[300px]",
+        placeholder: " ",
+        value: __props.modelValue
+      }, _attrs), "textarea")}>${ssrInterpolate("value" in _temp0 ? _temp0.value : "")}</textarea>`);
+    };
+  }
+};
+const _sfc_setup$T = _sfc_main$T.setup;
+_sfc_main$T.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/TextArea.vue");
+  return _sfc_setup$T ? _sfc_setup$T(props, ctx) : void 0;
+};
+const _sfc_main$S = {
+  __name: "Create",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object
+  },
+  setup(__props) {
+    const fileChange = (e2) => {
+      form.logo = e2.target.files[0];
+    };
+    const form = useForm({
+      link: "",
+      logo: null,
+      body: ""
+    });
+    const submit = () => {
+      form.post(route("admin.comment.store"), {
+        preserveScroll: true,
+        onSuccess: () => {
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Kategorię",
+              class: "w-1/2 mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "link",
+                          name: "link",
+                          modelValue: unref(form).link,
+                          "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "link",
+                          id: "link"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Link`);
+                            } else {
+                              return [
+                                createTextVNode("Link")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.link) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.link)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "link",
+                            name: "link",
+                            modelValue: unref(form).link,
+                            "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "link",
+                            id: "link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.link ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<input type="file"${_scopeId3}>`);
+                        if (unref(form).errors.logo) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.logo)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$T, {
+                          id: "body",
+                          name: "body",
+                          modelValue: unref(form).body,
+                          "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "body",
+                          id: "body"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Treść`);
+                            } else {
+                              return [
+                                createTextVNode("Treść")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.body) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.body)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$T, {
+                            id: "body",
+                            name: "body",
+                            modelValue: unref(form).body,
+                            "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "body",
+                            id: "body"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Treść")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.body ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "link",
+                              name: "link",
+                              modelValue: unref(form).link,
+                              "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "link",
+                              id: "link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Link")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.link ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode("input", {
+                              type: "file",
+                              onChange: fileChange
+                            }, null, 32),
+                            unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$T, {
+                              id: "body",
+                              name: "body",
+                              modelValue: unref(form).body,
+                              "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "body",
+                              id: "body"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Treść")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.body ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Kategorię",
+                class: "w-1/2 mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "link",
+                            name: "link",
+                            modelValue: unref(form).link,
+                            "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "link",
+                            id: "link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.link ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$T, {
+                            id: "body",
+                            name: "body",
+                            modelValue: unref(form).body,
+                            "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "body",
+                            id: "body"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Treść")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.body ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$S = _sfc_main$S.setup;
+_sfc_main$S.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Comments/Create.vue");
+  return _sfc_setup$S ? _sfc_setup$S(props, ctx) : void 0;
+};
+const __vite_glob_0_7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$S
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$R = {
+  __name: "Edit",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object,
+    comment: Object
+  },
+  setup(__props) {
+    const props = __props;
+    const form = useForm({
+      link: props.comment.link,
+      logo: props.comment.logo,
+      body: props.comment.body
+    });
+    const fileChange = (e2) => {
+      form.logo = e2.target.files[0];
+    };
+    const submit = () => {
+      form.put(route("admin.comment.update", props.comment.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Kategorię",
+              class: "w-1/2 mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "link",
+                          name: "link",
+                          modelValue: unref(form).link,
+                          "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "link",
+                          id: "link"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Link`);
+                            } else {
+                              return [
+                                createTextVNode("Link")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.link) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.link)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "link",
+                            name: "link",
+                            modelValue: unref(form).link,
+                            "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "link",
+                            id: "link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.link ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<input type="file"${_scopeId3}>`);
+                        if (unref(form).errors.logo) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.logo)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$T, {
+                          id: "body",
+                          name: "body",
+                          modelValue: unref(form).body,
+                          "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "body",
+                          id: "body"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Treść`);
+                            } else {
+                              return [
+                                createTextVNode("Treść")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.body) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.body)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$T, {
+                            id: "body",
+                            name: "body",
+                            modelValue: unref(form).body,
+                            "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "body",
+                            id: "body"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Treść")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.body ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "link",
+                              name: "link",
+                              modelValue: unref(form).link,
+                              "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "link",
+                              id: "link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Link")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.link ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode("input", {
+                              type: "file",
+                              onChange: fileChange
+                            }, null, 32),
+                            unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$T, {
+                              id: "body",
+                              name: "body",
+                              modelValue: unref(form).body,
+                              "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "body",
+                              id: "body"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Treść")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.body ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Kategorię",
+                class: "w-1/2 mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "link",
+                            name: "link",
+                            modelValue: unref(form).link,
+                            "onUpdate:modelValue": ($event) => unref(form).link = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "link",
+                            id: "link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.link ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$T, {
+                            id: "body",
+                            name: "body",
+                            modelValue: unref(form).body,
+                            "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "body",
+                            id: "body"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Treść")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.body ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.body), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$R = _sfc_main$R.setup;
+_sfc_main$R.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Comments/Edit.vue");
+  return _sfc_setup$R ? _sfc_setup$R(props, ctx) : void 0;
+};
+const __vite_glob_0_8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$R
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$Q = {
+  __name: "Index",
+  __ssrInlineRender: true,
+  props: {
+    projects: Object,
+    comments: Object
+  },
+  setup(__props) {
+    let isModalOpen = ref(false);
+    const openModal = (comment) => {
+      isModalOpen.value = true;
+      comment.value = comment;
+    };
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+    const formatDate = (date) => {
+      return moment(date).format("DD-MM-YYYY");
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      const _component_Link = resolveComponent("Link");
+      const _component_v_if = resolveComponent("v-if");
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-7c9cd76c>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Komentarze" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<div class="relative overflow-x-auto" data-v-7c9cd76c${_scopeId}><table class="mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" data-v-7c9cd76c${_scopeId}><caption class="p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" data-v-7c9cd76c${_scopeId}> Komentarze </caption><thead class="text-sm text-fontDark uppercase" data-v-7c9cd76c${_scopeId}><tr data-v-7c9cd76c${_scopeId}><th scope="col" class="px-6 py-3 hidden sm:table-cell" data-v-7c9cd76c${_scopeId}> # </th><th scope="col" class="px-6 py-3" data-v-7c9cd76c${_scopeId}>Nazwa</th><th scope="col" class="px-6 py-3 hidden lg:table-cell" data-v-7c9cd76c${_scopeId}> Data dodania </th><th scope="col" class="px-6 py-3" data-v-7c9cd76c${_scopeId}>Akcja</th></tr></thead><tbody data-v-7c9cd76c${_scopeId}><!--[-->`);
+            ssrRenderList(__props.comments, (comment, index) => {
+              _push2(`<tr class="bg-white dark:bg-gray-800" data-v-7c9cd76c${_scopeId}><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell" data-v-7c9cd76c${_scopeId}>${ssrInterpolate(index + 1)}</th><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" data-v-7c9cd76c${_scopeId}>${ssrInterpolate(comment.link)}</td><td class="px-6 py-4 hidden lg:table-cell" data-v-7c9cd76c${_scopeId}>${ssrInterpolate(formatDate(comment.created_at))}</td><td class="px-6 py-4 flex gap-4 items-center" data-v-7c9cd76c${_scopeId}>`);
+              _push2(ssrRenderComponent(_component_Link, {
+                href: _ctx.route("admin.comment.edit", comment.id)
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(`<img src="/assets/icons/admin/edit.svg" alt="" class="w-6 hover:animate-shake" data-v-7c9cd76c${_scopeId2}>`);
+                  } else {
+                    return [
+                      createVNode("img", {
+                        src: "/assets/icons/admin/edit.svg",
+                        alt: "",
+                        class: "w-6 hover:animate-shake"
+                      })
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`<button data-v-7c9cd76c${_scopeId}><img src="/assets/icons/admin/trash.svg" alt="" class="w-6 hover:animate-shake" data-v-7c9cd76c${_scopeId}></button>`);
+              _push2(ssrRenderComponent(_component_v_if, { isModalOpen: "" }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(ssrRenderComponent(Modal, {
+                      title: "usuń",
+                      isModalOpen: unref(isModalOpen),
+                      "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                    }, {
+                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                        if (_push4) {
+                          _push4(`<div class="text-black p-12 flex flex-col" data-v-7c9cd76c${_scopeId3}><span class="text-lg" data-v-7c9cd76c${_scopeId3}>Czy na pewno chcesz usunąć tę kategorię?</span><div class="flex justify-center items-center gap-12 mt-12" data-v-7c9cd76c${_scopeId3}>`);
+                          _push4(ssrRenderComponent(PrimaryButton$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(ssrRenderComponent(_component_Link, {
+                                  onClick: closeModal,
+                                  method: "DELETE",
+                                  href: _ctx.route(
+                                    "admin.comment.delete",
+                                    comment.id
+                                  )
+                                }, {
+                                  default: withCtx((_5, _push6, _parent6, _scopeId5) => {
+                                    if (_push6) {
+                                      _push6(` Tak `);
+                                    } else {
+                                      return [
+                                        createTextVNode(" Tak ")
+                                      ];
+                                    }
+                                  }),
+                                  _: 2
+                                }, _parent5, _scopeId4));
+                              } else {
+                                return [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.comment.delete",
+                                      comment.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ];
+                              }
+                            }),
+                            _: 2
+                          }, _parent4, _scopeId3));
+                          _push4(`</div></div>`);
+                        } else {
+                          return [
+                            createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                              createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                              createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                createVNode(PrimaryButton$1, null, {
+                                  default: withCtx(() => [
+                                    createVNode(_component_Link, {
+                                      onClick: closeModal,
+                                      method: "DELETE",
+                                      href: _ctx.route(
+                                        "admin.comment.delete",
+                                        comment.id
+                                      )
+                                    }, {
+                                      default: withCtx(() => [
+                                        createTextVNode(" Tak ")
+                                      ]),
+                                      _: 2
+                                    }, 1032, ["href"])
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ])
+                            ])
+                          ];
+                        }
+                      }),
+                      _: 2
+                    }, _parent3, _scopeId2));
+                  } else {
+                    return [
+                      createVNode(Modal, {
+                        title: "usuń",
+                        isModalOpen: unref(isModalOpen),
+                        "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                      }, {
+                        default: withCtx(() => [
+                          createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                            createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                            createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                              createVNode(PrimaryButton$1, null, {
+                                default: withCtx(() => [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.comment.delete",
+                                      comment.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ]),
+                                _: 2
+                              }, 1024)
+                            ])
+                          ])
+                        ]),
+                        _: 2
+                      }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`</td></tr>`);
+            });
+            _push2(`<!--]--></tbody></table></div><div data-v-7c9cd76c${_scopeId}>`);
+            _push2(ssrRenderComponent(_component_Link, {
+              href: _ctx.route("admin.comment.create"),
+              class: "absolute bottom-6"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<img src="/assets/icons/admin/plus.svg" alt="" class="w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake" data-v-7c9cd76c${_scopeId2}>`);
+                } else {
+                  return [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(`</div>`);
+          } else {
+            return [
+              createVNode("div", { class: "relative overflow-x-auto" }, [
+                createVNode("table", { class: "mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" }, [
+                  createVNode("caption", { class: "p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" }, " Komentarze "),
+                  createVNode("thead", { class: "text-sm text-fontDark uppercase" }, [
+                    createVNode("tr", null, [
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden sm:table-cell"
+                      }, " # "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Nazwa"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden lg:table-cell"
+                      }, " Data dodania "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Akcja")
+                    ])
+                  ]),
+                  createVNode("tbody", null, [
+                    (openBlock(true), createBlock(Fragment, null, renderList(__props.comments, (comment, index) => {
+                      return openBlock(), createBlock("tr", {
+                        key: comment.id,
+                        class: "bg-white dark:bg-gray-800"
+                      }, [
+                        createVNode("th", {
+                          scope: "row",
+                          class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell"
+                        }, toDisplayString(index + 1), 1),
+                        createVNode("td", { class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" }, toDisplayString(comment.link), 1),
+                        createVNode("td", { class: "px-6 py-4 hidden lg:table-cell" }, toDisplayString(formatDate(comment.created_at)), 1),
+                        createVNode("td", { class: "px-6 py-4 flex gap-4 items-center" }, [
+                          createVNode(_component_Link, {
+                            href: _ctx.route("admin.comment.edit", comment.id)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode("img", {
+                                src: "/assets/icons/admin/edit.svg",
+                                alt: "",
+                                class: "w-6 hover:animate-shake"
+                              })
+                            ]),
+                            _: 2
+                          }, 1032, ["href"]),
+                          createVNode("button", { onClick: openModal }, [
+                            createVNode("img", {
+                              src: "/assets/icons/admin/trash.svg",
+                              alt: "",
+                              class: "w-6 hover:animate-shake"
+                            })
+                          ]),
+                          createVNode(_component_v_if, { isModalOpen: "" }, {
+                            default: withCtx(() => [
+                              createVNode(Modal, {
+                                title: "usuń",
+                                isModalOpen: unref(isModalOpen),
+                                "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                                    createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                                    createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                      createVNode(PrimaryButton$1, null, {
+                                        default: withCtx(() => [
+                                          createVNode(_component_Link, {
+                                            onClick: closeModal,
+                                            method: "DELETE",
+                                            href: _ctx.route(
+                                              "admin.comment.delete",
+                                              comment.id
+                                            )
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(" Tak ")
+                                            ]),
+                                            _: 2
+                                          }, 1032, ["href"])
+                                        ]),
+                                        _: 2
+                                      }, 1024)
+                                    ])
+                                  ])
+                                ]),
+                                _: 2
+                              }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                            ]),
+                            _: 2
+                          }, 1024)
+                        ])
+                      ]);
+                    }), 128))
+                  ])
+                ])
+              ]),
+              createVNode("div", null, [
+                createVNode(_component_Link, {
+                  href: _ctx.route("admin.comment.create"),
+                  class: "absolute bottom-6"
+                }, {
+                  default: withCtx(() => [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["href"])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$Q = _sfc_main$Q.setup;
+_sfc_main$Q.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Comments/Index.vue");
+  return _sfc_setup$Q ? _sfc_setup$Q(props, ctx) : void 0;
+};
+const Index$3 = /* @__PURE__ */ _export_sfc(_sfc_main$Q, [["__scopeId", "data-v-7c9cd76c"]]);
+const __vite_glob_0_9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Index$3
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$P = {
+  __name: "Dashboard",
+  __ssrInlineRender: true,
+  setup(__props) {
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<!--[-->`);
+      _push(ssrRenderComponent(_component_Head, { title: "Panel Admina" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, null, _parent));
+      _push(`<!--]-->`);
+    };
+  }
+};
+const _sfc_setup$P = _sfc_main$P.setup;
+_sfc_main$P.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Dashboard.vue");
+  return _sfc_setup$P ? _sfc_setup$P(props, ctx) : void 0;
+};
+const __vite_glob_0_10 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$P
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$O = {
+  __name: "Create",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object
+  },
+  setup(__props) {
+    const form = useForm({
+      title: "",
+      body: ""
+    });
+    const submit = () => {
+      form.post(route("admin.post.store"), {
+        preserveScroll: true,
+        onSuccess: () => {
+          console.log("udało się");
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Post" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Post",
+              class: "w-full mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}><div class="flex gap-12 mx-12"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "title",
+                          name: "title",
+                          modelValue: unref(form).title,
+                          "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "title",
+                          id: "title"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Tytuł`);
+                            } else {
+                              return [
+                                createTextVNode("Tytuł")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.title) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.title)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "title",
+                            name: "title",
+                            modelValue: unref(form).title,
+                            "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "title",
+                            id: "title"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Tytuł")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.title ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, null, _parent3, _scopeId2));
+                  _push3(`</div>`);
+                  _push3(ssrRenderComponent(unref(QuillEditor), {
+                    theme: "snow",
+                    toolbar: "full",
+                    content: unref(form).body,
+                    "onUpdate:content": ($event) => unref(form).body = $event,
+                    contentType: "html"
+                  }, null, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode("div", { class: "flex gap-12 mx-12" }, [
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "title",
+                                name: "title",
+                                modelValue: unref(form).title,
+                                "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "title",
+                                id: "title"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Tytuł")
+                                ]),
+                                _: 1
+                              }),
+                              unref(form).errors.title ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                                ]),
+                                _: 1
+                              })) : createCommentVNode("", true)
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Field)
+                        ]),
+                        createVNode(unref(QuillEditor), {
+                          theme: "snow",
+                          toolbar: "full",
+                          content: unref(form).body,
+                          "onUpdate:content": ($event) => unref(form).body = $event,
+                          contentType: "html"
+                        }, null, 8, ["content", "onUpdate:content"]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Post",
+                class: "w-full mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode("div", { class: "flex gap-12 mx-12" }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "title",
+                              name: "title",
+                              modelValue: unref(form).title,
+                              "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "title",
+                              id: "title"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Tytuł")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.title ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field)
+                      ]),
+                      createVNode(unref(QuillEditor), {
+                        theme: "snow",
+                        toolbar: "full",
+                        content: unref(form).body,
+                        "onUpdate:content": ($event) => unref(form).body = $event,
+                        contentType: "html"
+                      }, null, 8, ["content", "onUpdate:content"]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$O = _sfc_main$O.setup;
+_sfc_main$O.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Posts/Create.vue");
+  return _sfc_setup$O ? _sfc_setup$O(props, ctx) : void 0;
+};
+const __vite_glob_0_11 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$O
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$N = {
+  __name: "Edit",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object,
+    post: Object
+  },
+  setup(__props) {
+    const props = __props;
+    const editor = ref(BalloonEditor);
+    ref("<p>Your Post Content</p>");
+    const editorConfig = ref();
+    const form = useForm({
+      title: props.post.title,
+      body: props.post.body,
+      post_title: "",
+      post_image: ""
+    });
+    const submit = () => {
+      form.put(route("admin.post.update", props.post.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+          console.log("udało się");
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      const _component_ckeditor = resolveComponent("ckeditor");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Post" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Post",
+              class: "w-full mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}><div class="flex gap-12 mx-12"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "title",
+                          name: "title",
+                          modelValue: unref(form).title,
+                          "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "title",
+                          id: "title"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Tytuł`);
+                            } else {
+                              return [
+                                createTextVNode("Tytuł")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.title) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.title)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "title",
+                            name: "title",
+                            modelValue: unref(form).title,
+                            "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "title",
+                            id: "title"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Tytuł")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.title ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_component_ckeditor, {
+                          editor: editor.value,
+                          modelValue: unref(form).body,
+                          "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                          config: editorConfig.value
+                        }, null, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_component_ckeditor, {
+                            editor: editor.value,
+                            modelValue: unref(form).body,
+                            "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                            config: editorConfig.value
+                          }, null, 8, ["editor", "modelValue", "onUpdate:modelValue", "config"])
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</div>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode("div", { class: "flex gap-12 mx-12" }, [
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "title",
+                                name: "title",
+                                modelValue: unref(form).title,
+                                "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "title",
+                                id: "title"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Tytuł")
+                                ]),
+                                _: 1
+                              }),
+                              unref(form).errors.title ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                                ]),
+                                _: 1
+                              })) : createCommentVNode("", true)
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_ckeditor, {
+                                editor: editor.value,
+                                modelValue: unref(form).body,
+                                "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                                config: editorConfig.value
+                              }, null, 8, ["editor", "modelValue", "onUpdate:modelValue", "config"])
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Post",
+                class: "w-full mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode("div", { class: "flex gap-12 mx-12" }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "title",
+                              name: "title",
+                              modelValue: unref(form).title,
+                              "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "title",
+                              id: "title"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Tytuł")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.title ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.title), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_component_ckeditor, {
+                              editor: editor.value,
+                              modelValue: unref(form).body,
+                              "onUpdate:modelValue": ($event) => unref(form).body = $event,
+                              config: editorConfig.value
+                            }, null, 8, ["editor", "modelValue", "onUpdate:modelValue", "config"])
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$N = _sfc_main$N.setup;
+_sfc_main$N.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Posts/Edit.vue");
+  return _sfc_setup$N ? _sfc_setup$N(props, ctx) : void 0;
+};
+const __vite_glob_0_12 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
   default: _sfc_main$N
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$M = {};
-function _sfc_ssrRender$8(_ctx, _push, _parent, _attrs) {
+const _sfc_main$M = {
+  __name: "Index",
+  __ssrInlineRender: true,
+  props: {
+    posts: Object
+  },
+  setup(__props) {
+    let isModalOpen = ref(false);
+    const openModal = (post) => {
+      isModalOpen.value = true;
+      post.value = post;
+    };
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+    const formatDate = (date) => {
+      return moment(date).format("DD-MM-YYYY");
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      const _component_Link = resolveComponent("Link");
+      const _component_v_if = resolveComponent("v-if");
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-e5b7cbf5>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Posty" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<div class="relative overflow-x-auto" data-v-e5b7cbf5${_scopeId}><table class="mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" data-v-e5b7cbf5${_scopeId}><caption class="p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" data-v-e5b7cbf5${_scopeId}> Posty </caption><thead class="text-sm text-fontDark uppercase" data-v-e5b7cbf5${_scopeId}><tr data-v-e5b7cbf5${_scopeId}><th scope="col" class="px-6 py-3 hidden sm:table-cell" data-v-e5b7cbf5${_scopeId}> # </th><th scope="col" class="px-6 py-3" data-v-e5b7cbf5${_scopeId}>Tytuł</th><th scope="col" class="px-6 py-3 hidden lg:table-cell" data-v-e5b7cbf5${_scopeId}> Data dodania </th><th scope="col" class="px-6 py-3" data-v-e5b7cbf5${_scopeId}>Akcja</th></tr></thead><tbody data-v-e5b7cbf5${_scopeId}><!--[-->`);
+            ssrRenderList(__props.posts, (post, index) => {
+              _push2(`<tr class="bg-white dark:bg-gray-800" data-v-e5b7cbf5${_scopeId}><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell" data-v-e5b7cbf5${_scopeId}>${ssrInterpolate(index + 1)}</th><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" data-v-e5b7cbf5${_scopeId}>${ssrInterpolate(post.title)}</td><td class="px-6 py-4 hidden lg:table-cell" data-v-e5b7cbf5${_scopeId}>${ssrInterpolate(formatDate(post.created_at))}</td><td class="px-6 py-4 flex gap-4 items-center" data-v-e5b7cbf5${_scopeId}>`);
+              _push2(ssrRenderComponent(_component_Link, {
+                href: _ctx.route("admin.post.edit", post.id)
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(`<img src="/assets/icons/admin/edit.svg" alt="" class="w-6 hover:animate-shake" data-v-e5b7cbf5${_scopeId2}>`);
+                  } else {
+                    return [
+                      createVNode("img", {
+                        src: "/assets/icons/admin/edit.svg",
+                        alt: "",
+                        class: "w-6 hover:animate-shake"
+                      })
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`<button data-v-e5b7cbf5${_scopeId}><img src="/assets/icons/admin/trash.svg" alt="" class="w-6 hover:animate-shake" data-v-e5b7cbf5${_scopeId}></button>`);
+              _push2(ssrRenderComponent(_component_v_if, { isModalOpen: "" }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(ssrRenderComponent(Modal, {
+                      title: "usuń",
+                      isModalOpen: unref(isModalOpen),
+                      "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                    }, {
+                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                        if (_push4) {
+                          _push4(`<div class="text-black p-12 flex flex-col" data-v-e5b7cbf5${_scopeId3}><span class="text-lg" data-v-e5b7cbf5${_scopeId3}>Czy na pewno chcesz usunąć tę kategorię?</span><div class="flex justify-center items-center gap-12 mt-12" data-v-e5b7cbf5${_scopeId3}>`);
+                          _push4(ssrRenderComponent(PrimaryButton$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(ssrRenderComponent(_component_Link, {
+                                  onClick: closeModal,
+                                  method: "DELETE",
+                                  href: _ctx.route(
+                                    "admin.post.delete",
+                                    post.id
+                                  )
+                                }, {
+                                  default: withCtx((_5, _push6, _parent6, _scopeId5) => {
+                                    if (_push6) {
+                                      _push6(` Tak `);
+                                    } else {
+                                      return [
+                                        createTextVNode(" Tak ")
+                                      ];
+                                    }
+                                  }),
+                                  _: 2
+                                }, _parent5, _scopeId4));
+                              } else {
+                                return [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.post.delete",
+                                      post.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ];
+                              }
+                            }),
+                            _: 2
+                          }, _parent4, _scopeId3));
+                          _push4(`</div></div>`);
+                        } else {
+                          return [
+                            createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                              createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                              createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                createVNode(PrimaryButton$1, null, {
+                                  default: withCtx(() => [
+                                    createVNode(_component_Link, {
+                                      onClick: closeModal,
+                                      method: "DELETE",
+                                      href: _ctx.route(
+                                        "admin.post.delete",
+                                        post.id
+                                      )
+                                    }, {
+                                      default: withCtx(() => [
+                                        createTextVNode(" Tak ")
+                                      ]),
+                                      _: 2
+                                    }, 1032, ["href"])
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ])
+                            ])
+                          ];
+                        }
+                      }),
+                      _: 2
+                    }, _parent3, _scopeId2));
+                  } else {
+                    return [
+                      createVNode(Modal, {
+                        title: "usuń",
+                        isModalOpen: unref(isModalOpen),
+                        "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                      }, {
+                        default: withCtx(() => [
+                          createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                            createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                            createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                              createVNode(PrimaryButton$1, null, {
+                                default: withCtx(() => [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.post.delete",
+                                      post.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ]),
+                                _: 2
+                              }, 1024)
+                            ])
+                          ])
+                        ]),
+                        _: 2
+                      }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`</td></tr>`);
+            });
+            _push2(`<!--]--></tbody></table></div><div data-v-e5b7cbf5${_scopeId}>`);
+            _push2(ssrRenderComponent(_component_Link, {
+              href: _ctx.route("admin.post.create"),
+              class: "absolute bottom-6"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<img src="/assets/icons/admin/plus.svg" alt="" class="w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake" data-v-e5b7cbf5${_scopeId2}>`);
+                } else {
+                  return [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(`</div>`);
+          } else {
+            return [
+              createVNode("div", { class: "relative overflow-x-auto" }, [
+                createVNode("table", { class: "mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" }, [
+                  createVNode("caption", { class: "p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" }, " Posty "),
+                  createVNode("thead", { class: "text-sm text-fontDark uppercase" }, [
+                    createVNode("tr", null, [
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden sm:table-cell"
+                      }, " # "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Tytuł"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden lg:table-cell"
+                      }, " Data dodania "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Akcja")
+                    ])
+                  ]),
+                  createVNode("tbody", null, [
+                    (openBlock(true), createBlock(Fragment, null, renderList(__props.posts, (post, index) => {
+                      return openBlock(), createBlock("tr", {
+                        key: post.id,
+                        class: "bg-white dark:bg-gray-800"
+                      }, [
+                        createVNode("th", {
+                          scope: "row",
+                          class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell"
+                        }, toDisplayString(index + 1), 1),
+                        createVNode("td", { class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" }, toDisplayString(post.title), 1),
+                        createVNode("td", { class: "px-6 py-4 hidden lg:table-cell" }, toDisplayString(formatDate(post.created_at)), 1),
+                        createVNode("td", { class: "px-6 py-4 flex gap-4 items-center" }, [
+                          createVNode(_component_Link, {
+                            href: _ctx.route("admin.post.edit", post.id)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode("img", {
+                                src: "/assets/icons/admin/edit.svg",
+                                alt: "",
+                                class: "w-6 hover:animate-shake"
+                              })
+                            ]),
+                            _: 2
+                          }, 1032, ["href"]),
+                          createVNode("button", { onClick: openModal }, [
+                            createVNode("img", {
+                              src: "/assets/icons/admin/trash.svg",
+                              alt: "",
+                              class: "w-6 hover:animate-shake"
+                            })
+                          ]),
+                          createVNode(_component_v_if, { isModalOpen: "" }, {
+                            default: withCtx(() => [
+                              createVNode(Modal, {
+                                title: "usuń",
+                                isModalOpen: unref(isModalOpen),
+                                "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                                    createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                                    createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                      createVNode(PrimaryButton$1, null, {
+                                        default: withCtx(() => [
+                                          createVNode(_component_Link, {
+                                            onClick: closeModal,
+                                            method: "DELETE",
+                                            href: _ctx.route(
+                                              "admin.post.delete",
+                                              post.id
+                                            )
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(" Tak ")
+                                            ]),
+                                            _: 2
+                                          }, 1032, ["href"])
+                                        ]),
+                                        _: 2
+                                      }, 1024)
+                                    ])
+                                  ])
+                                ]),
+                                _: 2
+                              }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                            ]),
+                            _: 2
+                          }, 1024)
+                        ])
+                      ]);
+                    }), 128))
+                  ])
+                ])
+              ]),
+              createVNode("div", null, [
+                createVNode(_component_Link, {
+                  href: _ctx.route("admin.post.create"),
+                  class: "absolute bottom-6"
+                }, {
+                  default: withCtx(() => [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["href"])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$M = _sfc_main$M.setup;
+_sfc_main$M.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Posts/Index.vue");
+  return _sfc_setup$M ? _sfc_setup$M(props, ctx) : void 0;
+};
+const Index$2 = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["__scopeId", "data-v-e5b7cbf5"]]);
+const __vite_glob_0_13 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Index$2
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$L = {
+  __name: "Create",
+  __ssrInlineRender: true,
+  props: {
+    technologies: Object,
+    categories: Object,
+    form: Object,
+    errors: Object
+  },
+  setup(__props) {
+    const fileChange = (e2) => {
+      form.image = e2.target.files[0];
+    };
+    const form = useForm({
+      description: "",
+      title: "",
+      site_link: "",
+      youtube_link: "",
+      image: null,
+      category_id: [],
+      technology_id: []
+    });
+    const submit = () => {
+      form.post("/admin/projekty/dodaj", {
+        preserveScroll: true,
+        onSuccess: () => {
+          console.log("udało się");
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Projekt",
+              class: "w-full"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}><div class="flex gap-12 mx-12"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "title",
+                          name: "title",
+                          modelValue: unref(form).title,
+                          "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "title",
+                          id: "title"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Nazwa`);
+                            } else {
+                              return [
+                                createTextVNode("Nazwa")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "title",
+                            name: "title",
+                            modelValue: unref(form).title,
+                            "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "title",
+                            id: "title"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "site_link",
+                          name: "site_link ",
+                          modelValue: unref(form).site_link,
+                          "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "site_link",
+                          id: "site_link"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Link do strony`);
+                            } else {
+                              return [
+                                createTextVNode("Link do strony")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "site_link",
+                            name: "site_link ",
+                            modelValue: unref(form).site_link,
+                            "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "site_link",
+                            id: "site_link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link do strony")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "youtube_link",
+                          name: "youtube_link",
+                          modelValue: unref(form).youtube_link,
+                          "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "youtube_link",
+                          id: "youtube_link"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Link do youtube`);
+                            } else {
+                              return [
+                                createTextVNode("Link do youtube")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "youtube_link",
+                            name: "youtube_link",
+                            modelValue: unref(form).youtube_link,
+                            "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "youtube_link",
+                            id: "youtube_link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link do youtube")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</div>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(Label, {
+                          for: "name",
+                          id: "name"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Kategoria`);
+                            } else {
+                              return [
+                                createTextVNode("Kategoria")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(`<ul class="flex gap-6"${_scopeId3}><!--[-->`);
+                        ssrRenderList(__props.categories, (category) => {
+                          _push4(`<li class="mt-6"${_scopeId3}><input type="checkbox"${ssrIncludeBooleanAttr(Array.isArray(unref(form).category_id) ? ssrLooseContain(unref(form).category_id, category.id) : unref(form).category_id) ? " checked" : ""}${ssrRenderAttr("value", category.id)}${_scopeId3}> <label for=""${_scopeId3}>${ssrInterpolate(category.name)}</label></li>`);
+                        });
+                        _push4(`<!--]--></ul>`);
+                      } else {
+                        return [
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Kategoria")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: category.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).category_id = $event,
+                                  value: category.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).category_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(category.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(Label, {
+                          for: "technology",
+                          id: "technology"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Technology`);
+                            } else {
+                              return [
+                                createTextVNode("Technology")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(`<ul class="flex gap-6"${_scopeId3}><!--[-->`);
+                        ssrRenderList(__props.technologies, (technology) => {
+                          _push4(`<li class="mt-6"${_scopeId3}><input type="checkbox"${ssrIncludeBooleanAttr(Array.isArray(unref(form).technology_id) ? ssrLooseContain(unref(form).technology_id, technology.id) : unref(form).technology_id) ? " checked" : ""}${ssrRenderAttr("value", technology.id)}${_scopeId3}> <label for=""${_scopeId3}>${ssrInterpolate(technology.name)}</label></li>`);
+                        });
+                        _push4(`<!--]--></ul>`);
+                      } else {
+                        return [
+                          createVNode(Label, {
+                            for: "technology",
+                            id: "technology"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Technology")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: technology.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).technology_id = $event,
+                                  value: technology.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).technology_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(technology.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`<input type="file"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(unref(QuillEditor), {
+                    theme: "snow",
+                    toolbar: "full",
+                    content: unref(form).description,
+                    "onUpdate:content": ($event) => unref(form).description = $event,
+                    contentType: "html"
+                  }, null, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode("div", { class: "flex gap-12 mx-12" }, [
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "title",
+                                name: "title",
+                                modelValue: unref(form).title,
+                                "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "title",
+                                id: "title"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Nazwa")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "site_link",
+                                name: "site_link ",
+                                modelValue: unref(form).site_link,
+                                "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "site_link",
+                                id: "site_link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Link do strony")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "youtube_link",
+                                name: "youtube_link",
+                                modelValue: unref(form).youtube_link,
+                                "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "youtube_link",
+                                id: "youtube_link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Link do youtube")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(Label, {
+                              for: "name",
+                              id: "name"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Kategoria")
+                              ]),
+                              _: 1
+                            }),
+                            createVNode("ul", { class: "flex gap-6" }, [
+                              (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category) => {
+                                return openBlock(), createBlock("li", {
+                                  class: "mt-6",
+                                  key: category.id
+                                }, [
+                                  withDirectives(createVNode("input", {
+                                    type: "checkbox",
+                                    "onUpdate:modelValue": ($event) => unref(form).category_id = $event,
+                                    value: category.id
+                                  }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                    [vModelCheckbox, unref(form).category_id]
+                                  ]),
+                                  createTextVNode(),
+                                  createVNode("label", { for: "" }, toDisplayString(category.name), 1)
+                                ]);
+                              }), 128))
+                            ])
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(Label, {
+                              for: "technology",
+                              id: "technology"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Technology")
+                              ]),
+                              _: 1
+                            }),
+                            createVNode("ul", { class: "flex gap-6" }, [
+                              (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
+                                return openBlock(), createBlock("li", {
+                                  class: "mt-6",
+                                  key: technology.id
+                                }, [
+                                  withDirectives(createVNode("input", {
+                                    type: "checkbox",
+                                    "onUpdate:modelValue": ($event) => unref(form).technology_id = $event,
+                                    value: technology.id
+                                  }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                    [vModelCheckbox, unref(form).technology_id]
+                                  ]),
+                                  createTextVNode(),
+                                  createVNode("label", { for: "" }, toDisplayString(technology.name), 1)
+                                ]);
+                              }), 128))
+                            ])
+                          ]),
+                          _: 1
+                        }),
+                        createVNode("input", {
+                          type: "file",
+                          onChange: fileChange
+                        }, null, 32),
+                        createVNode(unref(QuillEditor), {
+                          theme: "snow",
+                          toolbar: "full",
+                          content: unref(form).description,
+                          "onUpdate:content": ($event) => unref(form).description = $event,
+                          contentType: "html"
+                        }, null, 8, ["content", "onUpdate:content"]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Projekt",
+                class: "w-full"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode("div", { class: "flex gap-12 mx-12" }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "title",
+                              name: "title",
+                              modelValue: unref(form).title,
+                              "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "title",
+                              id: "title"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Nazwa")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "site_link",
+                              name: "site_link ",
+                              modelValue: unref(form).site_link,
+                              "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "site_link",
+                              id: "site_link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Link do strony")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "youtube_link",
+                              name: "youtube_link",
+                              modelValue: unref(form).youtube_link,
+                              "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "youtube_link",
+                              id: "youtube_link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Link do youtube")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Kategoria")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: category.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).category_id = $event,
+                                  value: category.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).category_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(category.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(Label, {
+                            for: "technology",
+                            id: "technology"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Technology")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: technology.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).technology_id = $event,
+                                  value: technology.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).technology_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(technology.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode("input", {
+                        type: "file",
+                        onChange: fileChange
+                      }, null, 32),
+                      createVNode(unref(QuillEditor), {
+                        theme: "snow",
+                        toolbar: "full",
+                        content: unref(form).description,
+                        "onUpdate:content": ($event) => unref(form).description = $event,
+                        contentType: "html"
+                      }, null, 8, ["content", "onUpdate:content"]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$L = _sfc_main$L.setup;
+_sfc_main$L.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Projects/Create.vue");
+  return _sfc_setup$L ? _sfc_setup$L(props, ctx) : void 0;
+};
+const __vite_glob_0_14 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$L
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$K = {
+  __name: "Edit",
+  __ssrInlineRender: true,
+  props: {
+    technologies: Object,
+    categories: Object,
+    form: Object,
+    errors: Object,
+    project: Object
+  },
+  setup(__props) {
+    const props = __props;
+    const form = useForm({
+      description: props.project.description,
+      title: props.project.title,
+      site_link: props.project.site_link,
+      youtube_link: props.project.youtube_link,
+      image: props.project.image,
+      category_id: props.project.categories,
+      technology_id: props.project.categories
+    });
+    const fileChange = (e2) => {
+      form.image = e2.target.files[0];
+    };
+    const submit = () => {
+      console.log(form);
+      form.put(route("admin.project.update", props.project.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Projekt",
+              class: "w-full"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}><div class="flex gap-12 mx-12"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "title",
+                          name: "title",
+                          modelValue: unref(form).title,
+                          "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "title",
+                          id: "title"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Nazwa`);
+                            } else {
+                              return [
+                                createTextVNode("Nazwa")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "title",
+                            name: "title",
+                            modelValue: unref(form).title,
+                            "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "title",
+                            id: "title"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "site_link",
+                          name: "site_link ",
+                          modelValue: unref(form).site_link,
+                          "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "site_link",
+                          id: "site_link"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Link do strony`);
+                            } else {
+                              return [
+                                createTextVNode("Link do strony")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "site_link",
+                            name: "site_link ",
+                            modelValue: unref(form).site_link,
+                            "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "site_link",
+                            id: "site_link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link do strony")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "youtube_link",
+                          name: "youtube_link",
+                          modelValue: unref(form).youtube_link,
+                          "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "youtube_link",
+                          id: "youtube_link"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Link do youtube`);
+                            } else {
+                              return [
+                                createTextVNode("Link do youtube")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "youtube_link",
+                            name: "youtube_link",
+                            modelValue: unref(form).youtube_link,
+                            "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "youtube_link",
+                            id: "youtube_link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Link do youtube")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</div>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(Label, {
+                          for: "name",
+                          id: "name"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Kategoria`);
+                            } else {
+                              return [
+                                createTextVNode("Kategoria")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(`<ul class="flex gap-6"${_scopeId3}><!--[-->`);
+                        ssrRenderList(__props.categories, (category) => {
+                          _push4(`<li class="mt-6"${_scopeId3}><input type="checkbox"${ssrIncludeBooleanAttr(Array.isArray(unref(form).category_id) ? ssrLooseContain(unref(form).category_id, category.id) : unref(form).category_id) ? " checked" : ""}${ssrRenderAttr("value", category.id)}${_scopeId3}> <label for=""${_scopeId3}>${ssrInterpolate(category.name)}</label></li>`);
+                        });
+                        _push4(`<!--]--></ul>`);
+                      } else {
+                        return [
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Kategoria")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: category.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).category_id = $event,
+                                  value: category.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).category_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(category.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(Label, {
+                          for: "technology",
+                          id: "technology"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Technology`);
+                            } else {
+                              return [
+                                createTextVNode("Technology")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(`<ul class="flex gap-6"${_scopeId3}><!--[-->`);
+                        ssrRenderList(__props.technologies, (technology) => {
+                          _push4(`<li class="mt-6"${_scopeId3}><input type="checkbox"${ssrIncludeBooleanAttr(Array.isArray(unref(form).technology_id) ? ssrLooseContain(unref(form).technology_id, technology.id) : unref(form).technology_id) ? " checked" : ""}${ssrRenderAttr("value", technology.id)}${_scopeId3}> <label for=""${_scopeId3}>${ssrInterpolate(technology.name)}</label></li>`);
+                        });
+                        _push4(`<!--]--></ul>`);
+                      } else {
+                        return [
+                          createVNode(Label, {
+                            for: "technology",
+                            id: "technology"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Technology")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: technology.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).technology_id = $event,
+                                  value: technology.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).technology_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(technology.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`<input type="file"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(unref(QuillEditor), {
+                    theme: "snow",
+                    toolbar: "full",
+                    content: unref(form).description,
+                    "onUpdate:content": ($event) => unref(form).description = $event,
+                    contentType: "html"
+                  }, null, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode("div", { class: "flex gap-12 mx-12" }, [
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "title",
+                                name: "title",
+                                modelValue: unref(form).title,
+                                "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "title",
+                                id: "title"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Nazwa")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "site_link",
+                                name: "site_link ",
+                                modelValue: unref(form).site_link,
+                                "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                                required: ""
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "site_link",
+                                id: "site_link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Link do strony")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Field, null, {
+                            default: withCtx(() => [
+                              createVNode(_sfc_main$13, {
+                                type: "text",
+                                id: "youtube_link",
+                                name: "youtube_link",
+                                modelValue: unref(form).youtube_link,
+                                "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                              }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                              createVNode(Label, {
+                                for: "youtube_link",
+                                id: "youtube_link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Link do youtube")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(Label, {
+                              for: "name",
+                              id: "name"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Kategoria")
+                              ]),
+                              _: 1
+                            }),
+                            createVNode("ul", { class: "flex gap-6" }, [
+                              (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category) => {
+                                return openBlock(), createBlock("li", {
+                                  class: "mt-6",
+                                  key: category.id
+                                }, [
+                                  withDirectives(createVNode("input", {
+                                    type: "checkbox",
+                                    "onUpdate:modelValue": ($event) => unref(form).category_id = $event,
+                                    value: category.id
+                                  }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                    [vModelCheckbox, unref(form).category_id]
+                                  ]),
+                                  createTextVNode(),
+                                  createVNode("label", { for: "" }, toDisplayString(category.name), 1)
+                                ]);
+                              }), 128))
+                            ])
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(Label, {
+                              for: "technology",
+                              id: "technology"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Technology")
+                              ]),
+                              _: 1
+                            }),
+                            createVNode("ul", { class: "flex gap-6" }, [
+                              (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
+                                return openBlock(), createBlock("li", {
+                                  class: "mt-6",
+                                  key: technology.id
+                                }, [
+                                  withDirectives(createVNode("input", {
+                                    type: "checkbox",
+                                    "onUpdate:modelValue": ($event) => unref(form).technology_id = $event,
+                                    value: technology.id
+                                  }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                    [vModelCheckbox, unref(form).technology_id]
+                                  ]),
+                                  createTextVNode(),
+                                  createVNode("label", { for: "" }, toDisplayString(technology.name), 1)
+                                ]);
+                              }), 128))
+                            ])
+                          ]),
+                          _: 1
+                        }),
+                        createVNode("input", {
+                          type: "file",
+                          onChange: fileChange
+                        }, null, 32),
+                        createVNode(unref(QuillEditor), {
+                          theme: "snow",
+                          toolbar: "full",
+                          content: unref(form).description,
+                          "onUpdate:content": ($event) => unref(form).description = $event,
+                          contentType: "html"
+                        }, null, 8, ["content", "onUpdate:content"]),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Projekt",
+                class: "w-full"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode("div", { class: "flex gap-12 mx-12" }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "title",
+                              name: "title",
+                              modelValue: unref(form).title,
+                              "onUpdate:modelValue": ($event) => unref(form).title = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "title",
+                              id: "title"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Nazwa")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "site_link",
+                              name: "site_link ",
+                              modelValue: unref(form).site_link,
+                              "onUpdate:modelValue": ($event) => unref(form).site_link = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "site_link",
+                              id: "site_link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Link do strony")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "youtube_link",
+                              name: "youtube_link",
+                              modelValue: unref(form).youtube_link,
+                              "onUpdate:modelValue": ($event) => unref(form).youtube_link = $event
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "youtube_link",
+                              id: "youtube_link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Link do youtube")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Kategoria")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.categories, (category) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: category.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).category_id = $event,
+                                  value: category.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).category_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(category.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(Label, {
+                            for: "technology",
+                            id: "technology"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Technology")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode("ul", { class: "flex gap-6" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology) => {
+                              return openBlock(), createBlock("li", {
+                                class: "mt-6",
+                                key: technology.id
+                              }, [
+                                withDirectives(createVNode("input", {
+                                  type: "checkbox",
+                                  "onUpdate:modelValue": ($event) => unref(form).technology_id = $event,
+                                  value: technology.id
+                                }, null, 8, ["onUpdate:modelValue", "value"]), [
+                                  [vModelCheckbox, unref(form).technology_id]
+                                ]),
+                                createTextVNode(),
+                                createVNode("label", { for: "" }, toDisplayString(technology.name), 1)
+                              ]);
+                            }), 128))
+                          ])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode("input", {
+                        type: "file",
+                        onChange: fileChange
+                      }, null, 32),
+                      createVNode(unref(QuillEditor), {
+                        theme: "snow",
+                        toolbar: "full",
+                        content: unref(form).description,
+                        "onUpdate:content": ($event) => unref(form).description = $event,
+                        contentType: "html"
+                      }, null, 8, ["content", "onUpdate:content"]),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$K = _sfc_main$K.setup;
+_sfc_main$K.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Projects/Edit.vue");
+  return _sfc_setup$K ? _sfc_setup$K(props, ctx) : void 0;
+};
+const __vite_glob_0_15 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$K
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$J = {
+  __name: "Index",
+  __ssrInlineRender: true,
+  props: {
+    projects: Object,
+    categories: Object
+  },
+  setup(__props) {
+    const formatDate = (date) => {
+      return moment(date).format("DD-MM-YYYY");
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      const _component_Link = resolveComponent("Link");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Panel Admina" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<div class="relative overflow-x-auto"${_scopeId}><table class="w-full text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow"${_scopeId}><caption class="p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase"${_scopeId}> Projekty </caption><thead class="text-sm text-fontDark uppercase"${_scopeId}><tr${_scopeId}><th scope="col" class="px-6 py-3 hidden sm:table-cell"${_scopeId}>#</th><th scope="col" class="px-6 py-3"${_scopeId}>Nazwa</th><th scope="col" class="px-6 py-3 hidden md:table-cell"${_scopeId}>Kategoria</th><th scope="col" class="px-6 py-3 hidden lg:table-cell"${_scopeId}>YouTube</th><th scope="col" class="px-6 py-3 hidden lg:table-cell"${_scopeId}> Data dodania </th><th scope="col" class="px-6 py-3"${_scopeId}>Akcja</th></tr></thead><tbody${_scopeId}><!--[-->`);
+            ssrRenderList(__props.projects, (project, index) => {
+              _push2(`<tr class="bg-white dark:bg-gray-800"${_scopeId}><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell"${_scopeId}>${ssrInterpolate(index + 1)}</th><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"${_scopeId}>${ssrInterpolate(project.title)}</td><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden md:table-cell"${_scopeId}><ul class="flex gap-2"${_scopeId}><!--[-->`);
+              ssrRenderList(project.categories, (category, index2) => {
+                _push2(`<li${_scopeId}>${ssrInterpolate(category.name)}`);
+                if (index2 !== project.categories.length - 1) {
+                  _push2(`<span${_scopeId}>,</span>`);
+                } else {
+                  _push2(`<!---->`);
+                }
+                _push2(`</li>`);
+              });
+              _push2(`<!--]--></ul></td><td class="px-6 py-4 hidden lg:table-cell"${_scopeId}>`);
+              if (project.youtube_link) {
+                _push2(`<a${ssrRenderAttr("href", project.youtube_link)} target="_blank"${_scopeId}>link</a>`);
+              } else {
+                _push2(`<span${_scopeId}>-</span>`);
+              }
+              _push2(`</td><td class="px-6 py-4 hidden lg:table-cell"${_scopeId}>${ssrInterpolate(formatDate(project.created_at))}</td><td class="px-6 py-4 flex gap-4"${_scopeId}>`);
+              _push2(ssrRenderComponent(_component_Link, {
+                href: _ctx.route("admin.project.edit", { id: project.id }),
+                class: "font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(` Edytuj `);
+                  } else {
+                    return [
+                      createTextVNode(" Edytuj ")
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"${_scopeId}>Usuń</a></td></tr>`);
+            });
+            _push2(`<!--]--></tbody></table></div>`);
+          } else {
+            return [
+              createVNode("div", { class: "relative overflow-x-auto" }, [
+                createVNode("table", { class: "w-full text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" }, [
+                  createVNode("caption", { class: "p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" }, " Projekty "),
+                  createVNode("thead", { class: "text-sm text-fontDark uppercase" }, [
+                    createVNode("tr", null, [
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden sm:table-cell"
+                      }, "#"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Nazwa"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden md:table-cell"
+                      }, "Kategoria"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden lg:table-cell"
+                      }, "YouTube"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden lg:table-cell"
+                      }, " Data dodania "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Akcja")
+                    ])
+                  ]),
+                  createVNode("tbody", null, [
+                    (openBlock(true), createBlock(Fragment, null, renderList(__props.projects, (project, index) => {
+                      return openBlock(), createBlock("tr", {
+                        key: project.id,
+                        class: "bg-white dark:bg-gray-800"
+                      }, [
+                        createVNode("th", {
+                          scope: "row",
+                          class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell"
+                        }, toDisplayString(index + 1), 1),
+                        createVNode("td", { class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" }, toDisplayString(project.title), 1),
+                        createVNode("td", { class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden md:table-cell" }, [
+                          createVNode("ul", { class: "flex gap-2" }, [
+                            (openBlock(true), createBlock(Fragment, null, renderList(project.categories, (category, index2) => {
+                              return openBlock(), createBlock("li", {
+                                key: category.id
+                              }, [
+                                createTextVNode(toDisplayString(category.name), 1),
+                                index2 !== project.categories.length - 1 ? (openBlock(), createBlock("span", { key: 0 }, ",")) : createCommentVNode("", true)
+                              ]);
+                            }), 128))
+                          ])
+                        ]),
+                        createVNode("td", { class: "px-6 py-4 hidden lg:table-cell" }, [
+                          project.youtube_link ? (openBlock(), createBlock("a", {
+                            key: 0,
+                            href: project.youtube_link,
+                            target: "_blank"
+                          }, "link", 8, ["href"])) : (openBlock(), createBlock("span", { key: 1 }, "-"))
+                        ]),
+                        createVNode("td", { class: "px-6 py-4 hidden lg:table-cell" }, toDisplayString(formatDate(project.created_at)), 1),
+                        createVNode("td", { class: "px-6 py-4 flex gap-4" }, [
+                          createVNode(_component_Link, {
+                            href: _ctx.route("admin.project.edit", { id: project.id }),
+                            class: "font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(" Edytuj ")
+                            ]),
+                            _: 2
+                          }, 1032, ["href"]),
+                          createVNode("a", {
+                            href: "#",
+                            class: "font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          }, "Usuń")
+                        ])
+                      ]);
+                    }), 128))
+                  ])
+                ])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$J = _sfc_main$J.setup;
+_sfc_main$J.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Projects/Index.vue");
+  return _sfc_setup$J ? _sfc_setup$J(props, ctx) : void 0;
+};
+const __vite_glob_0_16 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$J
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$I = {
+  __name: "Create",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object
+  },
+  setup(__props) {
+    const fileChange = (e2) => {
+      form.logo = e2.target.files[0];
+    };
+    const form = useForm({
+      name: "",
+      logo: null
+    });
+    const submit = () => {
+      form.post(route("admin.technology.store"), {
+        preserveScroll: true,
+        onSuccess: () => {
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Technologię" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Technologię",
+              class: "w-1/2 mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "name",
+                          name: "name",
+                          modelValue: unref(form).name,
+                          "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "name",
+                          id: "name"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Nazwa`);
+                            } else {
+                              return [
+                                createTextVNode("Nazwa")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.name) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.link)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            modelValue: unref(form).name,
+                            "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<input type="file"${_scopeId3}>`);
+                        if (unref(form).errors.logo) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.logo)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "name",
+                              name: "name",
+                              modelValue: unref(form).name,
+                              "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "name",
+                              id: "name"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Nazwa")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode("input", {
+                              type: "file",
+                              onChange: fileChange
+                            }, null, 32),
+                            unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Technologię",
+                class: "w-1/2 mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            modelValue: unref(form).name,
+                            "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.link), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$I = _sfc_main$I.setup;
+_sfc_main$I.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Technologies/Create.vue");
+  return _sfc_setup$I ? _sfc_setup$I(props, ctx) : void 0;
+};
+const __vite_glob_0_17 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$I
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$H = {
+  __name: "Edit",
+  __ssrInlineRender: true,
+  props: {
+    form: Object,
+    errors: Object,
+    technology: Object
+  },
+  setup(__props) {
+    const props = __props;
+    const form = useForm({
+      name: props.technology.name,
+      logo: props.technology.logo
+    });
+    const fileChange = (e2) => {
+      form.logo = e2.target.files[0];
+    };
+    const submit = () => {
+      form.put(route("admin.technology.update", props.technology.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+        }
+      });
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Dodaj Projekt" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$11, {
+              title: "Dodaj Kategorię",
+              class: "w-1/2 mx-auto"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<div class="bg-bgLight-200 py-6"${_scopeId2}><form enctype="multipart/form-data"${_scopeId2}>`);
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_sfc_main$13, {
+                          type: "text",
+                          id: "name",
+                          name: "name",
+                          modelValue: unref(form).name,
+                          "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                          required: ""
+                        }, null, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(Label, {
+                          for: "name",
+                          id: "name"
+                        }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Nazwa`);
+                            } else {
+                              return [
+                                createTextVNode("Nazwa")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        if (unref(form).errors.name) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.name)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            modelValue: unref(form).name,
+                            "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<input type="file"${_scopeId3}>`);
+                        if (unref(form).errors.logo) {
+                          _push4(ssrRenderComponent(Error$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(`${ssrInterpolate(unref(form).errors.logo)}`);
+                              } else {
+                                return [
+                                  createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                                ];
+                              }
+                            }),
+                            _: 1
+                          }, _parent4, _scopeId3));
+                        } else {
+                          _push4(`<!---->`);
+                        }
+                      } else {
+                        return [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(ssrRenderComponent(Field, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(PrimaryButton$1, { type: "submit" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Dodaj`);
+                            } else {
+                              return [
+                                createTextVNode("Dodaj")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                  _push3(`</form></div>`);
+                } else {
+                  return [
+                    createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                      createVNode("form", {
+                        onSubmit: withModifiers(submit, ["prevent"]),
+                        enctype: "multipart/form-data"
+                      }, [
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(_sfc_main$13, {
+                              type: "text",
+                              id: "name",
+                              name: "name",
+                              modelValue: unref(form).name,
+                              "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                              required: ""
+                            }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                            createVNode(Label, {
+                              for: "name",
+                              id: "name"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Nazwa")
+                              ]),
+                              _: 1
+                            }),
+                            unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode("input", {
+                              type: "file",
+                              onChange: fileChange
+                            }, null, 32),
+                            unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(Field, null, {
+                          default: withCtx(() => [
+                            createVNode(PrimaryButton$1, { type: "submit" }, {
+                              default: withCtx(() => [
+                                createTextVNode("Dodaj")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
+                      ], 32)
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_sfc_main$11, {
+                title: "Dodaj Kategorię",
+                class: "w-1/2 mx-auto"
+              }, {
+                default: withCtx(() => [
+                  createVNode("div", { class: "bg-bgLight-200 py-6" }, [
+                    createVNode("form", {
+                      onSubmit: withModifiers(submit, ["prevent"]),
+                      enctype: "multipart/form-data"
+                    }, [
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$13, {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            modelValue: unref(form).name,
+                            "onUpdate:modelValue": ($event) => unref(form).name = $event,
+                            required: ""
+                          }, null, 8, ["modelValue", "onUpdate:modelValue"]),
+                          createVNode(Label, {
+                            for: "name",
+                            id: "name"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Nazwa")
+                            ]),
+                            _: 1
+                          }),
+                          unref(form).errors.name ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.name), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode("input", {
+                            type: "file",
+                            onChange: fileChange
+                          }, null, 32),
+                          unref(form).errors.logo ? (openBlock(), createBlock(Error$1, { key: 0 }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(form).errors.logo), 1)
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(Field, null, {
+                        default: withCtx(() => [
+                          createVNode(PrimaryButton$1, { type: "submit" }, {
+                            default: withCtx(() => [
+                              createTextVNode("Dodaj")
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 32)
+                  ])
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$H = _sfc_main$H.setup;
+_sfc_main$H.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Technologies/Edit.vue");
+  return _sfc_setup$H ? _sfc_setup$H(props, ctx) : void 0;
+};
+const __vite_glob_0_18 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$H
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$G = {
+  __name: "Index",
+  __ssrInlineRender: true,
+  props: {
+    projects: Object,
+    technologies: Object
+  },
+  setup(__props) {
+    let isModalOpen = ref(false);
+    const openModal = (technology) => {
+      isModalOpen.value = true;
+      technology.value = technology;
+    };
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+    const formatDate = (date) => {
+      return moment(date).format("DD-MM-YYYY");
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      const _component_Link = resolveComponent("Link");
+      const _component_v_if = resolveComponent("v-if");
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-d0a3c56e>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Technologie" }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$Z, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<div class="relative overflow-x-auto" data-v-d0a3c56e${_scopeId}><table class="mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" data-v-d0a3c56e${_scopeId}><caption class="p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" data-v-d0a3c56e${_scopeId}> Technologie </caption><thead class="text-sm text-fontDark uppercase" data-v-d0a3c56e${_scopeId}><tr data-v-d0a3c56e${_scopeId}><th scope="col" class="px-6 py-3 hidden sm:table-cell" data-v-d0a3c56e${_scopeId}> # </th><th scope="col" class="px-6 py-3" data-v-d0a3c56e${_scopeId}>Nazwa</th><th scope="col" class="px-6 py-3 hidden lg:table-cell" data-v-d0a3c56e${_scopeId}> Data dodania </th><th scope="col" class="px-6 py-3" data-v-d0a3c56e${_scopeId}>Akcja</th></tr></thead><tbody data-v-d0a3c56e${_scopeId}><!--[-->`);
+            ssrRenderList(__props.technologies, (technology, index) => {
+              _push2(`<tr class="bg-white dark:bg-gray-800" data-v-d0a3c56e${_scopeId}><th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell" data-v-d0a3c56e${_scopeId}>${ssrInterpolate(index + 1)}</th><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" data-v-d0a3c56e${_scopeId}>${ssrInterpolate(technology.name)}</td><td class="px-6 py-4 hidden lg:table-cell" data-v-d0a3c56e${_scopeId}>${ssrInterpolate(formatDate(technology.created_at))}</td><td class="px-6 py-4 flex gap-4 items-center" data-v-d0a3c56e${_scopeId}>`);
+              _push2(ssrRenderComponent(_component_Link, {
+                href: _ctx.route("admin.technology.edit", technology.id)
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(`<img src="/assets/icons/admin/edit.svg" alt="" class="w-6 hover:animate-shake" data-v-d0a3c56e${_scopeId2}>`);
+                  } else {
+                    return [
+                      createVNode("img", {
+                        src: "/assets/icons/admin/edit.svg",
+                        alt: "",
+                        class: "w-6 hover:animate-shake"
+                      })
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`<button data-v-d0a3c56e${_scopeId}><img src="/assets/icons/admin/trash.svg" alt="" class="w-6 hover:animate-shake" data-v-d0a3c56e${_scopeId}></button>`);
+              _push2(ssrRenderComponent(_component_v_if, { isModalOpen: "" }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(ssrRenderComponent(Modal, {
+                      title: "usuń",
+                      isModalOpen: unref(isModalOpen),
+                      "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                    }, {
+                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                        if (_push4) {
+                          _push4(`<div class="text-black p-12 flex flex-col" data-v-d0a3c56e${_scopeId3}><span class="text-lg" data-v-d0a3c56e${_scopeId3}>Czy na pewno chcesz usunąć tę kategorię?</span><div class="flex justify-center items-center gap-12 mt-12" data-v-d0a3c56e${_scopeId3}>`);
+                          _push4(ssrRenderComponent(PrimaryButton$1, null, {
+                            default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                              if (_push5) {
+                                _push5(ssrRenderComponent(_component_Link, {
+                                  onClick: closeModal,
+                                  method: "DELETE",
+                                  href: _ctx.route(
+                                    "admin.technology.delete",
+                                    technology.id
+                                  )
+                                }, {
+                                  default: withCtx((_5, _push6, _parent6, _scopeId5) => {
+                                    if (_push6) {
+                                      _push6(` Tak `);
+                                    } else {
+                                      return [
+                                        createTextVNode(" Tak ")
+                                      ];
+                                    }
+                                  }),
+                                  _: 2
+                                }, _parent5, _scopeId4));
+                              } else {
+                                return [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.technology.delete",
+                                      technology.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ];
+                              }
+                            }),
+                            _: 2
+                          }, _parent4, _scopeId3));
+                          _push4(`</div></div>`);
+                        } else {
+                          return [
+                            createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                              createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                              createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                createVNode(PrimaryButton$1, null, {
+                                  default: withCtx(() => [
+                                    createVNode(_component_Link, {
+                                      onClick: closeModal,
+                                      method: "DELETE",
+                                      href: _ctx.route(
+                                        "admin.technology.delete",
+                                        technology.id
+                                      )
+                                    }, {
+                                      default: withCtx(() => [
+                                        createTextVNode(" Tak ")
+                                      ]),
+                                      _: 2
+                                    }, 1032, ["href"])
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ])
+                            ])
+                          ];
+                        }
+                      }),
+                      _: 2
+                    }, _parent3, _scopeId2));
+                  } else {
+                    return [
+                      createVNode(Modal, {
+                        title: "usuń",
+                        isModalOpen: unref(isModalOpen),
+                        "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                      }, {
+                        default: withCtx(() => [
+                          createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                            createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                            createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                              createVNode(PrimaryButton$1, null, {
+                                default: withCtx(() => [
+                                  createVNode(_component_Link, {
+                                    onClick: closeModal,
+                                    method: "DELETE",
+                                    href: _ctx.route(
+                                      "admin.technology.delete",
+                                      technology.id
+                                    )
+                                  }, {
+                                    default: withCtx(() => [
+                                      createTextVNode(" Tak ")
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["href"])
+                                ]),
+                                _: 2
+                              }, 1024)
+                            ])
+                          ])
+                        ]),
+                        _: 2
+                      }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                    ];
+                  }
+                }),
+                _: 2
+              }, _parent2, _scopeId));
+              _push2(`</td></tr>`);
+            });
+            _push2(`<!--]--></tbody></table></div><div data-v-d0a3c56e${_scopeId}>`);
+            _push2(ssrRenderComponent(_component_Link, {
+              href: _ctx.route("admin.technology.create"),
+              class: "absolute bottom-6"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<img src="/assets/icons/admin/plus.svg" alt="" class="w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake" data-v-d0a3c56e${_scopeId2}>`);
+                } else {
+                  return [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(`</div>`);
+          } else {
+            return [
+              createVNode("div", { class: "relative overflow-x-auto" }, [
+                createVNode("table", { class: "mx-auto w-3/4 text-sm text-left rtl:text-right text-fontLight border border-fontDark box-shadow" }, [
+                  createVNode("caption", { class: "p-3 font-heading text-3xl text-left rtl:text-right text-fontLight bg-bgDark-400 uppercase" }, " Technologie "),
+                  createVNode("thead", { class: "text-sm text-fontDark uppercase" }, [
+                    createVNode("tr", null, [
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden sm:table-cell"
+                      }, " # "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Nazwa"),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3 hidden lg:table-cell"
+                      }, " Data dodania "),
+                      createVNode("th", {
+                        scope: "col",
+                        class: "px-6 py-3"
+                      }, "Akcja")
+                    ])
+                  ]),
+                  createVNode("tbody", null, [
+                    (openBlock(true), createBlock(Fragment, null, renderList(__props.technologies, (technology, index) => {
+                      return openBlock(), createBlock("tr", {
+                        key: technology.id,
+                        class: "bg-white dark:bg-gray-800"
+                      }, [
+                        createVNode("th", {
+                          scope: "row",
+                          class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hidden sm:table-cell"
+                        }, toDisplayString(index + 1), 1),
+                        createVNode("td", { class: "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" }, toDisplayString(technology.name), 1),
+                        createVNode("td", { class: "px-6 py-4 hidden lg:table-cell" }, toDisplayString(formatDate(technology.created_at)), 1),
+                        createVNode("td", { class: "px-6 py-4 flex gap-4 items-center" }, [
+                          createVNode(_component_Link, {
+                            href: _ctx.route("admin.technology.edit", technology.id)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode("img", {
+                                src: "/assets/icons/admin/edit.svg",
+                                alt: "",
+                                class: "w-6 hover:animate-shake"
+                              })
+                            ]),
+                            _: 2
+                          }, 1032, ["href"]),
+                          createVNode("button", { onClick: openModal }, [
+                            createVNode("img", {
+                              src: "/assets/icons/admin/trash.svg",
+                              alt: "",
+                              class: "w-6 hover:animate-shake"
+                            })
+                          ]),
+                          createVNode(_component_v_if, { isModalOpen: "" }, {
+                            default: withCtx(() => [
+                              createVNode(Modal, {
+                                title: "usuń",
+                                isModalOpen: unref(isModalOpen),
+                                "onUpdate:isModalOpen": ($event) => isRef(isModalOpen) ? isModalOpen.value = $event : isModalOpen = $event
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode("div", { class: "text-black p-12 flex flex-col" }, [
+                                    createVNode("span", { class: "text-lg" }, "Czy na pewno chcesz usunąć tę kategorię?"),
+                                    createVNode("div", { class: "flex justify-center items-center gap-12 mt-12" }, [
+                                      createVNode(PrimaryButton$1, null, {
+                                        default: withCtx(() => [
+                                          createVNode(_component_Link, {
+                                            onClick: closeModal,
+                                            method: "DELETE",
+                                            href: _ctx.route(
+                                              "admin.technology.delete",
+                                              technology.id
+                                            )
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(" Tak ")
+                                            ]),
+                                            _: 2
+                                          }, 1032, ["href"])
+                                        ]),
+                                        _: 2
+                                      }, 1024)
+                                    ])
+                                  ])
+                                ]),
+                                _: 2
+                              }, 1032, ["isModalOpen", "onUpdate:isModalOpen"])
+                            ]),
+                            _: 2
+                          }, 1024)
+                        ])
+                      ]);
+                    }), 128))
+                  ])
+                ])
+              ]),
+              createVNode("div", null, [
+                createVNode(_component_Link, {
+                  href: _ctx.route("admin.technology.create"),
+                  class: "absolute bottom-6"
+                }, {
+                  default: withCtx(() => [
+                    createVNode("img", {
+                      src: "/assets/icons/admin/plus.svg",
+                      alt: "",
+                      class: "w-12 border-4 border-ownTurquise-400 bg-ownTurquise-400 rounded-full hover:animate-shake"
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["href"])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$G = _sfc_main$G.setup;
+_sfc_main$G.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Admin/Technologies/Index.vue");
+  return _sfc_setup$G ? _sfc_setup$G(props, ctx) : void 0;
+};
+const Index$1 = /* @__PURE__ */ _export_sfc(_sfc_main$G, [["__scopeId", "data-v-d0a3c56e"]]);
+const __vite_glob_0_19 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Index$1
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$F = {};
+function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
   _push(`<svg${ssrRenderAttrs(mergeProps({
     viewBox: "0 0 316 316",
     xmlns: "http://www.w3.org/2000/svg"
   }, _attrs))}><path d="M305.8 81.125C305.77 80.995 305.69 80.885 305.65 80.755C305.56 80.525 305.49 80.285 305.37 80.075C305.29 79.935 305.17 79.815 305.07 79.685C304.94 79.515 304.83 79.325 304.68 79.175C304.55 79.045 304.39 78.955 304.25 78.845C304.09 78.715 303.95 78.575 303.77 78.475L251.32 48.275C249.97 47.495 248.31 47.495 246.96 48.275L194.51 78.475C194.33 78.575 194.19 78.725 194.03 78.845C193.89 78.955 193.73 79.045 193.6 79.175C193.45 79.325 193.34 79.515 193.21 79.685C193.11 79.815 192.99 79.935 192.91 80.075C192.79 80.285 192.71 80.525 192.63 80.755C192.58 80.875 192.51 80.995 192.48 81.125C192.38 81.495 192.33 81.875 192.33 82.265V139.625L148.62 164.795V52.575C148.62 52.185 148.57 51.805 148.47 51.435C148.44 51.305 148.36 51.195 148.32 51.065C148.23 50.835 148.16 50.595 148.04 50.385C147.96 50.245 147.84 50.125 147.74 49.995C147.61 49.825 147.5 49.635 147.35 49.485C147.22 49.355 147.06 49.265 146.92 49.155C146.76 49.025 146.62 48.885 146.44 48.785L93.99 18.585C92.64 17.805 90.98 17.805 89.63 18.585L37.18 48.785C37 48.885 36.86 49.035 36.7 49.155C36.56 49.265 36.4 49.355 36.27 49.485C36.12 49.635 36.01 49.825 35.88 49.995C35.78 50.125 35.66 50.245 35.58 50.385C35.46 50.595 35.38 50.835 35.3 51.065C35.25 51.185 35.18 51.305 35.15 51.435C35.05 51.805 35 52.185 35 52.575V232.235C35 233.795 35.84 235.245 37.19 236.025L142.1 296.425C142.33 296.555 142.58 296.635 142.82 296.725C142.93 296.765 143.04 296.835 143.16 296.865C143.53 296.965 143.9 297.015 144.28 297.015C144.66 297.015 145.03 296.965 145.4 296.865C145.5 296.835 145.59 296.775 145.69 296.745C145.95 296.655 146.21 296.565 146.45 296.435L251.36 236.035C252.72 235.255 253.55 233.815 253.55 232.245V174.885L303.81 145.945C305.17 145.165 306 143.725 306 142.155V82.265C305.95 81.875 305.89 81.495 305.8 81.125ZM144.2 227.205L100.57 202.515L146.39 176.135L196.66 147.195L240.33 172.335L208.29 190.625L144.2 227.205ZM244.75 114.995V164.795L226.39 154.225L201.03 139.625V89.825L219.39 100.395L244.75 114.995ZM249.12 57.105L292.81 82.265L249.12 107.425L205.43 82.265L249.12 57.105ZM114.49 184.425L96.13 194.995V85.305L121.49 70.705L139.85 60.135V169.815L114.49 184.425ZM91.76 27.425L135.45 52.585L91.76 77.745L48.07 52.585L91.76 27.425ZM43.67 60.135L62.03 70.705L87.39 85.305V202.545V202.555V202.565C87.39 202.735 87.44 202.895 87.46 203.055C87.49 203.265 87.49 203.485 87.55 203.695V203.705C87.6 203.875 87.69 204.035 87.76 204.195C87.84 204.375 87.89 204.575 87.99 204.745C87.99 204.745 87.99 204.755 88 204.755C88.09 204.905 88.22 205.035 88.33 205.175C88.45 205.335 88.55 205.495 88.69 205.635L88.7 205.645C88.82 205.765 88.98 205.855 89.12 205.965C89.28 206.085 89.42 206.225 89.59 206.325C89.6 206.325 89.6 206.325 89.61 206.335C89.62 206.335 89.62 206.345 89.63 206.345L139.87 234.775V285.065L43.67 229.705V60.135ZM244.75 229.705L148.58 285.075V234.775L219.8 194.115L244.75 179.875V229.705ZM297.2 139.625L253.49 164.795V114.995L278.85 100.395L297.21 89.825V139.625H297.2Z"></path></svg>`);
 }
-const _sfc_setup$M = _sfc_main$M.setup;
-_sfc_main$M.setup = (props, ctx) => {
+const _sfc_setup$F = _sfc_main$F.setup;
+_sfc_main$F.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/ApplicationLogo.vue");
-  return _sfc_setup$M ? _sfc_setup$M(props, ctx) : void 0;
+  return _sfc_setup$F ? _sfc_setup$F(props, ctx) : void 0;
 };
-const ApplicationLogo = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["ssrRender", _sfc_ssrRender$8]]);
-const _sfc_main$L = {
+const ApplicationLogo = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["ssrRender", _sfc_ssrRender$2]]);
+const _sfc_main$E = {
   __name: "GuestLayout",
   __ssrInlineRender: true,
   setup(__props) {
@@ -691,13 +6765,13 @@ const _sfc_main$L = {
     };
   }
 };
-const _sfc_setup$L = _sfc_main$L.setup;
-_sfc_main$L.setup = (props, ctx) => {
+const _sfc_setup$E = _sfc_main$E.setup;
+_sfc_main$E.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Layouts/GuestLayout.vue");
-  return _sfc_setup$L ? _sfc_setup$L(props, ctx) : void 0;
+  return _sfc_setup$E ? _sfc_setup$E(props, ctx) : void 0;
 };
-const _sfc_main$K = {
+const _sfc_main$D = {
   __name: "InputError",
   __ssrInlineRender: true,
   props: {
@@ -713,13 +6787,13 @@ const _sfc_main$K = {
     };
   }
 };
-const _sfc_setup$K = _sfc_main$K.setup;
-_sfc_main$K.setup = (props, ctx) => {
+const _sfc_setup$D = _sfc_main$D.setup;
+_sfc_main$D.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/InputError.vue");
-  return _sfc_setup$K ? _sfc_setup$K(props, ctx) : void 0;
+  return _sfc_setup$D ? _sfc_setup$D(props, ctx) : void 0;
 };
-const _sfc_main$J = {
+const _sfc_main$C = {
   __name: "InputLabel",
   __ssrInlineRender: true,
   props: {
@@ -741,26 +6815,26 @@ const _sfc_main$J = {
     };
   }
 };
-const _sfc_setup$J = _sfc_main$J.setup;
-_sfc_main$J.setup = (props, ctx) => {
+const _sfc_setup$C = _sfc_main$C.setup;
+_sfc_main$C.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/InputLabel.vue");
-  return _sfc_setup$J ? _sfc_setup$J(props, ctx) : void 0;
+  return _sfc_setup$C ? _sfc_setup$C(props, ctx) : void 0;
 };
-const _sfc_main$I = {};
-function _sfc_ssrRender$7(_ctx, _push, _parent, _attrs) {
+const _sfc_main$B = {};
+function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
   _push(`<button${ssrRenderAttrs(mergeProps({ class: "inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" }, _attrs))}>`);
   ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
   _push(`</button>`);
 }
-const _sfc_setup$I = _sfc_main$I.setup;
-_sfc_main$I.setup = (props, ctx) => {
+const _sfc_setup$B = _sfc_main$B.setup;
+_sfc_main$B.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/PrimaryButton.vue");
-  return _sfc_setup$I ? _sfc_setup$I(props, ctx) : void 0;
+  return _sfc_setup$B ? _sfc_setup$B(props, ctx) : void 0;
 };
-const PrimaryButton$1 = /* @__PURE__ */ _export_sfc(_sfc_main$I, [["ssrRender", _sfc_ssrRender$7]]);
-const _sfc_main$H = {
+const PrimaryButton = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["ssrRender", _sfc_ssrRender$1]]);
+const _sfc_main$A = {
   __name: "TextInput",
   __ssrInlineRender: true,
   props: {
@@ -790,13 +6864,13 @@ const _sfc_main$H = {
     };
   }
 };
-const _sfc_setup$H = _sfc_main$H.setup;
-_sfc_main$H.setup = (props, ctx) => {
+const _sfc_setup$A = _sfc_main$A.setup;
+_sfc_main$A.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/TextInput.vue");
-  return _sfc_setup$H ? _sfc_setup$H(props, ctx) : void 0;
+  return _sfc_setup$A ? _sfc_setup$A(props, ctx) : void 0;
 };
-const _sfc_main$G = {
+const _sfc_main$z = {
   __name: "ConfirmPassword",
   __ssrInlineRender: true,
   setup(__props) {
@@ -809,16 +6883,16 @@ const _sfc_main$G = {
       });
     };
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$L, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$E, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(unref(Head), { title: "Confirm Password" }, null, _parent2, _scopeId));
             _push2(`<div class="mb-4 text-sm text-gray-600 dark:text-gray-400"${_scopeId}> This is a secure area of the application. Please confirm your password before continuing. </div><form${_scopeId}><div${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password",
               value: "Password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password",
               type: "password",
               class: "mt-1 block w-full",
@@ -828,12 +6902,12 @@ const _sfc_main$G = {
               autocomplete: "current-password",
               autofocus: ""
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.password
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="flex justify-end mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(PrimaryButton$1, {
+            _push2(ssrRenderComponent(PrimaryButton, {
               class: ["ms-4", { "opacity-25": unref(form).processing }],
               disabled: unref(form).processing
             }, {
@@ -857,11 +6931,11 @@ const _sfc_main$G = {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [
                 createVNode("div", null, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password",
                     value: "Password"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password",
                     type: "password",
                     class: "mt-1 block w-full",
@@ -871,13 +6945,13 @@ const _sfc_main$G = {
                     autocomplete: "current-password",
                     autofocus: ""
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.password
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "flex justify-end mt-4" }, [
-                  createVNode(PrimaryButton$1, {
+                  createVNode(PrimaryButton, {
                     class: ["ms-4", { "opacity-25": unref(form).processing }],
                     disabled: unref(form).processing
                   }, {
@@ -896,17 +6970,17 @@ const _sfc_main$G = {
     };
   }
 };
-const _sfc_setup$G = _sfc_main$G.setup;
-_sfc_main$G.setup = (props, ctx) => {
+const _sfc_setup$z = _sfc_main$z.setup;
+_sfc_main$z.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Auth/ConfirmPassword.vue");
-  return _sfc_setup$G ? _sfc_setup$G(props, ctx) : void 0;
+  return _sfc_setup$z ? _sfc_setup$z(props, ctx) : void 0;
 };
-const __vite_glob_0_4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_20 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$G
+  default: _sfc_main$z
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$F = {
+const _sfc_main$y = {
   __name: "ForgotPassword",
   __ssrInlineRender: true,
   props: {
@@ -922,7 +6996,7 @@ const _sfc_main$F = {
       form.post(route("password.email"));
     };
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$L, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$E, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(unref(Head), { title: "Forgot Password" }, null, _parent2, _scopeId));
@@ -933,11 +7007,11 @@ const _sfc_main$F = {
               _push2(`<!---->`);
             }
             _push2(`<form${_scopeId}><div${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "email",
               value: "Email"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "email",
               type: "email",
               class: "mt-1 block w-full",
@@ -947,12 +7021,12 @@ const _sfc_main$F = {
               autofocus: "",
               autocomplete: "username"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.email
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="flex items-center justify-end mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(PrimaryButton$1, {
+            _push2(ssrRenderComponent(PrimaryButton, {
               class: { "opacity-25": unref(form).processing },
               disabled: unref(form).processing
             }, {
@@ -980,11 +7054,11 @@ const _sfc_main$F = {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [
                 createVNode("div", null, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "email",
                     value: "Email"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "email",
                     type: "email",
                     class: "mt-1 block w-full",
@@ -994,13 +7068,13 @@ const _sfc_main$F = {
                     autofocus: "",
                     autocomplete: "username"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.email
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "flex items-center justify-end mt-4" }, [
-                  createVNode(PrimaryButton$1, {
+                  createVNode(PrimaryButton, {
                     class: { "opacity-25": unref(form).processing },
                     disabled: unref(form).processing
                   }, {
@@ -1019,17 +7093,17 @@ const _sfc_main$F = {
     };
   }
 };
-const _sfc_setup$F = _sfc_main$F.setup;
-_sfc_main$F.setup = (props, ctx) => {
+const _sfc_setup$y = _sfc_main$y.setup;
+_sfc_main$y.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Auth/ForgotPassword.vue");
-  return _sfc_setup$F ? _sfc_setup$F(props, ctx) : void 0;
+  return _sfc_setup$y ? _sfc_setup$y(props, ctx) : void 0;
 };
-const __vite_glob_0_5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_21 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$F
+  default: _sfc_main$y
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$E = {
+const _sfc_main$x = {
   __name: "Checkbox",
   __ssrInlineRender: true,
   props: {
@@ -1064,13 +7138,13 @@ const _sfc_main$E = {
     };
   }
 };
-const _sfc_setup$E = _sfc_main$E.setup;
-_sfc_main$E.setup = (props, ctx) => {
+const _sfc_setup$x = _sfc_main$x.setup;
+_sfc_main$x.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Checkbox.vue");
-  return _sfc_setup$E ? _sfc_setup$E(props, ctx) : void 0;
+  return _sfc_setup$x ? _sfc_setup$x(props, ctx) : void 0;
 };
-const _sfc_main$D = {
+const _sfc_main$w = {
   __name: "Login",
   __ssrInlineRender: true,
   props: {
@@ -1093,7 +7167,7 @@ const _sfc_main$D = {
       });
     };
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$L, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$E, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(unref(Head), { title: "Zaloguj się" }, null, _parent2, _scopeId));
@@ -1103,11 +7177,11 @@ const _sfc_main$D = {
               _push2(`<!---->`);
             }
             _push2(`<form${_scopeId}><div${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "email",
               value: "Email"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "email",
               type: "email",
               class: "mt-1 block w-full",
@@ -1117,16 +7191,16 @@ const _sfc_main$D = {
               autofocus: "",
               autocomplete: "username"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.email
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password",
               value: "Hasło"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password",
               type: "password",
               class: "mt-1 block w-full",
@@ -1135,12 +7209,12 @@ const _sfc_main$D = {
               required: "",
               autocomplete: "current-password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.password
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="block mt-4"${_scopeId}><label class="flex items-center"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$E, {
+            _push2(ssrRenderComponent(_sfc_main$x, {
               name: "remember",
               checked: unref(form).remember,
               "onUpdate:checked": ($event) => unref(form).remember = $event
@@ -1165,7 +7239,7 @@ const _sfc_main$D = {
             } else {
               _push2(`<!---->`);
             }
-            _push2(ssrRenderComponent(PrimaryButton$1, {
+            _push2(ssrRenderComponent(PrimaryButton, {
               class: ["ms-4", { "opacity-25": unref(form).processing }],
               disabled: unref(form).processing
             }, {
@@ -1192,11 +7266,11 @@ const _sfc_main$D = {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [
                 createVNode("div", null, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "email",
                     value: "Email"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "email",
                     type: "email",
                     class: "mt-1 block w-full",
@@ -1206,17 +7280,17 @@ const _sfc_main$D = {
                     autofocus: "",
                     autocomplete: "username"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.email
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-4" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password",
                     value: "Hasło"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password",
                     type: "password",
                     class: "mt-1 block w-full",
@@ -1225,14 +7299,14 @@ const _sfc_main$D = {
                     required: "",
                     autocomplete: "current-password"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.password
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "block mt-4" }, [
                   createVNode("label", { class: "flex items-center" }, [
-                    createVNode(_sfc_main$E, {
+                    createVNode(_sfc_main$x, {
                       name: "remember",
                       checked: unref(form).remember,
                       "onUpdate:checked": ($event) => unref(form).remember = $event
@@ -1251,7 +7325,7 @@ const _sfc_main$D = {
                     ]),
                     _: 1
                   }, 8, ["href"])) : createCommentVNode("", true),
-                  createVNode(PrimaryButton$1, {
+                  createVNode(PrimaryButton, {
                     class: ["ms-4", { "opacity-25": unref(form).processing }],
                     disabled: unref(form).processing
                   }, {
@@ -1270,17 +7344,17 @@ const _sfc_main$D = {
     };
   }
 };
-const _sfc_setup$D = _sfc_main$D.setup;
-_sfc_main$D.setup = (props, ctx) => {
+const _sfc_setup$w = _sfc_main$w.setup;
+_sfc_main$w.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Auth/Login.vue");
-  return _sfc_setup$D ? _sfc_setup$D(props, ctx) : void 0;
+  return _sfc_setup$w ? _sfc_setup$w(props, ctx) : void 0;
 };
-const __vite_glob_0_6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_22 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$D
+  default: _sfc_main$w
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$C = {
+const _sfc_main$v = {
   __name: "Register",
   __ssrInlineRender: true,
   setup(__props) {
@@ -1296,16 +7370,16 @@ const _sfc_main$C = {
       });
     };
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$L, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$E, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(unref(Head), { title: "Register" }, null, _parent2, _scopeId));
             _push2(`<form${_scopeId}><div${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "name",
               value: "Name"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "name",
               type: "text",
               class: "mt-1 block w-full",
@@ -1315,16 +7389,16 @@ const _sfc_main$C = {
               autofocus: "",
               autocomplete: "name"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.name
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "email",
               value: "Email"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "email",
               type: "email",
               class: "mt-1 block w-full",
@@ -1333,16 +7407,16 @@ const _sfc_main$C = {
               required: "",
               autocomplete: "username"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.email
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password",
               value: "Password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password",
               type: "password",
               class: "mt-1 block w-full",
@@ -1351,16 +7425,16 @@ const _sfc_main$C = {
               required: "",
               autocomplete: "new-password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.password
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password_confirmation",
               value: "Confirm Password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password_confirmation",
               type: "password",
               class: "mt-1 block w-full",
@@ -1369,7 +7443,7 @@ const _sfc_main$C = {
               required: "",
               autocomplete: "new-password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.password_confirmation
             }, null, _parent2, _scopeId));
@@ -1389,7 +7463,7 @@ const _sfc_main$C = {
               }),
               _: 1
             }, _parent2, _scopeId));
-            _push2(ssrRenderComponent(PrimaryButton$1, {
+            _push2(ssrRenderComponent(PrimaryButton, {
               class: ["ms-4", { "opacity-25": unref(form).processing }],
               disabled: unref(form).processing
             }, {
@@ -1412,11 +7486,11 @@ const _sfc_main$C = {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [
                 createVNode("div", null, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "name",
                     value: "Name"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "name",
                     type: "text",
                     class: "mt-1 block w-full",
@@ -1426,17 +7500,17 @@ const _sfc_main$C = {
                     autofocus: "",
                     autocomplete: "name"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.name
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-4" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "email",
                     value: "Email"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "email",
                     type: "email",
                     class: "mt-1 block w-full",
@@ -1445,17 +7519,17 @@ const _sfc_main$C = {
                     required: "",
                     autocomplete: "username"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.email
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-4" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password",
                     value: "Password"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password",
                     type: "password",
                     class: "mt-1 block w-full",
@@ -1464,17 +7538,17 @@ const _sfc_main$C = {
                     required: "",
                     autocomplete: "new-password"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.password
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-4" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password_confirmation",
                     value: "Confirm Password"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password_confirmation",
                     type: "password",
                     class: "mt-1 block w-full",
@@ -1483,7 +7557,7 @@ const _sfc_main$C = {
                     required: "",
                     autocomplete: "new-password"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.password_confirmation
                   }, null, 8, ["message"])
@@ -1498,7 +7572,7 @@ const _sfc_main$C = {
                     ]),
                     _: 1
                   }, 8, ["href"]),
-                  createVNode(PrimaryButton$1, {
+                  createVNode(PrimaryButton, {
                     class: ["ms-4", { "opacity-25": unref(form).processing }],
                     disabled: unref(form).processing
                   }, {
@@ -1517,17 +7591,17 @@ const _sfc_main$C = {
     };
   }
 };
-const _sfc_setup$C = _sfc_main$C.setup;
-_sfc_main$C.setup = (props, ctx) => {
+const _sfc_setup$v = _sfc_main$v.setup;
+_sfc_main$v.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Auth/Register.vue");
-  return _sfc_setup$C ? _sfc_setup$C(props, ctx) : void 0;
+  return _sfc_setup$v ? _sfc_setup$v(props, ctx) : void 0;
 };
-const __vite_glob_0_7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_23 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$C
+  default: _sfc_main$v
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$B = {
+const _sfc_main$u = {
   __name: "ResetPassword",
   __ssrInlineRender: true,
   props: {
@@ -1554,16 +7628,16 @@ const _sfc_main$B = {
       });
     };
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$L, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$E, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(unref(Head), { title: "Reset Password" }, null, _parent2, _scopeId));
             _push2(`<form${_scopeId}><div${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "email",
               value: "Email"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "email",
               type: "email",
               class: "mt-1 block w-full",
@@ -1573,16 +7647,16 @@ const _sfc_main$B = {
               autofocus: "",
               autocomplete: "username"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.email
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password",
               value: "Password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password",
               type: "password",
               class: "mt-1 block w-full",
@@ -1591,16 +7665,16 @@ const _sfc_main$B = {
               required: "",
               autocomplete: "new-password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.password
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password_confirmation",
               value: "Confirm Password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password_confirmation",
               type: "password",
               class: "mt-1 block w-full",
@@ -1609,12 +7683,12 @@ const _sfc_main$B = {
               required: "",
               autocomplete: "new-password"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               class: "mt-2",
               message: unref(form).errors.password_confirmation
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="flex items-center justify-end mt-4"${_scopeId}>`);
-            _push2(ssrRenderComponent(PrimaryButton$1, {
+            _push2(ssrRenderComponent(PrimaryButton, {
               class: { "opacity-25": unref(form).processing },
               disabled: unref(form).processing
             }, {
@@ -1637,11 +7711,11 @@ const _sfc_main$B = {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [
                 createVNode("div", null, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "email",
                     value: "Email"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "email",
                     type: "email",
                     class: "mt-1 block w-full",
@@ -1651,17 +7725,17 @@ const _sfc_main$B = {
                     autofocus: "",
                     autocomplete: "username"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.email
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-4" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password",
                     value: "Password"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password",
                     type: "password",
                     class: "mt-1 block w-full",
@@ -1670,17 +7744,17 @@ const _sfc_main$B = {
                     required: "",
                     autocomplete: "new-password"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.password
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-4" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password_confirmation",
                     value: "Confirm Password"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password_confirmation",
                     type: "password",
                     class: "mt-1 block w-full",
@@ -1689,13 +7763,13 @@ const _sfc_main$B = {
                     required: "",
                     autocomplete: "new-password"
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     class: "mt-2",
                     message: unref(form).errors.password_confirmation
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "flex items-center justify-end mt-4" }, [
-                  createVNode(PrimaryButton$1, {
+                  createVNode(PrimaryButton, {
                     class: { "opacity-25": unref(form).processing },
                     disabled: unref(form).processing
                   }, {
@@ -1714,17 +7788,17 @@ const _sfc_main$B = {
     };
   }
 };
-const _sfc_setup$B = _sfc_main$B.setup;
-_sfc_main$B.setup = (props, ctx) => {
+const _sfc_setup$u = _sfc_main$u.setup;
+_sfc_main$u.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Auth/ResetPassword.vue");
-  return _sfc_setup$B ? _sfc_setup$B(props, ctx) : void 0;
+  return _sfc_setup$u ? _sfc_setup$u(props, ctx) : void 0;
 };
-const __vite_glob_0_8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_24 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$B
+  default: _sfc_main$u
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$A = {
+const _sfc_main$t = {
   __name: "VerifyEmail",
   __ssrInlineRender: true,
   props: {
@@ -1740,7 +7814,7 @@ const _sfc_main$A = {
     };
     const verificationLinkSent = computed(() => props.status === "verification-link-sent");
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$L, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$E, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(unref(Head), { title: "Email Verification" }, null, _parent2, _scopeId));
@@ -1751,7 +7825,7 @@ const _sfc_main$A = {
               _push2(`<!---->`);
             }
             _push2(`<form${_scopeId}><div class="mt-4 flex items-center justify-between"${_scopeId}>`);
-            _push2(ssrRenderComponent(PrimaryButton$1, {
+            _push2(ssrRenderComponent(PrimaryButton, {
               class: { "opacity-25": unref(form).processing },
               disabled: unref(form).processing
             }, {
@@ -1796,7 +7870,7 @@ const _sfc_main$A = {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [
                 createVNode("div", { class: "mt-4 flex items-center justify-between" }, [
-                  createVNode(PrimaryButton$1, {
+                  createVNode(PrimaryButton, {
                     class: { "opacity-25": unref(form).processing },
                     disabled: unref(form).processing
                   }, {
@@ -1826,127 +7900,82 @@ const _sfc_main$A = {
     };
   }
 };
-const _sfc_setup$A = _sfc_main$A.setup;
-_sfc_main$A.setup = (props, ctx) => {
+const _sfc_setup$t = _sfc_main$t.setup;
+_sfc_main$t.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Auth/VerifyEmail.vue");
-  return _sfc_setup$A ? _sfc_setup$A(props, ctx) : void 0;
+  return _sfc_setup$t ? _sfc_setup$t(props, ctx) : void 0;
 };
-const __vite_glob_0_9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_25 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$A
+  default: _sfc_main$t
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$z = {};
-function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs) {
-  _push(`<div${ssrRenderAttrs(mergeProps({ class: "relative w-3/4 mx-auto mb-7" }, _attrs))}>`);
-  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`</div>`);
-}
-const _sfc_setup$z = _sfc_main$z.setup;
-_sfc_main$z.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Field.vue");
-  return _sfc_setup$z ? _sfc_setup$z(props, ctx) : void 0;
-};
-const Field = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["ssrRender", _sfc_ssrRender$6]]);
-const _sfc_main$y = {};
-function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs) {
-  _push(`<label${ssrRenderAttrs(mergeProps({ class: "absolute text-2xl font-heading uppercase text-fontDark duration-300 transform -translate-y-4 scale-75 top-1 z-10 origin-[0] bg-bgLight-200 px-2 peer-focus:px-4 peer-focus:text-ownYellow-400 peer-focus:bg-ownPurple-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1" }, _attrs))}>`);
-  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`</label>`);
-}
-const _sfc_setup$y = _sfc_main$y.setup;
-_sfc_main$y.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Label.vue");
-  return _sfc_setup$y ? _sfc_setup$y(props, ctx) : void 0;
-};
-const Label = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["ssrRender", _sfc_ssrRender$5]]);
-const _sfc_main$x = {
-  __name: "Input",
+const _sfc_main$s = {
+  __name: "Index",
   __ssrInlineRender: true,
   props: {
-    modelValue: String
-  },
-  emits: ["update:modelValue"],
-  setup(__props, { emit: __emit }) {
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(`<input${ssrRenderAttrs(mergeProps({
-        class: "block px-2.5 pb-2.5 pt-4 w-full text-lg text-fontDark bg-transparent border-1 border-fontDark appearance-none focus:outline-none focus:ring-0 focus:border-ownPurple-400 peer box-shadow font-text duration-300",
-        placeholder: " ",
-        value: __props.modelValue
-      }, _attrs))}>`);
-    };
-  }
-};
-const _sfc_setup$x = _sfc_main$x.setup;
-_sfc_main$x.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Input.vue");
-  return _sfc_setup$x ? _sfc_setup$x(props, ctx) : void 0;
-};
-const _sfc_main$w = {
-  __name: "TextArea",
-  __ssrInlineRender: true,
-  props: {
-    modelValue: String
-  },
-  emits: ["update:modelValue"],
-  setup(__props, { emit: __emit }) {
-    return (_ctx, _push, _parent, _attrs) => {
-      let _temp0;
-      _push(`<textarea${ssrRenderAttrs(_temp0 = mergeProps({
-        rows: "5",
-        class: "block px-2.5 pb-2.5 pt-4 w-full text-lg text-fontDark bg-transparent border-1 border-fontDark appearance-none focus:outline-none focus:ring-0 focus:border-ownPurple-400 peer box-shadow font-text duration-300 max-h-[300px]",
-        placeholder: " ",
-        value: __props.modelValue
-      }, _attrs), "textarea")}>${ssrInterpolate("value" in _temp0 ? _temp0.value : "")}</textarea>`);
-    };
-  }
-};
-const _sfc_setup$w = _sfc_main$w.setup;
-_sfc_main$w.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/TextArea.vue");
-  return _sfc_setup$w ? _sfc_setup$w(props, ctx) : void 0;
-};
-const _sfc_main$v = {};
-function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs) {
-  _push(`<div${ssrRenderAttrs(mergeProps({ class: "mt-2 text-left text-sm font-thin ml-1 text-red-600" }, _attrs))}>`);
-  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`</div>`);
-}
-const _sfc_setup$v = _sfc_main$v.setup;
-_sfc_main$v.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Form/Error.vue");
-  return _sfc_setup$v ? _sfc_setup$v(props, ctx) : void 0;
-};
-const Error$1 = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["ssrRender", _sfc_ssrRender$4]]);
-const _sfc_main$u = {
-  __name: "OldSchoolCard",
-  __ssrInlineRender: true,
-  props: {
-    title: String,
-    customClass: String
+    techs: Array
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<div${ssrRenderAttrs(mergeProps({
-        class: ["box-shadow", __props.customClass]
-      }, _attrs))}><div class="bg-bgDark-400 p-2"><span class="text-xl font-text font-bold text-fontLight uppercase">${ssrInterpolate(__props.title)}</span></div>`);
-      ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-      _push(`</div>`);
+      const _component_Head = resolveComponent("Head");
+      _push(`<!--[-->`);
+      _push(ssrRenderComponent(_component_Head, { title: "Zanurz się w programistycznej lekturze" }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<meta name="description" content="Jeśli kochasz programowanie i chcesz się nauczyć czegoś nowego, zapraszam Cię na mój blog, gdzie znajdziesz moje projekty, eksperymenty i wyzwania z różnych dziedzin IT. Pokażę Ci, jak tworzyć niesamowite aplikacje, jak używać nowoczesnych narzędzi i jak być lepszym programistą. Nie zwlekaj, dołącz do mnie i baw się dobrze!"${_scopeId}>`);
+          } else {
+            return [
+              createVNode("meta", {
+                name: "description",
+                content: "Jeśli kochasz programowanie i chcesz się nauczyć czegoś nowego, zapraszam Cię na mój blog, gdzie znajdziesz moje projekty, eksperymenty i wyzwania z różnych dziedzin IT. Pokażę Ci, jak tworzyć niesamowite aplikacje, jak używać nowoczesnych narzędzi i jak być lepszym programistą. Nie zwlekaj, dołącz do mnie i baw się dobrze!"
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$18, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<main${_scopeId}><section class="bg-ownTurquise-400 section py-16 lg:py-24 mt-12"${_scopeId}><div class="max-w-screen-2xl mx-auto text-center px-4 sm:px-12 md:px-24 lg:px-12 2xl:px-24"${_scopeId}><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl mb-24 uppercase font-heading"${_scopeId}> Zanurz się w lekturze i odkryj ciekawostki z programistycznego świata </h2></div><div class="flex flex-col justify-center items-center gap-12 md:gap-16 px-4 sm:px-0"${_scopeId}><img src="/assets/images/home/blog-coming-soon.webp" alt="blog nadejdzie już niedługo" class="w-[500px]"${_scopeId}><h2 class="text-2xl xs:text-3xl lg:text-4xl xl:text-4xl uppercase font-heading"${_scopeId}> Jeszcze momencik i będzie gotowe </h2></div></section></main>`);
+          } else {
+            return [
+              createVNode("main", null, [
+                createVNode("section", { class: "bg-ownTurquise-400 section py-16 lg:py-24 mt-12" }, [
+                  createVNode("div", { class: "max-w-screen-2xl mx-auto text-center px-4 sm:px-12 md:px-24 lg:px-12 2xl:px-24" }, [
+                    createVNode("h2", { class: "text-5xl xs:text-6xl lg:text-7xl xl:text-8xl mb-24 uppercase font-heading" }, " Zanurz się w lekturze i odkryj ciekawostki z programistycznego świata ")
+                  ]),
+                  createVNode("div", { class: "flex flex-col justify-center items-center gap-12 md:gap-16 px-4 sm:px-0" }, [
+                    createVNode("img", {
+                      src: "/assets/images/home/blog-coming-soon.webp",
+                      alt: "blog nadejdzie już niedługo",
+                      class: "w-[500px]"
+                    }),
+                    createVNode("h2", { class: "text-2xl xs:text-3xl lg:text-4xl xl:text-4xl uppercase font-heading" }, " Jeszcze momencik i będzie gotowe ")
+                  ])
+                ])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<!--]-->`);
     };
   }
 };
-const _sfc_setup$u = _sfc_main$u.setup;
-_sfc_main$u.setup = (props, ctx) => {
+const _sfc_setup$s = _sfc_main$s.setup;
+_sfc_main$s.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/OldSchoolCard.vue");
-  return _sfc_setup$u ? _sfc_setup$u(props, ctx) : void 0;
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Blog/Index.vue");
+  return _sfc_setup$s ? _sfc_setup$s(props, ctx) : void 0;
 };
-const _sfc_main$t = {
+const __vite_glob_0_26 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$s
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$r = {
   __name: "Index",
   __ssrInlineRender: true,
   props: {
@@ -1975,45 +8004,76 @@ const _sfc_main$t = {
         preserveScroll: true,
         onSuccess: () => {
           sendForm.value = !sendForm.value;
+          console.log("udało się");
         }
       });
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Head = resolveComponent("Head");
       const _component_PrimaryButton = resolveComponent("PrimaryButton");
-      _push(`<div${ssrRenderAttrs(_attrs)} data-v-9ffd4d2e>`);
-      _push(ssrRenderComponent(_component_Head, { title: "Kontakt" }, {
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-271c9c10>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Skontaktuje się ze mną | Marek Gacek" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<meta name="description" content="opis" data-v-9ffd4d2e${_scopeId}>`);
+            _push2(`<meta name="description" content="Skontaktuj się ze mną i zacznij tworzyć online bez granic. Odkryj, jak moje umiejętności w kodowaniu i marketingu mogą pomóc Twojemu biznesowi." data-v-271c9c10${_scopeId}>`);
           } else {
             return [
               createVNode("meta", {
                 name: "description",
-                content: "opis"
+                content: "Skontaktuj się ze mną i zacznij tworzyć online bez granic. Odkryj, jak moje umiejętności w kodowaniu i marketingu mogą pomóc Twojemu biznesowi."
               })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$P, null, {
+      _push(ssrRenderComponent(_sfc_main$18, null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<main data-v-9ffd4d2e${_scopeId}><section class="section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownPink-200" data-v-9ffd4d2e${_scopeId}><div class="wrapper" data-v-9ffd4d2e${_scopeId}><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-3/5 lg:py-16 lg:px-4 xl:p-10 2xl:p-20" data-v-9ffd4d2e${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$u, {
+            _push2(`<main data-v-271c9c10${_scopeId}><section class="section mt-[71px] bg-ownPink-200" data-v-271c9c10${_scopeId}><div class="w-full mx-auto mt-12" data-v-271c9c10${_scopeId}>`);
+            _push2(ssrRenderComponent(unref(Vue3Marquee), {
+              pauseOnHover: "true",
+              duration: "20",
+              class: "overflow-hidden py-4 bg-bgDark-400 text-ownYellow-400"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<h1 class="text-7xl font-heading ml-3" data-v-271c9c10${_scopeId2}> Potrzebujesz wyceny <span class="text-fontLight" data-v-271c9c10${_scopeId2}>??</span> Masz jakieś pytanie <span class="text-fontLight" data-v-271c9c10${_scopeId2}>??</span> Chcesz po prostu pogadać <span class="text-fontLight" data-v-271c9c10${_scopeId2}>??</span> Potrzebujesz wyceny <span class="text-fontLight" data-v-271c9c10${_scopeId2}>??</span> Masz jakieś pytanie <span class="text-fontLight" data-v-271c9c10${_scopeId2}>??</span> Chcesz po prostu pogadać <span class="text-fontLight" data-v-271c9c10${_scopeId2}>??</span></h1>`);
+                } else {
+                  return [
+                    createVNode("h1", { class: "text-7xl font-heading ml-3" }, [
+                      createTextVNode(" Potrzebujesz wyceny "),
+                      createVNode("span", { class: "text-fontLight" }, "??"),
+                      createTextVNode(" Masz jakieś pytanie "),
+                      createVNode("span", { class: "text-fontLight" }, "??"),
+                      createTextVNode(" Chcesz po prostu pogadać "),
+                      createVNode("span", { class: "text-fontLight" }, "??"),
+                      createTextVNode(" Potrzebujesz wyceny "),
+                      createVNode("span", { class: "text-fontLight" }, "??"),
+                      createTextVNode(" Masz jakieś pytanie "),
+                      createVNode("span", { class: "text-fontLight" }, "??"),
+                      createTextVNode(" Chcesz po prostu pogadać "),
+                      createVNode("span", { class: "text-fontLight" }, "??")
+                    ])
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(`</div><div class="wrapper" data-v-271c9c10${_scopeId}><div class="flex flex-col justify-center gap-6 lg:w-2/5 lg:mr-3 py-12 lg:ml-6 lg:mt-0" data-v-271c9c10${_scopeId}><img src="/assets/images/contact/contact.webp" alt="" class="w-96 mx-auto" data-v-271c9c10${_scopeId}><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" data-v-271c9c10${_scopeId}> Śmiało, napisz do mnie za pomocą formularza lub wyślij maila. </h2><a href="mailto:kontakt@marekgacekdev.pl" class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed font-bold text-ownTurquise-400" data-v-271c9c10${_scopeId}>kontakt@marekgacekdev.pl</a><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" data-v-271c9c10${_scopeId}> Jeżeli wolisz to znajdź mnie na mediach społecznościowych </h2><div data-v-271c9c10${_scopeId}><ul class="flex items-center gap-3 animate-bounce" data-v-271c9c10${_scopeId}><li data-v-271c9c10${_scopeId}><a href="https://www.facebook.com/marekgacekdev" target="_blank" data-v-271c9c10${_scopeId}><img src="/assets/icons/facebook--purple.svg" alt="" class="w-10 md:w-12 social" data-v-271c9c10${_scopeId}></a></li><li data-v-271c9c10${_scopeId}><a href="https://pl.linkedin.com/in/marek-gacek" target="_blank" data-v-271c9c10${_scopeId}><img src="/assets/icons/linkedin--white.svg" alt="" class="w-10 md:w-12 social" data-v-271c9c10${_scopeId}></a></li><li data-v-271c9c10${_scopeId}><a href="https://github.com/marekgacek45" target="_blank" data-v-271c9c10${_scopeId}><img src="/assets/icons/github.svg" alt="" class="w-10 md:w-12 social" data-v-271c9c10${_scopeId}></a></li><li data-v-271c9c10${_scopeId}><a href="https://www.youtube.com/@marekgacekdev" target="_blank" data-v-271c9c10${_scopeId}><img src="/assets/icons/youtube--yellow.svg" alt="" class="w-14 md:w-16 social" data-v-271c9c10${_scopeId}></a></li></ul></div></div><div class="flex justify-center items-center lg:h-auto mt-6 mb-12 lg:w-3/5 lg:py-16 lg:px-4 xl:p-10 2xl:p-16" data-v-271c9c10${_scopeId}>`);
+            _push2(ssrRenderComponent(_sfc_main$11, {
               title: "Kontakt",
               class: "w-full"
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<div class="bg-bgLight-200 py-6" data-v-9ffd4d2e${_scopeId2}><template>`);
+                  _push3(`<div class="bg-bgLight-200 py-6" data-v-271c9c10${_scopeId2}><template>`);
                   if (!unref(sendForm)) {
-                    _push3(`<form method="post" data-v-9ffd4d2e${_scopeId2}>`);
+                    _push3(`<form data-v-271c9c10${_scopeId2}>`);
                     _push3(ssrRenderComponent(Field, null, {
                       default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
-                          _push4(ssrRenderComponent(_sfc_main$x, {
+                          _push4(ssrRenderComponent(_sfc_main$13, {
                             type: "text",
                             id: "name",
                             name: "name",
@@ -2054,7 +8114,7 @@ const _sfc_main$t = {
                           }
                         } else {
                           return [
-                            createVNode(_sfc_main$x, {
+                            createVNode(_sfc_main$13, {
                               type: "text",
                               id: "name",
                               name: "name",
@@ -2085,7 +8145,7 @@ const _sfc_main$t = {
                     _push3(ssrRenderComponent(Field, null, {
                       default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
-                          _push4(ssrRenderComponent(_sfc_main$x, {
+                          _push4(ssrRenderComponent(_sfc_main$13, {
                             type: "email",
                             id: "email",
                             name: "email",
@@ -2126,7 +8186,7 @@ const _sfc_main$t = {
                           }, _parent4, _scopeId3));
                         } else {
                           return [
-                            createVNode(_sfc_main$x, {
+                            createVNode(_sfc_main$13, {
                               type: "email",
                               id: "email",
                               name: "email",
@@ -2157,7 +8217,7 @@ const _sfc_main$t = {
                     _push3(ssrRenderComponent(Field, null, {
                       default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
-                          _push4(ssrRenderComponent(_sfc_main$x, {
+                          _push4(ssrRenderComponent(_sfc_main$13, {
                             type: "tel",
                             id: "phone",
                             name: "phone",
@@ -2197,7 +8257,7 @@ const _sfc_main$t = {
                           }
                         } else {
                           return [
-                            createVNode(_sfc_main$x, {
+                            createVNode(_sfc_main$13, {
                               type: "tel",
                               id: "phone",
                               name: "phone",
@@ -2227,7 +8287,7 @@ const _sfc_main$t = {
                     _push3(ssrRenderComponent(Field, null, {
                       default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
-                          _push4(ssrRenderComponent(_sfc_main$w, {
+                          _push4(ssrRenderComponent(_sfc_main$T, {
                             id: "message",
                             name: "message",
                             modelValue: unref(form).message,
@@ -2268,7 +8328,7 @@ const _sfc_main$t = {
                           }
                         } else {
                           return [
-                            createVNode(_sfc_main$w, {
+                            createVNode(_sfc_main$T, {
                               id: "message",
                               name: "message",
                               modelValue: unref(form).message,
@@ -2348,7 +8408,7 @@ const _sfc_main$t = {
                     }, _parent3, _scopeId2));
                     _push3(`</form>`);
                   } else {
-                    _push3(`<div class="min-h-[545px] flex flex-col justify-center items-center gap-6 text-center px-4" data-v-9ffd4d2e${_scopeId2}><h2 class="text-7xl font-heading" data-v-9ffd4d2e${_scopeId2}>Dzięki za wiadomość</h2><span class="text-3xl" data-v-9ffd4d2e${_scopeId2}>Odpowiem na nią najszybciej jak to możliwe!</span></div>`);
+                    _push3(`<div class="min-h-[545px] flex flex-col justify-center items-center gap-6 text-center px-4" data-v-271c9c10${_scopeId2}><h2 class="text-7xl font-heading" data-v-271c9c10${_scopeId2}>Dzięki za wiadomość</h2><span class="text-3xl" data-v-271c9c10${_scopeId2}>Odpowiem na nią najszybciej jak to możliwe!</span></div>`);
                   }
                   _push3(`</template></div>`);
                 } else {
@@ -2362,12 +8422,11 @@ const _sfc_main$t = {
                         default: withCtx(() => [
                           !unref(sendForm) ? (openBlock(), createBlock("form", {
                             key: 0,
-                            onSubmit: withModifiers(recaptcha, ["prevent"]),
-                            method: "post"
+                            onSubmit: withModifiers(recaptcha, ["prevent"])
                           }, [
                             createVNode(Field, null, {
                               default: withCtx(() => [
-                                createVNode(_sfc_main$x, {
+                                createVNode(_sfc_main$13, {
                                   type: "text",
                                   id: "name",
                                   name: "name",
@@ -2395,7 +8454,7 @@ const _sfc_main$t = {
                             }),
                             createVNode(Field, null, {
                               default: withCtx(() => [
-                                createVNode(_sfc_main$x, {
+                                createVNode(_sfc_main$13, {
                                   type: "email",
                                   id: "email",
                                   name: "email",
@@ -2423,7 +8482,7 @@ const _sfc_main$t = {
                             }),
                             createVNode(Field, null, {
                               default: withCtx(() => [
-                                createVNode(_sfc_main$x, {
+                                createVNode(_sfc_main$13, {
                                   type: "tel",
                                   id: "phone",
                                   name: "phone",
@@ -2450,7 +8509,7 @@ const _sfc_main$t = {
                             }),
                             createVNode(Field, null, {
                               default: withCtx(() => [
-                                createVNode(_sfc_main$w, {
+                                createVNode(_sfc_main$T, {
                                   id: "message",
                                   name: "message",
                                   modelValue: unref(form).message,
@@ -2512,31 +8571,104 @@ const _sfc_main$t = {
               }),
               _: 1
             }, _parent2, _scopeId));
-            _push2(`</div><div class="flex flex-col justify-center gap-6 lg:w-2/5 lg:mr-3 py-12" data-v-9ffd4d2e${_scopeId}>`);
-            _push2(ssrRenderComponent(unref(Vue3Marquee), {
-              pauseOnHover: "true",
-              duration: "10",
-              class: "overflow-hidden py-1"
-            }, {
-              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
-                if (_push3) {
-                  _push3(`<h1 class="text-7xl font-heading ml-3" data-v-9ffd4d2e${_scopeId2}> Potrzebujesz wyceny?? Masz jakieś pytanie?? Chcesz po prostu pogadać?? </h1>`);
-                } else {
-                  return [
-                    createVNode("h1", { class: "text-7xl font-heading ml-3" }, " Potrzebujesz wyceny?? Masz jakieś pytanie?? Chcesz po prostu pogadać?? ")
-                  ];
-                }
-              }),
-              _: 1
-            }, _parent2, _scopeId));
-            _push2(`<h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" data-v-9ffd4d2e${_scopeId}> Śmiało, napisz do mnie za pomocą formularza lub wyślij maila. </h2><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" data-v-9ffd4d2e${_scopeId}> Jeżeli wolisz to znajdź mnie na mediach społecznościowych </h2></div></div></section></main>`);
+            _push2(`</div></div></section></main>`);
           } else {
             return [
               createVNode("main", null, [
-                createVNode("section", { class: "section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownPink-200" }, [
+                createVNode("section", { class: "section mt-[71px] bg-ownPink-200" }, [
+                  createVNode("div", { class: "w-full mx-auto mt-12" }, [
+                    createVNode(unref(Vue3Marquee), {
+                      pauseOnHover: "true",
+                      duration: "20",
+                      class: "overflow-hidden py-4 bg-bgDark-400 text-ownYellow-400"
+                    }, {
+                      default: withCtx(() => [
+                        createVNode("h1", { class: "text-7xl font-heading ml-3" }, [
+                          createTextVNode(" Potrzebujesz wyceny "),
+                          createVNode("span", { class: "text-fontLight" }, "??"),
+                          createTextVNode(" Masz jakieś pytanie "),
+                          createVNode("span", { class: "text-fontLight" }, "??"),
+                          createTextVNode(" Chcesz po prostu pogadać "),
+                          createVNode("span", { class: "text-fontLight" }, "??"),
+                          createTextVNode(" Potrzebujesz wyceny "),
+                          createVNode("span", { class: "text-fontLight" }, "??"),
+                          createTextVNode(" Masz jakieś pytanie "),
+                          createVNode("span", { class: "text-fontLight" }, "??"),
+                          createTextVNode(" Chcesz po prostu pogadać "),
+                          createVNode("span", { class: "text-fontLight" }, "??")
+                        ])
+                      ]),
+                      _: 1
+                    })
+                  ]),
                   createVNode("div", { class: "wrapper" }, [
-                    createVNode("div", { class: "flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-3/5 lg:py-16 lg:px-4 xl:p-10 2xl:p-20" }, [
-                      createVNode(_sfc_main$u, {
+                    createVNode("div", { class: "flex flex-col justify-center gap-6 lg:w-2/5 lg:mr-3 py-12 lg:ml-6 lg:mt-0" }, [
+                      createVNode("img", {
+                        src: "/assets/images/contact/contact.webp",
+                        alt: "",
+                        class: "w-96 mx-auto"
+                      }),
+                      createVNode("h2", { class: "text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" }, " Śmiało, napisz do mnie za pomocą formularza lub wyślij maila. "),
+                      createVNode("a", {
+                        href: "mailto:kontakt@marekgacekdev.pl",
+                        class: "text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed font-bold text-ownTurquise-400"
+                      }, "kontakt@marekgacekdev.pl"),
+                      createVNode("h2", { class: "text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" }, " Jeżeli wolisz to znajdź mnie na mediach społecznościowych "),
+                      createVNode("div", null, [
+                        createVNode("ul", { class: "flex items-center gap-3 animate-bounce" }, [
+                          createVNode("li", null, [
+                            createVNode("a", {
+                              href: "https://www.facebook.com/marekgacekdev",
+                              target: "_blank"
+                            }, [
+                              createVNode("img", {
+                                src: "/assets/icons/facebook--purple.svg",
+                                alt: "",
+                                class: "w-10 md:w-12 social"
+                              })
+                            ])
+                          ]),
+                          createVNode("li", null, [
+                            createVNode("a", {
+                              href: "https://pl.linkedin.com/in/marek-gacek",
+                              target: "_blank"
+                            }, [
+                              createVNode("img", {
+                                src: "/assets/icons/linkedin--white.svg",
+                                alt: "",
+                                class: "w-10 md:w-12 social"
+                              })
+                            ])
+                          ]),
+                          createVNode("li", null, [
+                            createVNode("a", {
+                              href: "https://github.com/marekgacek45",
+                              target: "_blank"
+                            }, [
+                              createVNode("img", {
+                                src: "/assets/icons/github.svg",
+                                alt: "",
+                                class: "w-10 md:w-12 social"
+                              })
+                            ])
+                          ]),
+                          createVNode("li", null, [
+                            createVNode("a", {
+                              href: "https://www.youtube.com/@marekgacekdev",
+                              target: "_blank"
+                            }, [
+                              createVNode("img", {
+                                src: "/assets/icons/youtube--yellow.svg",
+                                alt: "",
+                                class: "w-14 md:w-16 social"
+                              })
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]),
+                    createVNode("div", { class: "flex justify-center items-center lg:h-auto mt-6 mb-12 lg:w-3/5 lg:py-16 lg:px-4 xl:p-10 2xl:p-16" }, [
+                      createVNode(_sfc_main$11, {
                         title: "Kontakt",
                         class: "w-full"
                       }, {
@@ -2550,12 +8682,11 @@ const _sfc_main$t = {
                               default: withCtx(() => [
                                 !unref(sendForm) ? (openBlock(), createBlock("form", {
                                   key: 0,
-                                  onSubmit: withModifiers(recaptcha, ["prevent"]),
-                                  method: "post"
+                                  onSubmit: withModifiers(recaptcha, ["prevent"])
                                 }, [
                                   createVNode(Field, null, {
                                     default: withCtx(() => [
-                                      createVNode(_sfc_main$x, {
+                                      createVNode(_sfc_main$13, {
                                         type: "text",
                                         id: "name",
                                         name: "name",
@@ -2583,7 +8714,7 @@ const _sfc_main$t = {
                                   }),
                                   createVNode(Field, null, {
                                     default: withCtx(() => [
-                                      createVNode(_sfc_main$x, {
+                                      createVNode(_sfc_main$13, {
                                         type: "email",
                                         id: "email",
                                         name: "email",
@@ -2611,7 +8742,7 @@ const _sfc_main$t = {
                                   }),
                                   createVNode(Field, null, {
                                     default: withCtx(() => [
-                                      createVNode(_sfc_main$x, {
+                                      createVNode(_sfc_main$13, {
                                         type: "tel",
                                         id: "phone",
                                         name: "phone",
@@ -2638,7 +8769,7 @@ const _sfc_main$t = {
                                   }),
                                   createVNode(Field, null, {
                                     default: withCtx(() => [
-                                      createVNode(_sfc_main$w, {
+                                      createVNode(_sfc_main$T, {
                                         id: "message",
                                         name: "message",
                                         modelValue: unref(form).message,
@@ -2698,20 +8829,6 @@ const _sfc_main$t = {
                         ]),
                         _: 1
                       })
-                    ]),
-                    createVNode("div", { class: "flex flex-col justify-center gap-6 lg:w-2/5 lg:mr-3 py-12" }, [
-                      createVNode(unref(Vue3Marquee), {
-                        pauseOnHover: "true",
-                        duration: "10",
-                        class: "overflow-hidden py-1"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode("h1", { class: "text-7xl font-heading ml-3" }, " Potrzebujesz wyceny?? Masz jakieś pytanie?? Chcesz po prostu pogadać?? ")
-                        ]),
-                        _: 1
-                      }),
-                      createVNode("h2", { class: "text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" }, " Śmiało, napisz do mnie za pomocą formularza lub wyślij maila. "),
-                      createVNode("h2", { class: "text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed" }, " Jeżeli wolisz to znajdź mnie na mediach społecznościowych ")
                     ])
                   ])
                 ])
@@ -2725,18 +8842,18 @@ const _sfc_main$t = {
     };
   }
 };
-const _sfc_setup$t = _sfc_main$t.setup;
-_sfc_main$t.setup = (props, ctx) => {
+const _sfc_setup$r = _sfc_main$r.setup;
+_sfc_main$r.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Contact/Index.vue");
-  return _sfc_setup$t ? _sfc_setup$t(props, ctx) : void 0;
+  return _sfc_setup$r ? _sfc_setup$r(props, ctx) : void 0;
 };
-const Index$1 = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["__scopeId", "data-v-9ffd4d2e"]]);
-const __vite_glob_0_10 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Index = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["__scopeId", "data-v-271c9c10"]]);
+const __vite_glob_0_27 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Index$1
+  default: Index
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$s = {
+const _sfc_main$q = {
   __name: "Dropdown",
   __ssrInlineRender: true,
   props: {
@@ -2789,13 +8906,13 @@ const _sfc_main$s = {
     };
   }
 };
-const _sfc_setup$s = _sfc_main$s.setup;
-_sfc_main$s.setup = (props, ctx) => {
+const _sfc_setup$q = _sfc_main$q.setup;
+_sfc_main$q.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Dropdown.vue");
-  return _sfc_setup$s ? _sfc_setup$s(props, ctx) : void 0;
+  return _sfc_setup$q ? _sfc_setup$q(props, ctx) : void 0;
 };
-const _sfc_main$r = {
+const _sfc_main$p = {
   __name: "DropdownLink",
   __ssrInlineRender: true,
   props: {
@@ -2824,13 +8941,13 @@ const _sfc_main$r = {
     };
   }
 };
-const _sfc_setup$r = _sfc_main$r.setup;
-_sfc_main$r.setup = (props, ctx) => {
+const _sfc_setup$p = _sfc_main$p.setup;
+_sfc_main$p.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/DropdownLink.vue");
-  return _sfc_setup$r ? _sfc_setup$r(props, ctx) : void 0;
+  return _sfc_setup$p ? _sfc_setup$p(props, ctx) : void 0;
 };
-const _sfc_main$q = {
+const _sfc_main$o = {
   __name: "ResponsiveNavLink",
   __ssrInlineRender: true,
   props: {
@@ -2866,13 +8983,13 @@ const _sfc_main$q = {
     };
   }
 };
-const _sfc_setup$q = _sfc_main$q.setup;
-_sfc_main$q.setup = (props, ctx) => {
+const _sfc_setup$o = _sfc_main$o.setup;
+_sfc_main$o.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/ResponsiveNavLink.vue");
-  return _sfc_setup$q ? _sfc_setup$q(props, ctx) : void 0;
+  return _sfc_setup$o ? _sfc_setup$o(props, ctx) : void 0;
 };
-const _sfc_main$p = {
+const _sfc_main$n = {
   __name: "AuthenticatedLayout",
   __ssrInlineRender: true,
   setup(__props) {
@@ -2894,7 +9011,7 @@ const _sfc_main$p = {
         _: 1
       }, _parent));
       _push(`</div><div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">`);
-      _push(ssrRenderComponent(_sfc_main$X, {
+      _push(ssrRenderComponent(_sfc_main$1g, {
         href: _ctx.route("dashboard"),
         active: _ctx.route().current("dashboard")
       }, {
@@ -2910,7 +9027,7 @@ const _sfc_main$p = {
         _: 1
       }, _parent));
       _push(`</div></div><div class="hidden sm:flex sm:items-center sm:ms-6"><div class="ms-3 relative">`);
-      _push(ssrRenderComponent(_sfc_main$s, {
+      _push(ssrRenderComponent(_sfc_main$q, {
         align: "right",
         width: "48"
       }, {
@@ -2944,7 +9061,7 @@ const _sfc_main$p = {
         }),
         content: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(_sfc_main$r, {
+            _push2(ssrRenderComponent(_sfc_main$p, {
               href: _ctx.route("profile.edit")
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
@@ -2958,7 +9075,7 @@ const _sfc_main$p = {
               }),
               _: 1
             }, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$r, {
+            _push2(ssrRenderComponent(_sfc_main$p, {
               href: _ctx.route("logout"),
               method: "post",
               as: "button"
@@ -2976,7 +9093,7 @@ const _sfc_main$p = {
             }, _parent2, _scopeId));
           } else {
             return [
-              createVNode(_sfc_main$r, {
+              createVNode(_sfc_main$p, {
                 href: _ctx.route("profile.edit")
               }, {
                 default: withCtx(() => [
@@ -2984,7 +9101,7 @@ const _sfc_main$p = {
                 ]),
                 _: 1
               }, 8, ["href"]),
-              createVNode(_sfc_main$r, {
+              createVNode(_sfc_main$p, {
                 href: _ctx.route("logout"),
                 method: "post",
                 as: "button"
@@ -3006,7 +9123,7 @@ const _sfc_main$p = {
         hidden: !showingNavigationDropdown.value,
         "inline-flex": showingNavigationDropdown.value
       })}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div></div><div class="${ssrRenderClass([{ block: showingNavigationDropdown.value, hidden: !showingNavigationDropdown.value }, "sm:hidden"])}"><div class="pt-2 pb-3 space-y-1">`);
-      _push(ssrRenderComponent(_sfc_main$q, {
+      _push(ssrRenderComponent(_sfc_main$o, {
         href: _ctx.route("dashboard"),
         active: _ctx.route().current("dashboard")
       }, {
@@ -3022,7 +9139,7 @@ const _sfc_main$p = {
         _: 1
       }, _parent));
       _push(`</div><div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600"><div class="px-4"><div class="font-medium text-base text-gray-800 dark:text-gray-200">${ssrInterpolate(_ctx.$page.props.auth.user.name)}</div><div class="font-medium text-sm text-gray-500">${ssrInterpolate(_ctx.$page.props.auth.user.email)}</div></div><div class="mt-3 space-y-1">`);
-      _push(ssrRenderComponent(_sfc_main$q, {
+      _push(ssrRenderComponent(_sfc_main$o, {
         href: _ctx.route("profile.edit")
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -3036,7 +9153,7 @@ const _sfc_main$p = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$q, {
+      _push(ssrRenderComponent(_sfc_main$o, {
         href: _ctx.route("logout"),
         method: "post",
         as: "button"
@@ -3066,20 +9183,20 @@ const _sfc_main$p = {
     };
   }
 };
-const _sfc_setup$p = _sfc_main$p.setup;
-_sfc_main$p.setup = (props, ctx) => {
+const _sfc_setup$n = _sfc_main$n.setup;
+_sfc_main$n.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Layouts/AuthenticatedLayout.vue");
-  return _sfc_setup$p ? _sfc_setup$p(props, ctx) : void 0;
+  return _sfc_setup$n ? _sfc_setup$n(props, ctx) : void 0;
 };
-const _sfc_main$o = {
+const _sfc_main$m = {
   __name: "Dashboard",
   __ssrInlineRender: true,
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), { title: "Dashboard" }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$p, null, {
+      _push(ssrRenderComponent(_sfc_main$n, null, {
         header: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"${_scopeId}>Dashboard</h2>`);
@@ -3110,17 +9227,17 @@ const _sfc_main$o = {
     };
   }
 };
-const _sfc_setup$o = _sfc_main$o.setup;
-_sfc_main$o.setup = (props, ctx) => {
+const _sfc_setup$m = _sfc_main$m.setup;
+_sfc_main$m.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Dashboard.vue");
-  return _sfc_setup$o ? _sfc_setup$o(props, ctx) : void 0;
+  return _sfc_setup$m ? _sfc_setup$m(props, ctx) : void 0;
 };
-const __vite_glob_0_11 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_28 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$o
+  default: _sfc_main$m
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$n = {
+const _sfc_main$l = {
   __name: "Error",
   __ssrInlineRender: true,
   props: { status: Number },
@@ -3156,7 +9273,7 @@ const _sfc_main$n = {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_H1 = resolveComponent("H1");
       const _component_PrimaryButton = resolveComponent("PrimaryButton");
-      _push(ssrRenderComponent(_sfc_main$P, _attrs, {
+      _push(ssrRenderComponent(_sfc_main$18, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<div class="mt-[71px] px-4 sm:px-0 py-12 lg:py-24 lg:h-[calc(100vh-371px)] flex flex-col justify-center items-center gap-6 bg-ownPurple-400"${_scopeId}><img${ssrRenderAttr("src", image.value)} alt="" class="w-[400px]"${_scopeId}>`);
@@ -3224,51 +9341,54 @@ const _sfc_main$n = {
     };
   }
 };
-const _sfc_setup$n = _sfc_main$n.setup;
-_sfc_main$n.setup = (props, ctx) => {
+const _sfc_setup$l = _sfc_main$l.setup;
+_sfc_main$l.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Error.vue");
-  return _sfc_setup$n ? _sfc_setup$n(props, ctx) : void 0;
+  return _sfc_setup$l ? _sfc_setup$l(props, ctx) : void 0;
 };
-const __vite_glob_0_12 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_29 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$n
+  default: _sfc_main$l
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$m = {};
-function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs) {
-  _push(`<button${ssrRenderAttrs(mergeProps({
-    type: "button",
-    class: "px-16 py-4 bg-ownPurple-400 hover:bg-ownPurple-600 text-xl sm:text-xl md:text-3xl font-text font-bold hover:animate-shake duration-300 box-shadow"
-  }, _attrs))}>`);
-  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`</button>`);
-}
-const _sfc_setup$m = _sfc_main$m.setup;
-_sfc_main$m.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Base/PrimaryButton.vue");
-  return _sfc_setup$m ? _sfc_setup$m(props, ctx) : void 0;
-};
-const PrimaryButton = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["ssrRender", _sfc_ssrRender$3]]);
-const _sfc_main$l = {
+const _sfc_main$k = {
   __name: "Header",
   __ssrInlineRender: true,
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_Link = resolveComponent("Link");
       _push(`<header${ssrRenderAttrs(mergeProps({ class: "section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownYellow-400" }, _attrs))}><div class="wrapper"><div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:mr-3 py-12"><h1 class="text-7xl md:text-8xl xl:text-9xl font-heading"> Stwórz stronę swoich marzeń </h1><h2 class="text-2xl md:text-3xl xl:text-4xl font-text leading-relaxed"> Projektuję, tworzę i rozwijam innowacyjne strony internetowe które zaprezentują Twoją markę, zachwycą Twoich klientów i dodadza wiarygodności Twojej i tak już niesamowitej organizacji </h2><div>`);
-      _push(ssrRenderComponent(PrimaryButton, { "aria-label": "Oferta" }, {
+      _push(ssrRenderComponent(_component_Link, {
+        href: _ctx.route("portfolio")
+      }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`Oferta`);
+            _push2(ssrRenderComponent(PrimaryButton$1, { "aria-label": "Portfolio" }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Portfolio`);
+                } else {
+                  return [
+                    createTextVNode("Portfolio")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
           } else {
             return [
-              createTextVNode("Oferta")
+              createVNode(PrimaryButton$1, { "aria-label": "Portfolio" }, {
+                default: withCtx(() => [
+                  createTextVNode("Portfolio")
+                ]),
+                _: 1
+              })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(`</div></div><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 xl:p-10 2xl:p-20"><img src="/assets/images/header.png " alt="" class="h-full object-cover box-shadow" loading="lazy"></div></div><div class="flex justify-center pb-12">`);
+      _push(`</div></div><div class="flex justify-center items-center h-96 lg:h-auto mt-6 mb-12 lg:w-1/2 lg:py-16 lg:px-4 2xl:p-10"><img src="/assets/images/home/header--big.webp" alt="" class="hidden md:block h-full object-cover box-shadow" loading="lazy"><img src="/assets/images/home/header--small.webp" alt="" class="md:hidden h-full object-cover box-shadow" loading="lazy"></div></div><div class="flex justify-center pb-12">`);
       _push(ssrRenderComponent(unref(Vue3Marquee), {
         pauseOnHover: "true",
         duration: "30",
@@ -3289,17 +9409,17 @@ const _sfc_main$l = {
     };
   }
 };
-const _sfc_setup$l = _sfc_main$l.setup;
-_sfc_main$l.setup = (props, ctx) => {
+const _sfc_setup$k = _sfc_main$k.setup;
+_sfc_main$k.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home/Sections/Header.vue");
-  return _sfc_setup$l ? _sfc_setup$l(props, ctx) : void 0;
+  return _sfc_setup$k ? _sfc_setup$k(props, ctx) : void 0;
 };
-const __vite_glob_0_15 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_32 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$l
+  default: _sfc_main$k
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$k = {
+const _sfc_main$j = {
   __name: "ServicesCard",
   __ssrInlineRender: true,
   setup(__props) {
@@ -3307,25 +9427,25 @@ const _sfc_main$k = {
       {
         label: "WWW",
         text: "Tworzę innowacyjne, responsywne oraz błyskawicznie działające strony internetowe dostosowane do Twoich indywidualnych potrzeb, byś mógł zachwycić swoich odbiorców. Koniec z gotowcami stawianymi od szablonu oraz technologii które pamiętają stare czasy!",
-        image: "/assets/images/1.jpg",
+        image: "/assets/images/home/services--one.webp",
         background: "bg-ownPink-400"
       },
       {
         label: "DESIGN",
         text: "Zaprezentuję Ci wyjątkowe projekty, stworzone z myślą o Tobie! Styl moich witryn to efekt indywidualnego podejścia, dostosowanego do specyfiki Twojej branży oraz osobistych preferencji. Wyrwij się spod wpływu szablonów z poprzedniej dekady – każdy mój projekt to nowoczesny design i świeży styl.",
-        image: "/assets/images/2.jpg",
+        image: "/assets/images/home/services--two.webp",
         background: "bg-ownYellow-400"
       },
       {
         label: "SOCIAL MEDIA",
         text: "Oferuję kompleksowe zarządzanie mediów społecznościowych! Zajmuję się nie tylko tworzeniem, ale również aktywnym prowadzeniem profili na platformach społecznościowych. Zaufaj mi, abyś mógł skupić się na rozwoju swojego biznesu, a ja zadbanym o Twój wizerunek online!",
-        image: "/assets/images/3.jpg",
+        image: "/assets/images/home/services--three.webp",
         background: "bg-ownTurquise-400"
       },
       {
         label: "TREŚCI",
         text: "Zapewniam kompleksową obsługę treści dla Twojej strony internetowej! Specjalizuję się nie tylko w pisaniu tekstów, ale również w fotografii. Moje usługi obejmują tworzenie treści, które przyciągają uwagę i angażują czytelnika, a także dodawanie unikalnych wizualnych doświadczeń poprzez fotografie.",
-        image: "/assets/images/4.jpg",
+        image: "/assets/images/home/services--four.webp",
         background: "bg-ownOrange-600"
       }
     ];
@@ -3340,10 +9460,10 @@ const _sfc_main$k = {
       isActive.value = index;
     };
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$u, mergeProps({ title: "usługi" }, _attrs), {
+      _push(ssrRenderComponent(_sfc_main$11, mergeProps({ title: "usługi" }, _attrs), {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<div class="${ssrRenderClass([currentBackground.value, "border-x-2 border-black"])}"${_scopeId}><img${ssrRenderAttr("src", currentImage.value)} alt="" class="w-full h-96"${_scopeId}><div class="px-6 py-10 min-h-64 md:min-h-56 lg:min-h-64 xl:min-h-56 2xl:min-h-50 border-t-2 border-fontDark"${_scopeId}><p class="text-lg font-text font-medium"${_scopeId}>${ssrInterpolate(currentText.value)}</p></div></div><div class="grid grid-cols-4"${_scopeId}><!--[-->`);
+            _push2(`<div class="${ssrRenderClass([currentBackground.value, "border-x-2 border-black"])}"${_scopeId}><img${ssrRenderAttr("src", currentImage.value)} alt="" class="w-full h-[450px]"${_scopeId}><div class="px-6 py-10 min-h-64 md:min-h-56 lg:min-h-64 xl:min-h-56 2xl:min-h-50 border-t-2 border-fontDark"${_scopeId}><p class="text-lg font-text font-medium"${_scopeId}>${ssrInterpolate(currentText.value)}</p></div></div><div class="grid grid-cols-4"${_scopeId}><!--[-->`);
             ssrRenderList(items, (item, index) => {
               _push2(`<button type="button" aria-label="usługa" class="${ssrRenderClass([isActive.value === index ? item.background : "bg-bgLight-200", "p-2 border-2 border-r-0 last:border-r-2 border-fontDark font-text font-bold text-center button-hover"])}"${_scopeId}>${ssrInterpolate(item.label)}</button>`);
             });
@@ -3356,7 +9476,7 @@ const _sfc_main$k = {
                 createVNode("img", {
                   src: currentImage.value,
                   alt: "",
-                  class: "w-full h-96"
+                  class: "w-full h-[450px]"
                 }, null, 8, ["src"]),
                 createVNode("div", { class: "px-6 py-10 min-h-64 md:min-h-56 lg:min-h-64 xl:min-h-56 2xl:min-h-50 border-t-2 border-fontDark" }, [
                   createVNode("p", { class: "text-lg font-text font-medium" }, toDisplayString(currentText.value), 1)
@@ -3381,13 +9501,13 @@ const _sfc_main$k = {
     };
   }
 };
-const _sfc_setup$k = _sfc_main$k.setup;
-_sfc_main$k.setup = (props, ctx) => {
+const _sfc_setup$j = _sfc_main$j.setup;
+_sfc_main$j.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Home/ServicesCard.vue");
-  return _sfc_setup$k ? _sfc_setup$k(props, ctx) : void 0;
+  return _sfc_setup$j ? _sfc_setup$j(props, ctx) : void 0;
 };
-const _sfc_main$j = {
+const _sfc_main$i = {
   __name: "TestimonialsCard",
   __ssrInlineRender: true,
   props: {
@@ -3436,7 +9556,7 @@ const _sfc_main$j = {
       clearInterval(intervalId);
     });
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$u, mergeProps({ title: "Opinie" }, _attrs), {
+      _push(ssrRenderComponent(_sfc_main$11, mergeProps({ title: "Opinie" }, _attrs), {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<div class="flex flex-col justify-center items-center gap-6 py-6 px-6 bg-bgLight-200"${_scopeId}><div class="flex flex-col justify-center items-center gap-6 text-center"${_scopeId}><a${ssrRenderAttr("href", currentLink.value)} target="_blank"${_scopeId}><img${ssrRenderAttr("src", currentLogo.value)} alt="logo firmy od której dostałem pozytywny komentarz" class="w-30 h-20"${_scopeId}></a><p class="font-textArch text-xl min-h-[140px] md:min-h-[115px] 2xl:min-h-[90px] md:px-12 lg:px-0"${_scopeId}>${ssrInterpolate(currentBody.value)}</p></div><div class="flex gap-4"${_scopeId}><button aria-label="poprzedni" class="border-2 border-black bg-ownYellow-400 px-1"${_scopeId}><img src="/assets/icons/left.svg" alt="" class="w-10 hover:scale-90 duration-300"${_scopeId}></button><button aria-label="następny" class="border-2 border-black bg-ownYellow-400 px-1"${_scopeId}><img src="/assets/icons/right.svg" alt="" class="w-10 hover:scale-90 duration-300"${_scopeId}></button></div></div>`);
@@ -3494,13 +9614,13 @@ const _sfc_main$j = {
     };
   }
 };
-const _sfc_setup$j = _sfc_main$j.setup;
-_sfc_main$j.setup = (props, ctx) => {
+const _sfc_setup$i = _sfc_main$i.setup;
+_sfc_main$i.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Home/TestimonialsCard.vue");
-  return _sfc_setup$j ? _sfc_setup$j(props, ctx) : void 0;
+  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
 };
-const _sfc_main$i = {
+const _sfc_main$h = {
   __name: "Services",
   __ssrInlineRender: true,
   props: {
@@ -3509,184 +9629,31 @@ const _sfc_main$i = {
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<section${ssrRenderAttrs(mergeProps({ class: "section bg-ownPurple-400" }, _attrs))}><div class="wrapper gap-12 2xl:gap-24 py-16 lg:py-24"><div class="flex justify-center items-center lg:h-auto lg:w-1/2 md:px-12 lg:px-0">`);
-      _push(ssrRenderComponent(_sfc_main$k, null, null, _parent));
-      _push(`</div><div class="lg:w-1/2 flex flex-col gap-20 justify-center lg:mr-3 py-6 lg:py-12"><div class="space-y-6 lg:space-y-4"><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl uppercase font-heading text-ownYellow-400">Unikalność to klucz!</h2><h3 class="font-textArch text-3xl"> Odrzuć standardy - wybierz projekt stworzony specjalnie dla Ciebie. </h3><h3 class="font-heading text-4xl"> Po prostu daj znać, a ja zajmę się resztą! </h3></div><div class="md:px-12 lg:px-0">`);
-      _push(ssrRenderComponent(_sfc_main$j, { comments: __props.comments }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$j, null, null, _parent));
+      _push(`</div><div class="lg:w-1/2 flex flex-col gap-20 justify-center lg:mr-3 py-6 lg:py-12"><div class="space-y-6 lg:space-y-4"><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl uppercase font-heading text-ownYellow-400">Unikalność to klucz!</h2><h3 class="font-text text-3xl"> Odrzuć standardy - wybierz projekt stworzony specjalnie dla Ciebie. </h3><h3 class="font-heading text-4xl"> Po prostu daj znać, a ja zajmę się resztą! </h3></div><div class="md:px-12 lg:px-0">`);
+      _push(ssrRenderComponent(_sfc_main$i, { comments: __props.comments }, null, _parent));
       _push(`</div></div></div></section>`);
     };
   }
 };
-const _sfc_setup$i = _sfc_main$i.setup;
-_sfc_main$i.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home/Sections/Services.vue");
-  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
-};
-const __vite_glob_0_16 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: _sfc_main$i
-}, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$h = {};
-function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
-  _push(`<button${ssrRenderAttrs(mergeProps({
-    type: "button",
-    class: "border-2 border-black w-full py-2 font-textArch mt-3 group-hover:bg-bgLight-200 button-hover"
-  }, _attrs))}>`);
-  ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`</button>`);
-}
 const _sfc_setup$h = _sfc_main$h.setup;
 _sfc_main$h.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Base/SecondaryButton.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home/Sections/Services.vue");
   return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
 };
-const SecondaryButton = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$2]]);
-const _sfc_main$g = {
-  __name: "PostCard",
-  __ssrInlineRender: true,
-  props: {
-    thumbnail: String,
-    title: String,
-    index: Number
-  },
-  setup(__props) {
-    const props = __props;
-    const { title, index } = toRefs(props);
-    const altText = computed(() => `miniaturka posta o tytule ${title.value}`);
-    const bgColor = computed(() => {
-      switch (index.value) {
-        case 0:
-          return "bg-ownPink-200";
-        case 1:
-          return "bg-ownYellow-400";
-        case 2:
-          return "bg-ownTurquise-400";
-        case 3:
-          return "bg-ownOrange-600";
-        default:
-          return "bg-bgLight-200";
-      }
-    });
-    const bgImage = computed(() => {
-      switch (index.value) {
-        case 0:
-          return `group-hover:bg-[url('/assets/images/1.jpg')]`;
-        case 1:
-          return `group-hover:bg-[url('/assets/images/2.jpg')]`;
-        case 2:
-          return `group-hover:bg-[url('/assets/images/3.jpg')]`;
-        case 3:
-          return `group-hover:bg-[url('/assets/images/4.jpg')]`;
-        default:
-          return `group-hover:bg-[url('/assets/images/1.jpg')]`;
-      }
-    });
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_Link = resolveComponent("Link");
-      _push(ssrRenderComponent(_component_Link, mergeProps({
-        href: "#",
-        class: "group"
-      }, _attrs), {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<div class="${ssrRenderClass([[bgColor.value, bgImage.value], "flex flex-col justify-between items-center h-full px-10 lg:px-16 xl:px-4 2xl:px-12 py-8 border border-y-2 border-fontDark bg-no-repeat bg-cover transition-all duration-100 group-hover:border-dashed group-hover:bg-gray-600 group-hover:bg-blend-multiply"])}"${_scopeId}><div class="h-72 w-full"${_scopeId}><img${ssrRenderAttr("src", __props.thumbnail)}${ssrRenderAttr("alt", altText.value)} class="h-full w-full object-cover group-hover:hidden"${_scopeId}></div><h2 class="mt-10 mb-2 text-4xl text-center font-heading uppercase group-hover:text-fontLight"${_scopeId}>${ssrInterpolate(unref(title))}</h2>`);
-            _push2(ssrRenderComponent(SecondaryButton, { "aria-label": "Sprawdź" }, {
-              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
-                if (_push3) {
-                  _push3(ssrRenderComponent(_component_Link, { href: "#" }, {
-                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
-                      if (_push4) {
-                        _push4(`Sprawdź`);
-                      } else {
-                        return [
-                          createTextVNode("Sprawdź")
-                        ];
-                      }
-                    }),
-                    _: 1
-                  }, _parent3, _scopeId2));
-                } else {
-                  return [
-                    createVNode(_component_Link, { href: "#" }, {
-                      default: withCtx(() => [
-                        createTextVNode("Sprawdź")
-                      ]),
-                      _: 1
-                    })
-                  ];
-                }
-              }),
-              _: 1
-            }, _parent2, _scopeId));
-            _push2(`</div>`);
-          } else {
-            return [
-              createVNode("div", {
-                class: ["flex flex-col justify-between items-center h-full px-10 lg:px-16 xl:px-4 2xl:px-12 py-8 border border-y-2 border-fontDark bg-no-repeat bg-cover transition-all duration-100 group-hover:border-dashed group-hover:bg-gray-600 group-hover:bg-blend-multiply", [bgColor.value, bgImage.value]]
-              }, [
-                createVNode("div", { class: "h-72 w-full" }, [
-                  createVNode("img", {
-                    src: __props.thumbnail,
-                    alt: altText.value,
-                    class: "h-full w-full object-cover group-hover:hidden"
-                  }, null, 8, ["src", "alt"])
-                ]),
-                createVNode("h2", { class: "mt-10 mb-2 text-4xl text-center font-heading uppercase group-hover:text-fontLight" }, toDisplayString(unref(title)), 1),
-                createVNode(SecondaryButton, { "aria-label": "Sprawdź" }, {
-                  default: withCtx(() => [
-                    createVNode(_component_Link, { href: "#" }, {
-                      default: withCtx(() => [
-                        createTextVNode("Sprawdź")
-                      ]),
-                      _: 1
-                    })
-                  ]),
-                  _: 1
-                })
-              ], 2)
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-    };
-  }
-};
+const __vite_glob_0_33 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$h
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$g = {};
 const _sfc_setup$g = _sfc_main$g.setup;
 _sfc_main$g.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/PostCard.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Base/SecondaryButton.vue");
   return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
 };
 const _sfc_main$f = {
-  __name: "BlogSection",
-  __ssrInlineRender: true,
-  props: {
-    posts: Array
-  },
-  setup(__props) {
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(`<div${ssrRenderAttrs(mergeProps({ class: "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4" }, _attrs))}><!--[-->`);
-      ssrRenderList(__props.posts, (post, index) => {
-        _push(ssrRenderComponent(_sfc_main$g, {
-          key: post.id,
-          thumbnail: post.thumbnail,
-          title: post.title,
-          index
-        }, null, _parent));
-      });
-      _push(`<!--]--></div>`);
-    };
-  }
-};
-const _sfc_setup$f = _sfc_main$f.setup;
-_sfc_main$f.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Home/BlogSection.vue");
-  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
-};
-const _sfc_main$e = {
   __name: "Blog",
   __ssrInlineRender: true,
   props: {
@@ -3694,43 +9661,29 @@ const _sfc_main$e = {
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<section${ssrRenderAttrs(mergeProps({ class: "bg-bgLight-400 section py-16 lg:py-24" }, _attrs))}><div class="max-w-screen-2xl mx-auto text-center px-4 sm:px-12 md:px-24 lg:px-12 2xl:px-24"><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl mb-24 uppercase font-heading"> Zanurz się w lekturze i odkryj ciekawostki z programistycznego świata </h2></div><div class="flex flex-col justify-center items-center gap-12 md:gap-16">`);
-      _push(ssrRenderComponent(_sfc_main$f, { posts: __props.posts }, null, _parent));
-      _push(ssrRenderComponent(PrimaryButton, { "aria-label": "Zobacz wszytkie wpisy" }, {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`Zobacz wszytkie wpisy`);
-          } else {
-            return [
-              createTextVNode("Zobacz wszytkie wpisy")
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`</div></section>`);
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "bg-bgLight-400 section py-16 lg:py-24" }, _attrs))}><div class="max-w-screen-2xl mx-auto text-center px-4 sm:px-12 md:px-24 lg:px-12 2xl:px-24"><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl mb-24 uppercase font-heading"> Zanurz się w lekturze i odkryj ciekawostki z programistycznego świata </h2></div><div class="flex flex-col justify-center items-center gap-12 md:gap-16 px-4 sm:px-0"><img src="/assets/images/home/blog-coming-soon.webp" alt="blog nadejdzie już niedługo" class="w-[500px]"><h2 class="text-2xl xs:text-3xl lg:text-4xl xl:text-4xl uppercase font-heading text-ownTurquise-400"> Jeszcze momencik i będzie gotowe </h2></div></section>`);
     };
   }
 };
-const _sfc_setup$e = _sfc_main$e.setup;
-_sfc_main$e.setup = (props, ctx) => {
+const _sfc_setup$f = _sfc_main$f.setup;
+_sfc_main$f.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home/Sections/Blog.vue");
-  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
+  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
 };
-const __vite_glob_0_14 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_31 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$e
+  default: _sfc_main$f
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$d = {
+const _sfc_main$e = {
   __name: "YouTube",
   __ssrInlineRender: true,
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<section${ssrRenderAttrs(mergeProps({ class: "bg-ownPurple-400 grid gap-24 lg:gap-0 lg:grid-cols-2 px-6 xl:px-12 py-16 lg:py-12 lg:h-[calc(100vh-71px)]" }, _attrs))}><div class="flex flex-col justify-center items-center gap-12 lg:mr-12 xl:mx-24 2xl:mx-32 text-center"><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl uppercase font-heading text-fontLight"> Zobacz mnie w akcji na YouTube! </h2><h3 class="text-xl md:text-2xl xl:text-3xl font-text leading-relaxed text-fontLight"> Zapraszam Cię na mój kanał na YouTube, gdzie możesz zobaczyć jak pracuję nad różnymi projektami, testuję nowe technologie i narzędzia, oraz jak dzielę się swoimi spostrzeżeniami i doświadczeniami. </h3>`);
-      _push(ssrRenderComponent(PrimaryButton, {
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "bg-ownPurple-400 grid gap-24 lg:gap-0 lg:grid-cols-2 px-6 xl:px-12 py-16 lg:py-12 lg:h-[calc(100vh-71px)]" }, _attrs))}><div class="flex flex-col justify-center items-center gap-12 lg:mr-12 xl:mx-24 2xl:mx-32 text-center"><h2 class="text-5xl xs:text-6xl lg:text-7xl xl:text-8xl uppercase font-heading text-fontLight"> Zobacz mnie w akcji na YouTube! </h2><h3 class="text-xl md:text-2xl xl:text-3xl font-text leading-relaxed text-fontLight"> Zapraszam Cię na mój kanał na YouTube, gdzie możesz zobaczyć jak pracuję nad różnymi projektami, testuję nowe technologie i narzędzia, oraz jak dzielę się swoimi spostrzeżeniami i doświadczeniami. </h3><a href="https://www.youtube.com/@marekgacekdev" target="_blank">`);
+      _push(ssrRenderComponent(PrimaryButton$1, {
         class: "bg-ownYellow-400 hover:bg-ownYellow-600",
-        "aria-label": "Sprawdź"
+        "aria-label": "youTube"
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
@@ -3743,22 +9696,35 @@ const _sfc_main$d = {
         }),
         _: 1
       }, _parent));
-      _push(`</div><div>`);
-      _push(ssrRenderComponent(_sfc_main$u, { title: "youtube" }, {
+      _push(`</a></div><div>`);
+      _push(ssrRenderComponent(_sfc_main$11, { title: "youtube" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<video autoplay loop muted poster="/assets/images/header.png" class="w-full object-cover lg:min-h-[690px]"${_scopeId}><source src="/assets/movies/youTube.mp4" type="video/mp4"${_scopeId}> Twoja przeglądarka nie obsługuje odtwarzacza wideo. </video>`);
+            _push2(`<video autoplay loop muted poster="/assets/images/poster.webp" class="w-full object-cover lg:min-h-[690px] hidden md:block"${_scopeId}><source src="/assets/movies/yt.mp4" type="video/mp4"${_scopeId}> Twoja przeglądarka nie obsługuje odtwarzacza wideo. </video><video autoplay loop muted poster="/assets/images/poster.webp" class="w-full object-cover lg:min-h-[690px] md:hidden"${_scopeId}><source src="/assets/movies/yt-small.mp4" type="video/mp4"${_scopeId}> Twoja przeglądarka nie obsługuje odtwarzacza wideo. </video>`);
           } else {
             return [
               createVNode("video", {
                 autoplay: "",
                 loop: "",
                 muted: "",
-                poster: "/assets/images/header.png",
-                class: "w-full object-cover lg:min-h-[690px]"
+                poster: "/assets/images/poster.webp",
+                class: "w-full object-cover lg:min-h-[690px] hidden md:block"
               }, [
                 createVNode("source", {
-                  src: "/assets/movies/youTube.mp4",
+                  src: "/assets/movies/yt.mp4",
+                  type: "video/mp4"
+                }),
+                createTextVNode(" Twoja przeglądarka nie obsługuje odtwarzacza wideo. ")
+              ]),
+              createVNode("video", {
+                autoplay: "",
+                loop: "",
+                muted: "",
+                poster: "/assets/images/poster.webp",
+                class: "w-full object-cover lg:min-h-[690px] md:hidden"
+              }, [
+                createVNode("source", {
+                  src: "/assets/movies/yt-small.mp4",
                   type: "video/mp4"
                 }),
                 createTextVNode(" Twoja przeglądarka nie obsługuje odtwarzacza wideo. ")
@@ -3772,17 +9738,17 @@ const _sfc_main$d = {
     };
   }
 };
-const _sfc_setup$d = _sfc_main$d.setup;
-_sfc_main$d.setup = (props, ctx) => {
+const _sfc_setup$e = _sfc_main$e.setup;
+_sfc_main$e.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home/Sections/YouTube.vue");
-  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
+  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
-const __vite_glob_0_17 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_34 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$d
+  default: _sfc_main$e
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$c = {
+const _sfc_main$d = {
   __name: "Index",
   __ssrInlineRender: true,
   props: {
@@ -3793,37 +9759,37 @@ const _sfc_main$c = {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Head = resolveComponent("Head");
       _push(`<!--[-->`);
-      _push(ssrRenderComponent(_component_Head, { title: "Strona Główna" }, {
+      _push(ssrRenderComponent(_component_Head, { title: "Coś więcej niż strony internetowe | Marek Gacek" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<meta name="description" content="opis"${_scopeId}>`);
+            _push2(`<meta name="description" content="Nie trać czasu na nudne i sztampowe strony internetowe. Zaufaj mi i zobacz, jak zrobię  z Twojej strony prawdziwą petardę. Oferuję nie tylko webdesign, ale też marketing internetowy na kosmicznym poziomie. Sprawdź i daj się zaskoczyć!"${_scopeId}>`);
           } else {
             return [
               createVNode("meta", {
                 name: "description",
-                content: "opis"
+                content: "Nie trać czasu na nudne i sztampowe strony internetowe. Zaufaj mi i zobacz, jak zrobię  z Twojej strony prawdziwą petardę. Oferuję nie tylko webdesign, ale też marketing internetowy na kosmicznym poziomie. Sprawdź i daj się zaskoczyć!"
               })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$P, null, {
+      _push(ssrRenderComponent(_sfc_main$18, null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(_sfc_main$l, null, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$k, null, null, _parent2, _scopeId));
             _push2(`<main${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$i, { comments: __props.comments }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$e, { posts: __props.posts }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$d, null, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$h, { comments: __props.comments }, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$f, { posts: __props.posts }, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$e, null, null, _parent2, _scopeId));
             _push2(`</main>`);
           } else {
             return [
-              createVNode(_sfc_main$l),
+              createVNode(_sfc_main$k),
               createVNode("main", null, [
-                createVNode(_sfc_main$i, { comments: __props.comments }, null, 8, ["comments"]),
-                createVNode(_sfc_main$e, { posts: __props.posts }, null, 8, ["posts"]),
-                createVNode(_sfc_main$d)
+                createVNode(_sfc_main$h, { comments: __props.comments }, null, 8, ["comments"]),
+                createVNode(_sfc_main$f, { posts: __props.posts }, null, 8, ["posts"]),
+                createVNode(_sfc_main$e)
               ])
             ];
           }
@@ -3834,17 +9800,17 @@ const _sfc_main$c = {
     };
   }
 };
-const _sfc_setup$c = _sfc_main$c.setup;
-_sfc_main$c.setup = (props, ctx) => {
+const _sfc_setup$d = _sfc_main$d.setup;
+_sfc_main$d.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home/Index.vue");
-  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
+  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
-const __vite_glob_0_13 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_30 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$c
+  default: _sfc_main$d
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$b = {
+const _sfc_main$c = {
   __name: "ModalProject",
   __ssrInlineRender: true,
   props: {
@@ -3858,20 +9824,24 @@ const _sfc_main$b = {
       if (__props.isModalOpen) {
         _push(`<div${ssrRenderAttrs(mergeProps({
           class: ["fixed inset-0 flex justify-center items-center px-6 sm:px-12 2xl:px-0 pb-12 pt-32 lg:pt-0 bg-bgDark-400 bg-opacity-50", _ctx.classes]
-        }, _attrs))} data-v-314018c1><div class="bg-bgLight-200" data-v-314018c1>`);
-        _push(ssrRenderComponent(_sfc_main$u, {
+        }, _attrs))} data-v-823a79e8><div class="bg-bgLight-200" data-v-823a79e8>`);
+        _push(ssrRenderComponent(_sfc_main$11, {
           title: __props.activeProject.title,
-          class: "max-w-screen-xl"
+          class: "max-w-screen-xl min-w-[60vw]"
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
-              _push2(`<div class="flex flex-col lg:flex-row p-8 gap-12 max-h-[80vh]" data-v-314018c1${_scopeId}><div class="lg:w-1/2 h-[400px] max-h-[400px]" data-v-314018c1${_scopeId}>`);
+              _push2(`<div class="flex flex-col lg:flex-row p-8 gap-12 max-h-[80vh]" data-v-823a79e8${_scopeId}><div class="lg:w-1/2 h-[400px] max-h-[400px]" data-v-823a79e8${_scopeId}>`);
               if (__props.activeProject.youtube_link) {
-                _push2(`<iframe width="560" height="315"${ssrRenderAttr("src", __props.activeProject.youtube_link)} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen class="w-full h-full" data-v-314018c1${_scopeId}></iframe>`);
+                _push2(`<iframe width="560" height="315"${ssrRenderAttr("src", __props.activeProject.youtube_link)} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen class="w-full h-full" data-v-823a79e8${_scopeId}></iframe>`);
               } else {
-                _push2(`<img${ssrRenderAttr("src", __props.activeProject.thumbnail)} alt="" class="w-full h-full object-cover" data-v-314018c1${_scopeId}>`);
+                _push2(`<img${ssrRenderAttr("src", __props.activeProject.image)} alt="" class="w-full h-full object-cover" data-v-823a79e8${_scopeId}>`);
               }
-              _push2(`</div><div class="lg:w-1/2 flex flex-col gap-6 overflow-y-scroll max-h-[400px]" data-v-314018c1${_scopeId}><a${ssrRenderAttr("href", __props.activeProject.site_link)} target="blank" class="font-heading text-4xl" data-v-314018c1${_scopeId}>${ssrInterpolate(__props.activeProject.title)}</a><p data-v-314018c1${_scopeId}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet assumenda, facere omnis id similique doloribus animi accusantium magni repellat voluptate vero quaerat, reprehenderit possimus! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident neque veritatis fuga! Debitis quisquam placeat nulla aut rem voluptate vel molestiae libero beatae et repellendus porro voluptas nobis nihil, neque explicabo iure ab cumque, dignissimos rerum praesentium illum commodi officiis aspernatur? Veniam magnam, tenetur eum doloribus eos iste neque? Praesentium. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae soluta obcaecati dolor, cum quos facere corrupti praesentium incidunt reprehenderit a! </p><p data-v-314018c1${_scopeId}>${ssrInterpolate(__props.activeProject.technologies)}</p><div data-v-314018c1${_scopeId}><span class="font-heading text-2xl" data-v-314018c1${_scopeId}>Wykorzystane technologie</span><div class="flex justify-start items-center gap-3 mt-2" data-v-314018c1${_scopeId}><img src="/assets/tech/tailwind.png" alt="" class="w-10" data-v-314018c1${_scopeId}><img src="/assets/tech/vue.png" alt="" class="w-10" data-v-314018c1${_scopeId}></div></div></div></div>`);
+              _push2(`</div><div class="lg:w-1/2 flex flex-col gap-6 overflow-y-auto max-h-[400px]" data-v-823a79e8${_scopeId}><a${ssrRenderAttr("href", __props.activeProject.site_link)} target="blank" class="font-heading text-4xl" data-v-823a79e8${_scopeId}>${ssrInterpolate(__props.activeProject.title)}</a><p data-v-823a79e8${_scopeId}>${__props.activeProject.description}</p><div data-v-823a79e8${_scopeId}><span class="font-heading text-2xl" data-v-823a79e8${_scopeId}>Wykorzystane technologie</span><div class="flex justify-start items-center gap-3 mt-2" data-v-823a79e8${_scopeId}><!--[-->`);
+              ssrRenderList(__props.activeProject.technologies, (technology) => {
+                _push2(`<img${ssrRenderAttr("src", technology.logo)}${ssrRenderAttr("alt", technology.name)} class="w-10" data-v-823a79e8${_scopeId}>`);
+              });
+              _push2(`<!--]--></div></div></div></div>`);
             } else {
               return [
                 createVNode("div", { class: "flex flex-col lg:flex-row p-8 gap-12 max-h-[80vh]" }, [
@@ -3888,32 +9858,31 @@ const _sfc_main$b = {
                       class: "w-full h-full"
                     }, null, 8, ["src"])) : (openBlock(), createBlock("img", {
                       key: 1,
-                      src: __props.activeProject.thumbnail,
+                      src: __props.activeProject.image,
                       alt: "",
                       class: "w-full h-full object-cover"
                     }, null, 8, ["src"]))
                   ]),
-                  createVNode("div", { class: "lg:w-1/2 flex flex-col gap-6 overflow-y-scroll max-h-[400px]" }, [
+                  createVNode("div", { class: "lg:w-1/2 flex flex-col gap-6 overflow-y-auto max-h-[400px]" }, [
                     createVNode("a", {
                       href: __props.activeProject.site_link,
                       target: "blank",
                       class: "font-heading text-4xl"
                     }, toDisplayString(__props.activeProject.title), 9, ["href"]),
-                    createVNode("p", null, " Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet assumenda, facere omnis id similique doloribus animi accusantium magni repellat voluptate vero quaerat, reprehenderit possimus! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident neque veritatis fuga! Debitis quisquam placeat nulla aut rem voluptate vel molestiae libero beatae et repellendus porro voluptas nobis nihil, neque explicabo iure ab cumque, dignissimos rerum praesentium illum commodi officiis aspernatur? Veniam magnam, tenetur eum doloribus eos iste neque? Praesentium. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae soluta obcaecati dolor, cum quos facere corrupti praesentium incidunt reprehenderit a! "),
-                    createVNode("p", null, toDisplayString(__props.activeProject.technologies), 1),
+                    createVNode("p", {
+                      innerHTML: __props.activeProject.description
+                    }, null, 8, ["innerHTML"]),
                     createVNode("div", null, [
                       createVNode("span", { class: "font-heading text-2xl" }, "Wykorzystane technologie"),
                       createVNode("div", { class: "flex justify-start items-center gap-3 mt-2" }, [
-                        createVNode("img", {
-                          src: "/assets/tech/tailwind.png",
-                          alt: "",
-                          class: "w-10"
-                        }),
-                        createVNode("img", {
-                          src: "/assets/tech/vue.png",
-                          alt: "",
-                          class: "w-10"
-                        })
+                        (openBlock(true), createBlock(Fragment, null, renderList(__props.activeProject.technologies, (technology) => {
+                          return openBlock(), createBlock("img", {
+                            key: technology.id,
+                            src: technology.logo,
+                            alt: technology.name,
+                            class: "w-10"
+                          }, null, 8, ["src", "alt"]);
+                        }), 128))
                       ])
                     ])
                   ])
@@ -3930,14 +9899,14 @@ const _sfc_main$b = {
     };
   }
 };
-const _sfc_setup$b = _sfc_main$b.setup;
-_sfc_main$b.setup = (props, ctx) => {
+const _sfc_setup$c = _sfc_main$c.setup;
+_sfc_main$c.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/ModalProject.vue");
-  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
+  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
-const ModalProject = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-314018c1"]]);
-const _sfc_main$a = {
+const ModalProject = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["__scopeId", "data-v-823a79e8"]]);
+const _sfc_main$b = {
   __name: "Portfolio",
   __ssrInlineRender: true,
   props: {
@@ -3968,22 +9937,22 @@ const _sfc_main$a = {
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_v_if = resolveComponent("v-if");
-      _push(`<section${ssrRenderAttrs(mergeProps({ class: "section lg:min-h-[calc(100vh-371px)] mt-[71px] bg-ownPurple-400" }, _attrs))} data-v-220f0d07><div class="flex flex-col flex-start items-center h-full px-6 sm:px-12 md:px-24 lg:px-0 py-24 gap-12" data-v-220f0d07><div class="flex flex-wrap justify-center items-center gap-8" data-v-220f0d07><button class="${ssrRenderClass([
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "section lg:min-h-[calc(100vh-371px)] mt-[71px] bg-ownPurple-400" }, _attrs))} data-v-faa32b3a><div class="flex flex-col flex-start items-center h-full px-6 sm:px-12 md:px-24 lg:px-0 py-24 gap-12" data-v-faa32b3a><div class="flex flex-wrap justify-center items-center gap-8" data-v-faa32b3a><button class="${ssrRenderClass([
         unref(selectedCategory) === null ? "bg-ownTurquise-400 hover:bg-ownTurquise-600" : "bg-ownYellow-400 hover:bg-ownYellow-600",
         "btn box-shadow"
-      ])}" data-v-220f0d07> ALL </button><!--[-->`);
+      ])}" data-v-faa32b3a> ALL </button><!--[-->`);
       ssrRenderList(__props.categories, (category) => {
         _push(`<button class="${ssrRenderClass([
           unref(selectedCategory) === category.name ? "bg-ownTurquise-400 hover:bg-ownTurquise-600" : "bg-ownYellow-400 hover:bg-ownYellow-600",
           "btn box-shadow"
-        ])}" data-v-220f0d07>${ssrInterpolate(category.name)}</button>`);
+        ])}" data-v-faa32b3a>${ssrInterpolate(category.name)}</button>`);
       });
       _push(`<!--]--></div><div${ssrRenderAttrs({
         name: "list",
         class: "flex w-full flex-wrap gap-8 justify-center"
-      })} data-v-220f0d07>`);
+      })} data-v-faa32b3a>`);
       ssrRenderList(filteredProjects.value, (project) => {
-        _push(ssrRenderComponent(_sfc_main$u, {
+        _push(ssrRenderComponent(_sfc_main$11, {
           key: project.id,
           title: project.title,
           customClass: " w-full lg:w-1/3 2xl:w-1/4",
@@ -3992,15 +9961,15 @@ const _sfc_main$a = {
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
-              _push2(`<img${ssrRenderAttr("src", project.thumbnail)} alt="miniaturka projektu" class="max-h-[300px] w-full h-full object-cover" data-v-220f0d07${_scopeId}><!--[-->`);
+              _push2(`<img${ssrRenderAttr("src", project.image)} alt="miniaturka projektu" class="max-h-[300px] w-full h-full object-cover" data-v-faa32b3a${_scopeId}><!--[-->`);
               ssrRenderList(project.categories, (category) => {
-                _push2(`<div data-v-220f0d07${_scopeId}></div>`);
+                _push2(`<div data-v-faa32b3a${_scopeId}></div>`);
               });
               _push2(`<!--]-->`);
             } else {
               return [
                 createVNode("img", {
-                  src: project.thumbnail,
+                  src: project.image,
                   alt: "miniaturka projektu",
                   class: "max-h-[300px] w-full h-full object-cover"
                 }, null, 8, ["src"]),
@@ -4040,18 +10009,18 @@ const _sfc_main$a = {
     };
   }
 };
-const _sfc_setup$a = _sfc_main$a.setup;
-_sfc_main$a.setup = (props, ctx) => {
+const _sfc_setup$b = _sfc_main$b.setup;
+_sfc_main$b.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Portfolio/Portfolio.vue");
-  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
-const Portfolio = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-220f0d07"]]);
-const __vite_glob_0_19 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Portfolio = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-faa32b3a"]]);
+const __vite_glob_0_36 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: Portfolio
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$9 = {
+const _sfc_main$a = {
   __name: "Index",
   __ssrInlineRender: true,
   props: {
@@ -4062,22 +10031,22 @@ const _sfc_main$9 = {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Head = resolveComponent("Head");
       _push(`<!--[-->`);
-      _push(ssrRenderComponent(_component_Head, { title: "Portfolio" }, {
+      _push(ssrRenderComponent(_component_Head, { title: "Zobacz moje projekty | Portfolio | Marek Gacek" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<meta name="description" content="opis"${_scopeId}>`);
+            _push2(`<meta name="description" content="Zajrzyj do mojego portfolio i zobacz, jak zabawa kodem i designem tworzy niepowtarzalne projekty. Odkryj, jak moja kreatywność ożywia cyfrowy świat."${_scopeId}>`);
           } else {
             return [
               createVNode("meta", {
                 name: "description",
-                content: "opis"
+                content: "Zajrzyj do mojego portfolio i zobacz, jak zabawa kodem i designem tworzy niepowtarzalne projekty. Odkryj, jak moja kreatywność ożywia cyfrowy świat."
               })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$P, null, {
+      _push(ssrRenderComponent(_sfc_main$18, null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<main${_scopeId}>`);
@@ -4103,30 +10072,30 @@ const _sfc_main$9 = {
     };
   }
 };
-const _sfc_setup$9 = _sfc_main$9.setup;
-_sfc_main$9.setup = (props, ctx) => {
+const _sfc_setup$a = _sfc_main$a.setup;
+_sfc_main$a.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Portfolio/Index.vue");
-  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
+  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
-const __vite_glob_0_18 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_35 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$9
+  default: _sfc_main$a
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$8 = {};
-function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
+const _sfc_main$9 = {};
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   _push(`<button${ssrRenderAttrs(mergeProps({ class: "inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" }, _attrs))}>`);
   ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
   _push(`</button>`);
 }
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/DangerButton.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const DangerButton = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$1]]);
-const _sfc_main$7 = {
+const DangerButton = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["ssrRender", _sfc_ssrRender]]);
+const _sfc_main$8 = {
   __name: "Modal",
   __ssrInlineRender: true,
   props: {
@@ -4194,13 +10163,13 @@ const _sfc_main$7 = {
     };
   }
 };
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Modal.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
-const _sfc_main$6 = {
+const _sfc_main$7 = {
   __name: "SecondaryButton",
   __ssrInlineRender: true,
   props: {
@@ -4220,13 +10189,13 @@ const _sfc_main$6 = {
     };
   }
 };
-const _sfc_setup$6 = _sfc_main$6.setup;
-_sfc_main$6.setup = (props, ctx) => {
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/SecondaryButton.vue");
-  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const _sfc_main$5 = {
+const _sfc_main$6 = {
   __name: "DeleteUserForm",
   __ssrInlineRender: true,
   setup(__props) {
@@ -4265,19 +10234,19 @@ const _sfc_main$5 = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(_sfc_main$7, {
+      _push(ssrRenderComponent(_sfc_main$8, {
         show: confirmingUserDeletion.value,
         onClose: closeModal
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<div class="p-6"${_scopeId}><h2 class="text-lg font-medium text-gray-900 dark:text-gray-100"${_scopeId}> Are you sure you want to delete your account? </h2><p class="mt-1 text-sm text-gray-600 dark:text-gray-400"${_scopeId}> Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account. </p><div class="mt-6"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$J, {
+            _push2(ssrRenderComponent(_sfc_main$C, {
               for: "password",
               value: "Password",
               class: "sr-only"
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$H, {
+            _push2(ssrRenderComponent(_sfc_main$A, {
               id: "password",
               ref_key: "passwordInput",
               ref: passwordInput,
@@ -4288,12 +10257,12 @@ const _sfc_main$5 = {
               placeholder: "Password",
               onKeyup: deleteUser
             }, null, _parent2, _scopeId));
-            _push2(ssrRenderComponent(_sfc_main$K, {
+            _push2(ssrRenderComponent(_sfc_main$D, {
               message: unref(form).errors.password,
               class: "mt-2"
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="mt-6 flex justify-end"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$6, { onClick: closeModal }, {
+            _push2(ssrRenderComponent(_sfc_main$7, { onClick: closeModal }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
                   _push3(` Cancel `);
@@ -4328,12 +10297,12 @@ const _sfc_main$5 = {
                 createVNode("h2", { class: "text-lg font-medium text-gray-900 dark:text-gray-100" }, " Are you sure you want to delete your account? "),
                 createVNode("p", { class: "mt-1 text-sm text-gray-600 dark:text-gray-400" }, " Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account. "),
                 createVNode("div", { class: "mt-6" }, [
-                  createVNode(_sfc_main$J, {
+                  createVNode(_sfc_main$C, {
                     for: "password",
                     value: "Password",
                     class: "sr-only"
                   }),
-                  createVNode(_sfc_main$H, {
+                  createVNode(_sfc_main$A, {
                     id: "password",
                     ref_key: "passwordInput",
                     ref: passwordInput,
@@ -4344,13 +10313,13 @@ const _sfc_main$5 = {
                     placeholder: "Password",
                     onKeyup: withKeys(deleteUser, ["enter"])
                   }, null, 8, ["modelValue", "onUpdate:modelValue"]),
-                  createVNode(_sfc_main$K, {
+                  createVNode(_sfc_main$D, {
                     message: unref(form).errors.password,
                     class: "mt-2"
                   }, null, 8, ["message"])
                 ]),
                 createVNode("div", { class: "mt-6 flex justify-end" }, [
-                  createVNode(_sfc_main$6, { onClick: closeModal }, {
+                  createVNode(_sfc_main$7, { onClick: closeModal }, {
                     default: withCtx(() => [
                       createTextVNode(" Cancel ")
                     ]),
@@ -4377,17 +10346,17 @@ const _sfc_main$5 = {
     };
   }
 };
-const _sfc_setup$5 = _sfc_main$5.setup;
-_sfc_main$5.setup = (props, ctx) => {
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Profile/Partials/DeleteUserForm.vue");
-  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const __vite_glob_0_21 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_38 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$5
+  default: _sfc_main$6
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$4 = {
+const _sfc_main$5 = {
   __name: "UpdatePasswordForm",
   __ssrInlineRender: true,
   setup(__props) {
@@ -4400,11 +10369,11 @@ const _sfc_main$4 = {
     });
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<section${ssrRenderAttrs(_attrs)}><header><h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Update Password</h2><p class="mt-1 text-sm text-gray-600 dark:text-gray-400"> Ensure your account is using a long, random password to stay secure. </p></header><form class="mt-6 space-y-6"><div>`);
-      _push(ssrRenderComponent(_sfc_main$J, {
+      _push(ssrRenderComponent(_sfc_main$C, {
         for: "current_password",
         value: "Current Password"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$H, {
+      _push(ssrRenderComponent(_sfc_main$A, {
         id: "current_password",
         ref_key: "currentPasswordInput",
         ref: currentPasswordInput,
@@ -4414,16 +10383,16 @@ const _sfc_main$4 = {
         class: "mt-1 block w-full",
         autocomplete: "current-password"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$K, {
+      _push(ssrRenderComponent(_sfc_main$D, {
         message: unref(form).errors.current_password,
         class: "mt-2"
       }, null, _parent));
       _push(`</div><div>`);
-      _push(ssrRenderComponent(_sfc_main$J, {
+      _push(ssrRenderComponent(_sfc_main$C, {
         for: "password",
         value: "New Password"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$H, {
+      _push(ssrRenderComponent(_sfc_main$A, {
         id: "password",
         ref_key: "passwordInput",
         ref: passwordInput,
@@ -4433,16 +10402,16 @@ const _sfc_main$4 = {
         class: "mt-1 block w-full",
         autocomplete: "new-password"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$K, {
+      _push(ssrRenderComponent(_sfc_main$D, {
         message: unref(form).errors.password,
         class: "mt-2"
       }, null, _parent));
       _push(`</div><div>`);
-      _push(ssrRenderComponent(_sfc_main$J, {
+      _push(ssrRenderComponent(_sfc_main$C, {
         for: "password_confirmation",
         value: "Confirm Password"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$H, {
+      _push(ssrRenderComponent(_sfc_main$A, {
         id: "password_confirmation",
         modelValue: unref(form).password_confirmation,
         "onUpdate:modelValue": ($event) => unref(form).password_confirmation = $event,
@@ -4450,12 +10419,12 @@ const _sfc_main$4 = {
         class: "mt-1 block w-full",
         autocomplete: "new-password"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$K, {
+      _push(ssrRenderComponent(_sfc_main$D, {
         message: unref(form).errors.password_confirmation,
         class: "mt-2"
       }, null, _parent));
       _push(`</div><div class="flex items-center gap-4">`);
-      _push(ssrRenderComponent(PrimaryButton$1, {
+      _push(ssrRenderComponent(PrimaryButton, {
         disabled: unref(form).processing
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -4478,17 +10447,17 @@ const _sfc_main$4 = {
     };
   }
 };
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
+const _sfc_setup$5 = _sfc_main$5.setup;
+_sfc_main$5.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
+  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
-const __vite_glob_0_22 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_39 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$4
+  default: _sfc_main$5
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$3 = {
+const _sfc_main$4 = {
   __name: "UpdateProfileInformationForm",
   __ssrInlineRender: true,
   props: {
@@ -4507,11 +10476,11 @@ const _sfc_main$3 = {
     });
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<section${ssrRenderAttrs(_attrs)}><header><h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Profile Information</h2><p class="mt-1 text-sm text-gray-600 dark:text-gray-400"> Update your account&#39;s profile information and email address. </p></header><form class="mt-6 space-y-6"><div>`);
-      _push(ssrRenderComponent(_sfc_main$J, {
+      _push(ssrRenderComponent(_sfc_main$C, {
         for: "name",
         value: "Name"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$H, {
+      _push(ssrRenderComponent(_sfc_main$A, {
         id: "name",
         type: "text",
         class: "mt-1 block w-full",
@@ -4521,16 +10490,16 @@ const _sfc_main$3 = {
         autofocus: "",
         autocomplete: "name"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$K, {
+      _push(ssrRenderComponent(_sfc_main$D, {
         class: "mt-2",
         message: unref(form).errors.name
       }, null, _parent));
       _push(`</div><div>`);
-      _push(ssrRenderComponent(_sfc_main$J, {
+      _push(ssrRenderComponent(_sfc_main$C, {
         for: "email",
         value: "Email"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$H, {
+      _push(ssrRenderComponent(_sfc_main$A, {
         id: "email",
         type: "email",
         class: "mt-1 block w-full",
@@ -4539,7 +10508,7 @@ const _sfc_main$3 = {
         required: "",
         autocomplete: "username"
       }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$K, {
+      _push(ssrRenderComponent(_sfc_main$D, {
         class: "mt-2",
         message: unref(form).errors.email
       }, null, _parent));
@@ -4568,7 +10537,7 @@ const _sfc_main$3 = {
         _push(`<!---->`);
       }
       _push(`<div class="flex items-center gap-4">`);
-      _push(ssrRenderComponent(PrimaryButton$1, {
+      _push(ssrRenderComponent(PrimaryButton, {
         disabled: unref(form).processing
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -4591,17 +10560,17 @@ const _sfc_main$3 = {
     };
   }
 };
-const _sfc_setup$3 = _sfc_main$3.setup;
-_sfc_main$3.setup = (props, ctx) => {
+const _sfc_setup$4 = _sfc_main$4.setup;
+_sfc_main$4.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue");
-  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
-const __vite_glob_0_23 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_40 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$3
+  default: _sfc_main$4
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$2 = {
+const _sfc_main$3 = {
   __name: "Edit",
   __ssrInlineRender: true,
   props: {
@@ -4616,7 +10585,7 @@ const _sfc_main$2 = {
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), { title: "Profile" }, null, _parent));
-      _push(ssrRenderComponent(_sfc_main$p, null, {
+      _push(ssrRenderComponent(_sfc_main$n, null, {
         header: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"${_scopeId}>Profile</h2>`);
@@ -4629,32 +10598,32 @@ const _sfc_main$2 = {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<div class="py-12"${_scopeId}><div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6"${_scopeId}><div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$3, {
+            _push2(ssrRenderComponent(_sfc_main$4, {
               "must-verify-email": __props.mustVerifyEmail,
               status: __props.status,
               class: "max-w-xl"
             }, null, _parent2, _scopeId));
             _push2(`</div><div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$4, { class: "max-w-xl" }, null, _parent2, _scopeId));
-            _push2(`</div><div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"${_scopeId}>`);
             _push2(ssrRenderComponent(_sfc_main$5, { class: "max-w-xl" }, null, _parent2, _scopeId));
+            _push2(`</div><div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"${_scopeId}>`);
+            _push2(ssrRenderComponent(_sfc_main$6, { class: "max-w-xl" }, null, _parent2, _scopeId));
             _push2(`</div></div></div>`);
           } else {
             return [
               createVNode("div", { class: "py-12" }, [
                 createVNode("div", { class: "max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6" }, [
                   createVNode("div", { class: "p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg" }, [
-                    createVNode(_sfc_main$3, {
+                    createVNode(_sfc_main$4, {
                       "must-verify-email": __props.mustVerifyEmail,
                       status: __props.status,
                       class: "max-w-xl"
                     }, null, 8, ["must-verify-email", "status"])
                   ]),
                   createVNode("div", { class: "p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg" }, [
-                    createVNode(_sfc_main$4, { class: "max-w-xl" })
+                    createVNode(_sfc_main$5, { class: "max-w-xl" })
                   ]),
                   createVNode("div", { class: "p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg" }, [
-                    createVNode(_sfc_main$5, { class: "max-w-xl" })
+                    createVNode(_sfc_main$6, { class: "max-w-xl" })
                   ])
                 ])
               ])
@@ -4667,30 +10636,251 @@ const _sfc_main$2 = {
     };
   }
 };
+const _sfc_setup$3 = _sfc_main$3.setup;
+_sfc_main$3.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Profile/Edit.vue");
+  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+};
+const __vite_glob_0_37 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$3
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$2 = {
+  __name: "ServiceCard",
+  __ssrInlineRender: true,
+  props: {
+    title: String
+  },
+  setup(__props) {
+    let showParagraph = ref(false);
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "w-full pr-8" }, _attrs))}><h2 class="${ssrRenderClass([{ "bg-black text-white  ": unref(showParagraph) }, "text-7xl md:text-8xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-heading uppercase cursor-pointer transition-colors ease-in-out duration-1000 p-4 hover:text-ownYellow-400"])}">${ssrInterpolate(__props.title)}</h2>`);
+      if (unref(showParagraph)) {
+        _push(`<div class="w-full transition-all ease-in-out duration-500 bg-white p-6 font-text text-3xl">`);
+        ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+        _push(`</div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`</div>`);
+    };
+  }
+};
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Profile/Edit.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/ServiceCard.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const __vite_glob_0_20 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: _sfc_main$2
-}, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$1 = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  _push(`<div${ssrRenderAttrs(_attrs)}><h1>test</h1></div>`);
-}
+const _sfc_main$1 = {
+  __name: "Index",
+  __ssrInlineRender: true,
+  setup(__props) {
+    let image = ref("/assets/images/services/services-12.webp");
+    const updateImage = (newImage) => {
+      image.value = newImage;
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Head = resolveComponent("Head");
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_Head, { title: "Chętnie Ci pomogę | Usługi | Marek Gacek" }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<meta name="description" content="Tworzę strony internetowe, które przyciągają uwagę i marketing, który działa cuda. Zajrzyj do świata, gdzie każdy klik to krok w stronę sukcesu online. Odkryj, co mogę dla Ciebie zrobić!"${_scopeId}>`);
+          } else {
+            return [
+              createVNode("meta", {
+                name: "description",
+                content: "Tworzę strony internetowe, które przyciągają uwagę i marketing, który działa cuda. Zajrzyj do świata, gdzie każdy klik to krok w stronę sukcesu online. Odkryj, co mogę dla Ciebie zrobić!"
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_sfc_main$18, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<main class="section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownTurquise-400"${_scopeId}><div class="px-12 flex flex-col lg:grid grid-cols-12 lg:h-[72vh] py-24"${_scopeId}><div class="col-span-7 lg:h-[72vh] overflow-y-auto order-1 lg:order-none"${_scopeId}>`);
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              onMouseover: ($event) => updateImage("/assets/images/services/services-2.webp"),
+              title: "strony internetowe"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Tworzenie stron internetowych to moja pasja i specjalność. Nie ma miejsca na szablonowe rozwiązania – każdy projekt jest dla mnie wyjątkowy i tworzony od podstaw. Z zamiłowaniem do designu i najnowszych technologii, gwarantuję, że strony, które tworzę, są nie tylko responsywne, ale i przyciągają wzrok swoją nowoczesnością. Niezależnie od tego, czy potrzebujesz strony-wizytówki, bloga, witryny firmowej, czy dedykowanego systemu dla hotelu czy restauracji – znajdę rozwiązanie idealnie dopasowane do Twoich potrzeb. Każdy klient jest dla mnie ważny, a jego zadowolenie to moja misja.`);
+                } else {
+                  return [
+                    createTextVNode("Tworzenie stron internetowych to moja pasja i specjalność. Nie ma miejsca na szablonowe rozwiązania – każdy projekt jest dla mnie wyjątkowy i tworzony od podstaw. Z zamiłowaniem do designu i najnowszych technologii, gwarantuję, że strony, które tworzę, są nie tylko responsywne, ale i przyciągają wzrok swoją nowoczesnością. Niezależnie od tego, czy potrzebujesz strony-wizytówki, bloga, witryny firmowej, czy dedykowanego systemu dla hotelu czy restauracji – znajdę rozwiązanie idealnie dopasowane do Twoich potrzeb. Każdy klient jest dla mnie ważny, a jego zadowolenie to moja misja.")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              onMouseover: ($event) => updateImage("/assets/images/services/services-21.webp"),
+              title: "Sklepy online"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Tworzenie sklepów online to dla mnie więcej niż praca – to sztuka dopasowania technologii do ludzkich potrzeb. Wykorzystuję różnorodne platformy, aby idealnie wpasować się w budżet i oczekiwania każdego klienta. Nie tylko uruchomię Twój sklep, ale też zintegruję go z narzędziami takimi jak Baselinker, a jeśli zajdzie potrzeba – dodam produkty, stworzę przyciągające opisy i wykonam profesjonalne zdjęcia. Wszystko po to, by Twój e-biznes startował z najlepszej pozycji.`);
+                } else {
+                  return [
+                    createTextVNode("Tworzenie sklepów online to dla mnie więcej niż praca – to sztuka dopasowania technologii do ludzkich potrzeb. Wykorzystuję różnorodne platformy, aby idealnie wpasować się w budżet i oczekiwania każdego klienta. Nie tylko uruchomię Twój sklep, ale też zintegruję go z narzędziami takimi jak Baselinker, a jeśli zajdzie potrzeba – dodam produkty, stworzę przyciągające opisy i wykonam profesjonalne zdjęcia. Wszystko po to, by Twój e-biznes startował z najlepszej pozycji.")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              onMouseover: ($event) => updateImage("/assets/images/services/services-6.webp"),
+              title: "Social Media"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Social media to nie tylko miejsce spotkań online, to potężne narzędzie, które może wypromować Twój biznes na niespotykaną skalę. Stworzę dla Ciebie profile na wybranych platformach i zajmę się ich prowadzeniem – od publikacji postów, które przyciągną uwagę, po ich promowanie, aby dotarły do jeszcze szerszej publiczności. Z moją pomocą Twoje social media zyskają nowe życie i pomogą Ci nawiązać wartościowe relacje z klientami.`);
+                } else {
+                  return [
+                    createTextVNode("Social media to nie tylko miejsce spotkań online, to potężne narzędzie, które może wypromować Twój biznes na niespotykaną skalę. Stworzę dla Ciebie profile na wybranych platformach i zajmę się ich prowadzeniem – od publikacji postów, które przyciągną uwagę, po ich promowanie, aby dotarły do jeszcze szerszej publiczności. Z moją pomocą Twoje social media zyskają nowe życie i pomogą Ci nawiązać wartościowe relacje z klientami.")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              onMouseover: ($event) => updateImage("/assets/images/services/services-7.webp"),
+              title: "Wizytówki google"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Wizytówki Google to Twoja wizytówka w świecie internetu. Z moją pomocą nie tylko stworzę Twoją wizytówkę, ale też zadbam o jej optymalizację i bieżące prowadzenie. Dzięki temu Twoja firma będzie widoczna i atrakcyjna dla klientów szukających usług w sieci. Zajmę się wszystkim – od słów kluczowych po aktualizacje – abyś Ty mógł skupić się na tym, co robisz najlepiej.`);
+                } else {
+                  return [
+                    createTextVNode("Wizytówki Google to Twoja wizytówka w świecie internetu. Z moją pomocą nie tylko stworzę Twoją wizytówkę, ale też zadbam o jej optymalizację i bieżące prowadzenie. Dzięki temu Twoja firma będzie widoczna i atrakcyjna dla klientów szukających usług w sieci. Zajmę się wszystkim – od słów kluczowych po aktualizacje – abyś Ty mógł skupić się na tym, co robisz najlepiej.")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              onMouseover: ($event) => updateImage("/assets/images/services/services-33.webp"),
+              title: "Fotografia"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Fotografia to nie tylko obraz, to historia, którą opowiadam za pomocą obiektywu. Wykonuję zdjęcia, które idealnie oddają charakter Twojej marki i wzbogacają treść strony internetowej oraz profile social media. Każde ujęcie to przemyślany kadr, który przyciąga uwagę i podkreśla to, co w Twoim biznesie najlepsze.`);
+                } else {
+                  return [
+                    createTextVNode("Fotografia to nie tylko obraz, to historia, którą opowiadam za pomocą obiektywu. Wykonuję zdjęcia, które idealnie oddają charakter Twojej marki i wzbogacają treść strony internetowej oraz profile social media. Każde ujęcie to przemyślany kadr, który przyciąga uwagę i podkreśla to, co w Twoim biznesie najlepsze.")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              onMouseover: ($event) => updateImage("/assets/images/services/services-32.webp"),
+              title: "Copywriting"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Potrzebujesz przekonujących tekstów na stronę lub opisów produktów, które przyciągną klientów? Zajmuję się copywritingiem, który sprzedaje, informuje i bawi. Twoje treści będą nie tylko oryginalne, ale też skrojone na miarę Twoich potrzeb i oczekiwań rynku. `);
+                } else {
+                  return [
+                    createTextVNode("Potrzebujesz przekonujących tekstów na stronę lub opisów produktów, które przyciągną klientów? Zajmuję się copywritingiem, który sprzedaje, informuje i bawi. Twoje treści będą nie tylko oryginalne, ale też skrojone na miarę Twoich potrzeb i oczekiwań rynku. ")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(`</div><div class="col-span-5 w-full h-[400px] md:h-[600px] lg:h-[72vh] pb-12 lg:pl-6 lg:py-12 2xl:p-12 2xl:py-0"${_scopeId}><img${ssrRenderAttr("src", unref(image))} alt="" class="w-full h-full object-cover"${_scopeId}></div></div></main>`);
+          } else {
+            return [
+              createVNode("main", { class: "section lg:h-[calc(100vh-71px)] mt-[71px] bg-ownTurquise-400" }, [
+                createVNode("div", { class: "px-12 flex flex-col lg:grid grid-cols-12 lg:h-[72vh] py-24" }, [
+                  createVNode("div", { class: "col-span-7 lg:h-[72vh] overflow-y-auto order-1 lg:order-none" }, [
+                    createVNode(_sfc_main$2, {
+                      onMouseover: ($event) => updateImage("/assets/images/services/services-2.webp"),
+                      title: "strony internetowe"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode("Tworzenie stron internetowych to moja pasja i specjalność. Nie ma miejsca na szablonowe rozwiązania – każdy projekt jest dla mnie wyjątkowy i tworzony od podstaw. Z zamiłowaniem do designu i najnowszych technologii, gwarantuję, że strony, które tworzę, są nie tylko responsywne, ale i przyciągają wzrok swoją nowoczesnością. Niezależnie od tego, czy potrzebujesz strony-wizytówki, bloga, witryny firmowej, czy dedykowanego systemu dla hotelu czy restauracji – znajdę rozwiązanie idealnie dopasowane do Twoich potrzeb. Każdy klient jest dla mnie ważny, a jego zadowolenie to moja misja.")
+                      ]),
+                      _: 1
+                    }, 8, ["onMouseover"]),
+                    createVNode(_sfc_main$2, {
+                      onMouseover: ($event) => updateImage("/assets/images/services/services-21.webp"),
+                      title: "Sklepy online"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode("Tworzenie sklepów online to dla mnie więcej niż praca – to sztuka dopasowania technologii do ludzkich potrzeb. Wykorzystuję różnorodne platformy, aby idealnie wpasować się w budżet i oczekiwania każdego klienta. Nie tylko uruchomię Twój sklep, ale też zintegruję go z narzędziami takimi jak Baselinker, a jeśli zajdzie potrzeba – dodam produkty, stworzę przyciągające opisy i wykonam profesjonalne zdjęcia. Wszystko po to, by Twój e-biznes startował z najlepszej pozycji.")
+                      ]),
+                      _: 1
+                    }, 8, ["onMouseover"]),
+                    createVNode(_sfc_main$2, {
+                      onMouseover: ($event) => updateImage("/assets/images/services/services-6.webp"),
+                      title: "Social Media"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode("Social media to nie tylko miejsce spotkań online, to potężne narzędzie, które może wypromować Twój biznes na niespotykaną skalę. Stworzę dla Ciebie profile na wybranych platformach i zajmę się ich prowadzeniem – od publikacji postów, które przyciągną uwagę, po ich promowanie, aby dotarły do jeszcze szerszej publiczności. Z moją pomocą Twoje social media zyskają nowe życie i pomogą Ci nawiązać wartościowe relacje z klientami.")
+                      ]),
+                      _: 1
+                    }, 8, ["onMouseover"]),
+                    createVNode(_sfc_main$2, {
+                      onMouseover: ($event) => updateImage("/assets/images/services/services-7.webp"),
+                      title: "Wizytówki google"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode("Wizytówki Google to Twoja wizytówka w świecie internetu. Z moją pomocą nie tylko stworzę Twoją wizytówkę, ale też zadbam o jej optymalizację i bieżące prowadzenie. Dzięki temu Twoja firma będzie widoczna i atrakcyjna dla klientów szukających usług w sieci. Zajmę się wszystkim – od słów kluczowych po aktualizacje – abyś Ty mógł skupić się na tym, co robisz najlepiej.")
+                      ]),
+                      _: 1
+                    }, 8, ["onMouseover"]),
+                    createVNode(_sfc_main$2, {
+                      onMouseover: ($event) => updateImage("/assets/images/services/services-33.webp"),
+                      title: "Fotografia"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode("Fotografia to nie tylko obraz, to historia, którą opowiadam za pomocą obiektywu. Wykonuję zdjęcia, które idealnie oddają charakter Twojej marki i wzbogacają treść strony internetowej oraz profile social media. Każde ujęcie to przemyślany kadr, który przyciąga uwagę i podkreśla to, co w Twoim biznesie najlepsze.")
+                      ]),
+                      _: 1
+                    }, 8, ["onMouseover"]),
+                    createVNode(_sfc_main$2, {
+                      onMouseover: ($event) => updateImage("/assets/images/services/services-32.webp"),
+                      title: "Copywriting"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode("Potrzebujesz przekonujących tekstów na stronę lub opisów produktów, które przyciągną klientów? Zajmuję się copywritingiem, który sprzedaje, informuje i bawi. Twoje treści będą nie tylko oryginalne, ale też skrojone na miarę Twoich potrzeb i oczekiwań rynku. ")
+                      ]),
+                      _: 1
+                    }, 8, ["onMouseover"])
+                  ]),
+                  createVNode("div", { class: "col-span-5 w-full h-[400px] md:h-[600px] lg:h-[72vh] pb-12 lg:pl-6 lg:py-12 2xl:p-12 2xl:py-0" }, [
+                    createVNode("img", {
+                      src: unref(image),
+                      alt: "",
+                      class: "w-full h-full object-cover"
+                    }, null, 8, ["src"])
+                  ])
+                ])
+              ])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
+};
 const _sfc_setup$1 = _sfc_main$1.setup;
 _sfc_main$1.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Services/Index.vue");
   return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
-const Index = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["ssrRender", _sfc_ssrRender]]);
-const __vite_glob_0_24 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_41 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Index
+  default: _sfc_main$1
 }, Symbol.toStringTag, { value: "Module" }));
 const _sfc_main = {
   __name: "Welcome",
@@ -4786,7 +10976,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Welcome.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const __vite_glob_0_25 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_42 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: _sfc_main
 }, Symbol.toStringTag, { value: "Module" }));
@@ -5268,13 +11458,13 @@ createServer(
     page,
     render: renderToString,
     resolve: (name) => {
-      const pages = /* @__PURE__ */ Object.assign({ "./Pages/About/FirstSection.vue": __vite_glob_0_0, "./Pages/About/Index.vue": __vite_glob_0_1, "./Pages/About/SecondSection.vue": __vite_glob_0_2, "./Pages/About/TechsMarquee.vue": __vite_glob_0_3, "./Pages/Auth/ConfirmPassword.vue": __vite_glob_0_4, "./Pages/Auth/ForgotPassword.vue": __vite_glob_0_5, "./Pages/Auth/Login.vue": __vite_glob_0_6, "./Pages/Auth/Register.vue": __vite_glob_0_7, "./Pages/Auth/ResetPassword.vue": __vite_glob_0_8, "./Pages/Auth/VerifyEmail.vue": __vite_glob_0_9, "./Pages/Contact/Index.vue": __vite_glob_0_10, "./Pages/Dashboard.vue": __vite_glob_0_11, "./Pages/Error.vue": __vite_glob_0_12, "./Pages/Home/Index.vue": __vite_glob_0_13, "./Pages/Home/Sections/Blog.vue": __vite_glob_0_14, "./Pages/Home/Sections/Header.vue": __vite_glob_0_15, "./Pages/Home/Sections/Services.vue": __vite_glob_0_16, "./Pages/Home/Sections/YouTube.vue": __vite_glob_0_17, "./Pages/Portfolio/Index.vue": __vite_glob_0_18, "./Pages/Portfolio/Portfolio.vue": __vite_glob_0_19, "./Pages/Profile/Edit.vue": __vite_glob_0_20, "./Pages/Profile/Partials/DeleteUserForm.vue": __vite_glob_0_21, "./Pages/Profile/Partials/UpdatePasswordForm.vue": __vite_glob_0_22, "./Pages/Profile/Partials/UpdateProfileInformationForm.vue": __vite_glob_0_23, "./Pages/Services/Index.vue": __vite_glob_0_24, "./Pages/Welcome.vue": __vite_glob_0_25 });
+      const pages = /* @__PURE__ */ Object.assign({ "./Pages/About/FirstSection.vue": __vite_glob_0_0, "./Pages/About/Index.vue": __vite_glob_0_1, "./Pages/About/SecondSection.vue": __vite_glob_0_2, "./Pages/About/TechsMarquee.vue": __vite_glob_0_3, "./Pages/Admin/Categories/Create.vue": __vite_glob_0_4, "./Pages/Admin/Categories/Edit.vue": __vite_glob_0_5, "./Pages/Admin/Categories/Index.vue": __vite_glob_0_6, "./Pages/Admin/Comments/Create.vue": __vite_glob_0_7, "./Pages/Admin/Comments/Edit.vue": __vite_glob_0_8, "./Pages/Admin/Comments/Index.vue": __vite_glob_0_9, "./Pages/Admin/Dashboard.vue": __vite_glob_0_10, "./Pages/Admin/Posts/Create.vue": __vite_glob_0_11, "./Pages/Admin/Posts/Edit.vue": __vite_glob_0_12, "./Pages/Admin/Posts/Index.vue": __vite_glob_0_13, "./Pages/Admin/Projects/Create.vue": __vite_glob_0_14, "./Pages/Admin/Projects/Edit.vue": __vite_glob_0_15, "./Pages/Admin/Projects/Index.vue": __vite_glob_0_16, "./Pages/Admin/Technologies/Create.vue": __vite_glob_0_17, "./Pages/Admin/Technologies/Edit.vue": __vite_glob_0_18, "./Pages/Admin/Technologies/Index.vue": __vite_glob_0_19, "./Pages/Auth/ConfirmPassword.vue": __vite_glob_0_20, "./Pages/Auth/ForgotPassword.vue": __vite_glob_0_21, "./Pages/Auth/Login.vue": __vite_glob_0_22, "./Pages/Auth/Register.vue": __vite_glob_0_23, "./Pages/Auth/ResetPassword.vue": __vite_glob_0_24, "./Pages/Auth/VerifyEmail.vue": __vite_glob_0_25, "./Pages/Blog/Index.vue": __vite_glob_0_26, "./Pages/Contact/Index.vue": __vite_glob_0_27, "./Pages/Dashboard.vue": __vite_glob_0_28, "./Pages/Error.vue": __vite_glob_0_29, "./Pages/Home/Index.vue": __vite_glob_0_30, "./Pages/Home/Sections/Blog.vue": __vite_glob_0_31, "./Pages/Home/Sections/Header.vue": __vite_glob_0_32, "./Pages/Home/Sections/Services.vue": __vite_glob_0_33, "./Pages/Home/Sections/YouTube.vue": __vite_glob_0_34, "./Pages/Portfolio/Index.vue": __vite_glob_0_35, "./Pages/Portfolio/Portfolio.vue": __vite_glob_0_36, "./Pages/Profile/Edit.vue": __vite_glob_0_37, "./Pages/Profile/Partials/DeleteUserForm.vue": __vite_glob_0_38, "./Pages/Profile/Partials/UpdatePasswordForm.vue": __vite_glob_0_39, "./Pages/Profile/Partials/UpdateProfileInformationForm.vue": __vite_glob_0_40, "./Pages/Services/Index.vue": __vite_glob_0_41, "./Pages/Welcome.vue": __vite_glob_0_42 });
       return pages[`./Pages/${name}.vue`];
     },
     setup({ App, props, plugin }) {
       return createSSRApp({
         render: () => h$1(App, props)
-      }).use(plugin).use(P).component("Link", Link).component("Head", Head).component("PrimaryButton", PrimaryButton);
+      }).use(plugin).use(P).component("Link", Link).component("Head", Head).use(VueReCaptcha, { siteKey: captcheKey }).component("PrimaryButton", PrimaryButton$1);
     }
   })
 );

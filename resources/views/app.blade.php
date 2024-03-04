@@ -1,3 +1,10 @@
+@php
+if(Request::is('admin/*')){
+  $__inertiaSsrDispatched = true;
+  $__inertiaSsrResponse = null;
+}
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

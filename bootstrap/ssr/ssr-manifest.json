@@ -1,7 +1,17 @@
 {
   "\u0000plugin-vue:export-helper": [
   ],
+  "node_modules/@vueup/vue-quill/dist/vue-quill.bubble.css": [
+  ],
+  "node_modules/@vueup/vue-quill/dist/vue-quill.snow.css": [
+  ],
+  "resources/js/Components/Admin/SidebarItem.vue": [
+  ],
   "resources/js/Components/ApplicationLogo.vue": [
+  ],
+  "resources/js/Components/Base/Modal.vue": [
+  ],
+  "resources/js/Components/Base/Modal.vue?vue&type=style&index=0&scoped=bb07739f&lang.css": [
   ],
   "resources/js/Components/Base/PrimaryButton.vue": [
   ],
@@ -27,8 +37,6 @@
   ],
   "resources/js/Components/Form/TextArea.vue": [
   ],
-  "resources/js/Components/Home/BlogSection.vue": [
-  ],
   "resources/js/Components/Home/ServicesCard.vue": [
   ],
   "resources/js/Components/Home/TestimonialsCard.vue": [
@@ -41,7 +49,7 @@
   ],
   "resources/js/Components/ModalProject.vue": [
   ],
-  "resources/js/Components/ModalProject.vue?vue&type=style&index=0&scoped=314018c1&lang.css": [
+  "resources/js/Components/ModalProject.vue?vue&type=style&index=0&scoped=823a79e8&lang.css": [
   ],
   "resources/js/Components/NavLink.vue": [
   ],
@@ -49,15 +57,21 @@
   ],
   "resources/js/Components/OldSchoolCard.vue": [
   ],
-  "resources/js/Components/PostCard.vue": [
-  ],
   "resources/js/Components/PrimaryButton.vue": [
   ],
   "resources/js/Components/ResponsiveNavLink.vue": [
   ],
   "resources/js/Components/SecondaryButton.vue": [
   ],
+  "resources/js/Components/ServiceCard.vue": [
+  ],
+  "resources/js/Components/ServiceCard.vue?vue&type=style&index=0&lang.css": [
+  ],
   "resources/js/Components/TextInput.vue": [
+  ],
+  "resources/js/Layouts/AdminLayout.vue": [
+  ],
+  "resources/js/Layouts/AdminLayout.vue?vue&type=style&index=0&lang.css": [
   ],
   "resources/js/Layouts/AuthenticatedLayout.vue": [
   ],
@@ -75,6 +89,46 @@
   ],
   "resources/js/Pages/About/TechsMarquee.vue": [
   ],
+  "resources/js/Pages/Admin/Categories/Create.vue": [
+  ],
+  "resources/js/Pages/Admin/Categories/Edit.vue": [
+  ],
+  "resources/js/Pages/Admin/Categories/Index.vue": [
+  ],
+  "resources/js/Pages/Admin/Categories/Index.vue?vue&type=style&index=0&scoped=2be249d0&lang.css": [
+  ],
+  "resources/js/Pages/Admin/Comments/Create.vue": [
+  ],
+  "resources/js/Pages/Admin/Comments/Edit.vue": [
+  ],
+  "resources/js/Pages/Admin/Comments/Index.vue": [
+  ],
+  "resources/js/Pages/Admin/Comments/Index.vue?vue&type=style&index=0&scoped=7c9cd76c&lang.css": [
+  ],
+  "resources/js/Pages/Admin/Dashboard.vue": [
+  ],
+  "resources/js/Pages/Admin/Posts/Create.vue": [
+  ],
+  "resources/js/Pages/Admin/Posts/Edit.vue": [
+  ],
+  "resources/js/Pages/Admin/Posts/Index.vue": [
+  ],
+  "resources/js/Pages/Admin/Posts/Index.vue?vue&type=style&index=0&scoped=e5b7cbf5&lang.css": [
+  ],
+  "resources/js/Pages/Admin/Projects/Create.vue": [
+  ],
+  "resources/js/Pages/Admin/Projects/Edit.vue": [
+  ],
+  "resources/js/Pages/Admin/Projects/Index.vue": [
+  ],
+  "resources/js/Pages/Admin/Technologies/Create.vue": [
+  ],
+  "resources/js/Pages/Admin/Technologies/Edit.vue": [
+  ],
+  "resources/js/Pages/Admin/Technologies/Index.vue": [
+  ],
+  "resources/js/Pages/Admin/Technologies/Index.vue?vue&type=style&index=0&scoped=d0a3c56e&lang.css": [
+  ],
   "resources/js/Pages/Auth/ConfirmPassword.vue": [
   ],
   "resources/js/Pages/Auth/ForgotPassword.vue": [
@@ -87,9 +141,11 @@
   ],
   "resources/js/Pages/Auth/VerifyEmail.vue": [
   ],
+  "resources/js/Pages/Blog/Index.vue": [
+  ],
   "resources/js/Pages/Contact/Index.vue": [
   ],
-  "resources/js/Pages/Contact/Index.vue?vue&type=style&index=0&scoped=9ffd4d2e&lang.css": [
+  "resources/js/Pages/Contact/Index.vue?vue&type=style&index=0&scoped=271c9c10&lang.css": [
   ],
   "resources/js/Pages/Dashboard.vue": [
   ],
@@ -109,7 +165,7 @@
   ],
   "resources/js/Pages/Portfolio/Portfolio.vue": [
   ],
-  "resources/js/Pages/Portfolio/Portfolio.vue?vue&type=style&index=0&scoped=220f0d07&lang.css": [
+  "resources/js/Pages/Portfolio/Portfolio.vue?vue&type=style&index=0&scoped=faa32b3a&lang.css": [
   ],
   "resources/js/Pages/Profile/Edit.vue": [
   ],
@@ -124,6 +180,10 @@
   "resources/js/Pages/Welcome.vue": [
   ],
   "resources/js/Pages/Welcome.vue?vue&type=style&index=0&lang.css": [
+  ],
+  "resources/js/Shared/Admin/NavBar.vue": [
+  ],
+  "resources/js/Shared/Admin/SideBar.vue": [
   ],
   "resources/js/Shared/Footer.vue": [
   ],
